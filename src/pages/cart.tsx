@@ -10,8 +10,8 @@ import type { CartItemData } from "@/components/cart/cart-item";
 export function Cart() {
   const deliveryPrice = 600;
 
-  // Состояние корзины и промокода  
-  const [cart, setCart] = useState<CartItemData[]>(CART_DATA);
+  // Состояние корзины и промокода
+  const [cart] = useState<CartItemData[]>(CART_DATA);
   const [promo, setPromo] = useState("");
 
   // Итоговая сумма
@@ -114,7 +114,7 @@ const CART_DATA: CartItemData[] = [
     title: "Куртка спортивная",
     color: "Черный",
     price: 8500,
-    image: "/images/product.png",    
+    image: "/images/product.png",
     quantity: 1,
     seller: {
       name: "Пётр Петров",
