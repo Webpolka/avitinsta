@@ -14,7 +14,7 @@ export default function StarRating({
   className,
 }: StarRatingProps) {
   // Округляем rating и ограничиваем 0-5
-  const starsToShow = Math.min(Math.max(Math.round(rating), 0), 5);
+  const starsToShow = Math.min(Math.max(Math.floor(rating), 0), 5);
 
   return (
     <div className={clsx("flex", className)} style={{ gap: gap + "px" }}>

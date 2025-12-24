@@ -3,11 +3,11 @@ import { useState, type ReactNode } from "react";
 interface AccordionProps {
   title: string;
   children: ReactNode;
+  open?: boolean;
 }
 
-export default function Accordion({ title, children }: AccordionProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
-
+export default function Accordion({ title, children, open }: AccordionProps) {
+  const [isOpen, setIsOpen] = useState<boolean>(open ?? true);
   return (
     <div className="flex flex-col gap-2.5">
       {/* кнопка */}
@@ -22,7 +22,7 @@ export default function Accordion({ title, children }: AccordionProps) {
 
         <svg
           className={`h-4 w-4 transition-transform duration-200 opacity-50 ${
-            isOpen ? "rotate-180" : "rotate-0"
+            isOpen ? "rotate-0" : "rotate-180"
           }`}
         >
           <use href="/icons/symbol/sprite.svg#open" />

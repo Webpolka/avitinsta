@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router";
 import { useState } from "react";
 import ProductGallery from "@/components/product/productGallery";
 import Button from "@/ui/button";
-import StarRating from "@/ui/rating";
+import StarRating from "@/ui/star-rating";
 import Accordion from "@/components/accordion";
 
 import { PRODUCTS_DATA } from "@/mocks/products.mock";

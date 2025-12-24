@@ -12,6 +12,8 @@ import { CheckoutFinish } from "@/pages/checkout-finish";
 import { Search } from "@/pages/search";
 import { Product } from "@/pages/product";
 import { ProductAdd } from "@/pages/product-add";
+import { Faq } from "@/pages/faq";
+import { SellerRating } from "@/pages/seller-rating";
 
 
 export function AppRouter() {
@@ -25,6 +27,8 @@ export function AppRouter() {
         <Route path="/checkout/start" element={<CheckoutStart />} />
         <Route path="/checkout/finish" element={<CheckoutFinish />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/rating" element={<SellerRating />} />
         
         <Route path="/product/add" element={<ProductAdd />} />
         <Route path="/product/:id" element={<Product />} />

@@ -57,6 +57,7 @@
     @apply text-[36px] leading-[1.17] font-semibold font-sans;
 }
 
+
 @utility ag-c1 {
     @apply text-[12px] leading-[1.333] font-sans;
 }
