@@ -1,0 +1,79 @@
+
+
+/* site-container styles */
+:root {
+    --container-width: 1460px;
+    --container-padding-desktop: 60px;
+    --container-padding-large: 30px;
+    --container-padding-small: 15px;
+
+    --scrollbar: #e5e5e5;
+    --scrollbar-track: #e5e5e5;
+    --scrollbar-thumb:#b2b2b2;
+}
+
+.bg-fon{
+  background-color: #f6f6f6;
+}
+
+.site-container {
+	margin-inline: auto;
+	min-inline-size: 320px;
+	max-inline-size: var(--container-width);
+	padding-inline: var(--container-padding-desktop);
+	@media (max-width:1024px) {
+		padding-inline: var(--container-padding-large);
+	}
+	@media (max-width:640px) {
+		padding-inline: var(--container-padding-small);
+	}
+}
+
+.wrapper {
+	display: flex;
+	min-block-size: 100vh;
+
+	/** Поменять на clip - если используется в проекте position: sticky */
+	overflow: hidden;
+	flex-direction: column;
+}
+
+.main {
+	position: relative;
+	flex: 1 1 auto;
+}
+
+/*******************************************
+Product card mobile user hidden
+*******************************************/
+.hiddenMobileUser{
+	.mobileUser{
+		display: none;
+	}
+}
+
+/********************************************
+UI slider
+*******************************************/
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: white;
+  border: 2px solid #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  z-index: 50;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: white;
+  border: 2px solid #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+}
+

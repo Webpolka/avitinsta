@@ -1,0 +1,75 @@
+.filterCanvas {
+  padding-top: 45px;
+  @media (min-width: 1024px) {
+    width: 245px;
+  }
+  @media (min-width: 1280px) {
+    width: 280px;
+  }
+
+  @media (max-width: 1024px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%);
+    background-color: #fff;
+    z-index: 1000;
+    width: 60%;
+    padding-top: 60px;
+    
+    padding-inline-start: 20px;
+    padding-inline-end: 0px;
+  }
+  @media (max-width: 1024px) {
+     padding-inline-start: 60px;
+    padding-inline-end: 0px;
+  }
+  @media (max-width: 640px) {
+     padding-inline-start: 20px;
+    width: 100%;
+    top: 100px;
+  }
+  
+}
+
+.filterCanvasInner {
+  width: 100%;
+
+  @media (max-width: 1024px) {
+    overflow-y: auto;
+    max-height: 100vh;
+    padding-inline-end: 60px;
+  }
+
+  
+  @media (max-width: 640px) {    
+    padding-inline-end: 20px;
+  }
+
+  &::-webkit-scrollbar {
+    inline-size: 0;
+    background-color: transparent;
+  }
+}
+
+.filterCanvasActive {
+  @media (max-width: 1024px) {
+    transform: translateX(0%);
+  }
+}
+
+.filterCanvasClose {
+  display: none;
+  @media (max-width: 1024px) {
+    display: block;
+    top: 30px;
+    right: 25px;
+  }
+   @media (max-width: 640px) {
+    display: block;
+    top: 20px;
+    right: 15px;
+  }
+  position: absolute;
+}

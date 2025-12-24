@@ -1,0 +1,28 @@
+<svg
+    width="27"
+    height="27"
+    viewBox="0 0 27 27"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <circle
+        cx="13.1962"
+        cy="13.1964"
+        r="9.89736"
+        fill="#FF4548"
+    />
+    <path
+        d="M17.5945 8.79761L8.79688 17.5953"
+        stroke="white"
+        stroke-width="1.31965"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    />
+    <path
+        d="M8.79805 8.79761L17.5957 17.5953"
+        stroke="white"
+        stroke-width="1.31965"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    />
+</svg>

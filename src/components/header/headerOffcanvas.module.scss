@@ -1,0 +1,83 @@
+/* ------------------------------------------------------------------------------------------------------------------------------
+Offcanvas
+--------------------------------------------------------------------------------------------------------------------------------*/
+
+.offcanvas {
+	position: fixed;
+	inset: 0 auto 0 0; /* top right bottom left */
+	max-width: 490px;
+	width: 60%;
+	background: #fff;
+	z-index: 1050;
+
+	transform: translateX(-100%);
+	transition: transform 0.3s ease;
+	padding: 130px 60px 60px 60px;
+
+	max-height: 100vh;
+	overflow-y: auto;
+
+	@media (max-width:640px) {
+		width: 70%;		
+		padding-inline: 20px;
+	}
+
+	@media (max-width:445px) {
+		width: 100%;		
+		max-width: 245px;
+		padding-inline: 20px;
+	}
+	
+
+	&::-webkit-scrollbar {
+		inline-size: 3px;
+		background-color: var(--scrollbar-track);
+	}
+
+	&::-webkit-scrollbar-track {		
+		background: var(--scrollbar-track);
+	}
+
+	&::-webkit-scrollbar-thumb {				
+		background-color: var(--scrollbar-thumb);
+		cursor: pointer;		
+	}
+}
+
+.offcanvasActive {
+	transform: translateX(0);
+}
+
+.offcanvasClose {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	right: 60px;
+	top: 60px;
+	cursor: pointer;
+
+	@media(max-width:640px) {
+		right: 40px;
+	}
+
+	svg {
+		width: 100%;
+		aspect-ratio: 1/1;
+	}
+}
+
+/* Затемнение */
+.overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.15);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease;
+	z-index: 1040;
+}
+
+.overlayActive {
+	opacity: 1;
+	pointer-events: auto;
+}
