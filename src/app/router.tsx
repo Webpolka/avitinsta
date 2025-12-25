@@ -14,7 +14,7 @@ import { Product } from "@/pages/product";
 import { ProductAdd } from "@/pages/product-add";
 import { Faq } from "@/pages/faq";
 import { SellerRating } from "@/pages/seller-rating";
-
+import { Looks } from "@/pages/looks";
 
 export function AppRouter() {
   return (
@@ -29,12 +29,14 @@ export function AppRouter() {
         <Route path="/search" element={<Search />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/rating" element={<SellerRating />} />
-        
+
         <Route path="/product/add" element={<ProductAdd />} />
         <Route path="/product/:id" element={<Product />} />
       </Route>
 
       <Route element={<NoFooterLayout />}>
+        <Route path="/looks" element={<Looks />} />
+
         <Route path="/maintenance" element={<Maintenance />} />
         <Route path="/*" element={<NotFound />} />
       </Route>

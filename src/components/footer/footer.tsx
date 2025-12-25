@@ -1,7 +1,15 @@
 import { Link } from "react-router";
 import FooterMenu from "./footerMenu";
 
-export default function Footer() {
+export function FooterEmpty (){
+  return (
+    <footer>
+      {/* Nothing else matters ! */}
+    </footer>
+  )
+}
+
+export function Footer() {
   return (
     <footer className="bg-grayscale-100">
       {/* container */}

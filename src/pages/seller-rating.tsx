@@ -1,4 +1,5 @@
 import { useMemo, useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import {
   SELLER_DATA,
@@ -16,6 +17,8 @@ import "swiper/css/navigation";
 import StarRating from "@/ui/star-rating";
 import StarBlackRating from "@/ui/star-black-rating";
 
+type RatingFilter = "all" | 1 | 2 | 3 | 4 | 5;
+
 // -----------------------------------
 // Левый блок: статистика и распределение
 // -----------------------------------
@@ -29,24 +32,48 @@ function RatingDistribution({
   );
 
   return (
-    <div className="flex gap-5">
+    <div className=" flex gap-5 justify-center sm:justify-start">
       {/* Итоговый рейтинг */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2.5 sm:gap-1">
         <span className="ag-w1 text-center text-secondary font-semibold">
           {average.toFixed(1)}
         </span>
-        <StarBlackRating rating={Math.floor(average)} size={30} gap={0} />
+
+        {/* rating stars */}
+
+        <div className="flex gap-[2px]">
+          {Array.from({ length: 5 }, (_, index) => {
+            const isFilled = index < Math.floor(average);
+            return (
+              <svg
+                key={index}
+                className="w-6 h-6 sm:w-7.5 sm:h-7.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href={
+                    isFilled
+                      ? "/icons/symbol/sprite.svg#star_b"
+                      : "/icons/symbol/sprite.svg#star_be"
+                  }
+                />
+              </svg>
+            );
+          })}
+        </div>      
         <span className="ag-h6 text-center text-secondary font-medium">
           {totalCount} оценок
         </span>
       </div>
 
       {/* Распределение с прогресс-барами */}
-      <div className="flex flex-auto flex-col">
+      <div className="hidden sm:flex flex-auto flex-col">
         {ratingStats.distribution.map((row) => (
           <div key={row.stars} className="flex items-center gap-2">
             {/* Левая часть: цифра + одна звезда */}
-            <div className="flex items-center justify-between w-[35px]">
+            <div className="flex items-center justify-between w-9">
               <span className="font-normal ag-h6 text-secondary">
                 {row.stars}
               </span>
@@ -56,7 +83,7 @@ function RatingDistribution({
             </div>
 
             {/* Прогресс-бар: 2px высотой */}
-            <div className="flex-1 h-[2px] bg-gray-200 rounded-full overflow-hidden">
+            <div className="flex-1 h-0.5 bg-gray-200 rounded-full overflow-hidden">
               <div
                 className="h-full bg-yellow-400"
                 style={{ width: `${row.percentage}%` }}
@@ -64,7 +91,7 @@ function RatingDistribution({
             </div>
 
             {/* Правая часть: только процент */}
-            <div className="text-secondary font-medium ag-h10 w-[20px] text-left">
+            <div className="text-secondary font-medium ag-h10 w-5 text-left">
               {row.percentage}%
             </div>
           </div>
@@ -99,14 +126,14 @@ function PhotoSlider({
 }: {
   photos: string[];
   filter: "all" | 1 | 2 | 3 | 4 | 5;
-  onFilterChange: (v: "all" | 1 | 2 | 3 | 4 | 5) => void;
+  onFilterChange: (v: RatingFilter) => void;
 }) {
   const swiperRef = useRef<SwiperType | null>(null);
 
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
 
-  // 👉 формируем слайды + плейсхолдеры
+  // формируем слайды + плейсхолдеры
   const slides = [...photos];
   const placeholderCount = Math.max(0, 4 - slides.length);
   for (let i = 0; i < placeholderCount; i++) {
@@ -134,9 +161,9 @@ function PhotoSlider({
   const canNavigate = slides.length > 4;
 
   return (
-    <div className="max-w-full select-none">
+    <div className="max-w-full select-none hidden sm:block">
       {/* Header */}
-      <div className="flex justify-end gap-10 min-h-6 mb-8">
+      <div className="lg:absolute lg:-top-12 lg:right-0 flex justify-end gap-10 min-h-6 mb-8">
         <button
           className={`photo-prev cursor-pointer transition-opacity ${
             isBeginning ? "opacity-30 pointer-events-none" : ""
@@ -165,7 +192,7 @@ function PhotoSlider({
         navigation={{
           prevEl: ".photo-prev",
           nextEl: ".photo-next",
-        }}       
+        }}
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
           updateNavState();
@@ -197,7 +224,7 @@ function PhotoSlider({
         {["all", 5, 4, 3, 2, 1].map((star) => (
           <button
             key={star}
-            onClick={() => onFilterChange(star as any)}
+            onClick={() => onFilterChange(star as RatingFilter)}
             className={`px-3 flex items-center gap-1 min-h-[34px] border rounded-full cursor-pointer hover:opacity-70 ${
               filter === star ? "bg-black text-white" : ""
             }`}
@@ -219,28 +246,42 @@ function PhotoSlider({
 // -----------------------------------
 function ReviewList({ reviews }: { reviews: SellerReview[] }) {
   return (
-    <div className="flex flex-col gap-6 mt-6">
+    <div className="flex flex-col gap-15">
       {reviews.map((r) => (
         <div
           key={r.id}
-          className="border-b border-gray-200 pb-4 flex flex-col gap-2"
+          className="border-b border-grayscale-100 last:border-b-0 pb-16 flex flex-col gap-2"
         >
-          <div className="flex items-center justify-between">
-            <span className="font-semibold">{r.author}</span>
-            <span className="text-gray-400 text-sm">
-              {new Date(r.date).toLocaleDateString()}
+          <div className="flex gap-3">
+            <span className="font-semibold ag-h1 text-secondary">
+              {r.author}
+            </span>
+            <span className="pt-3">
+              <StarBlackRating rating={r.rating} size={16} gap={1} />
             </span>
           </div>
-          <StarRating rating={r.rating} size={16} gap={2} />
-          <p className="text-gray-700">{r.text}</p>
+          <span className="ag-h7 text-secondary font-medium mb-3">
+            {new Date(r.date).toLocaleDateString()}
+          </span>
+
+          <div className="flex flex-col gap-2 mb-5">
+            <h3 className="ag-h2 text-secondary font-medium">Комментарий:</h3>
+            <p className="ag-h4 text-secondary font-medium">{r.text}</p>
+          </div>
+
           {r.photos && r.photos.length > 0 && (
-            <div className="flex gap-2 mt-2">
+            <div className="flex flex-wrap gap-3 mt-3">
               {r.photos.map((photo, idx) => (
-                <img
-                  key={idx}
-                  src={photo}
-                  className="w-20 h-20 object-cover rounded"
-                />
+                <Link
+                  to={`/product/${r.productId}`}
+                  className="block w-45 aspect-[18/14] overflow-hidden "
+                >
+                  <img
+                    key={idx}
+                    src={photo}
+                    className="w-full h-full object-cover"
+                  />
+                </Link>
               ))}
             </div>
           )}
@@ -256,9 +297,9 @@ function ReviewList({ reviews }: { reviews: SellerReview[] }) {
 export function SellerRating() {
   const seller = SELLER_DATA;
 
-  const [filter, setFilter] = useState<"all" | 1 | 2 | 3 | 4 | 5>("all");
+  const [filter, setFilter] = useState<RatingFilter>("all");
 
-  // ✅ ТОЛЬКО product отзывы
+  // ТОЛЬКО product отзывы
   const productReviews = useMemo(
     () => seller.reviews.filter((r) => r.type === "product"),
     [seller.reviews]
@@ -277,52 +318,59 @@ export function SellerRating() {
   );
 
   return (
-    <div className="flex flex-col gap-10 lg:pl-15 lg:pt-10">
-      {/* Верхний блок */}
-      <div className="flex flex-col lg:flex-row gap-10">
-        {/* Левая колонка */}
-        <div className="flex-1 flex flex-col gap-7.5">
-          <h2 className="ag-h1 text-secondary font-semibold">
-            Рейтинг продавца
-          </h2>
-          {/* Продавец */}
-          <div className="flex items-center gap-4">
-            <img
-              src={seller.avatarUrl}
-              className="w-15 h-15 rounded-full object-cover"
-            />
-            <div className="flex flex-col">
-              <div className="ag-h7 font-medium text-secondary">
-                {seller.name}
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="ag-h8 font-medium text-secondary">
-                  {seller.sellerRating.averageRating.toFixed(1)}
+    <div className="xl:pl-15 sm:pt-10 pt-22 mb-45">
+      <h2 className="ag-h1 text-secondary font-semibold mb-2">Рейтинг продавца</h2>
+
+      <div className="flex flex-col gap-15 sm:gap-22.5 lg:gap-38.5 ">
+        {/* Верхний блок */}
+        <div
+          className="
+      grid
+      grid-cols-1
+      lg:grid-cols-[416px_1fr]
+      gap-x-10
+      gap-y-10     
+    "
+        >
+          {/* Левая колонка */}
+          <div className="flex flex-col gap-9.5 sm:gap-7.5 pt-10">
+            <div className="flex items-center gap-4">
+              <img
+                src={seller.avatarUrl}
+                className="w-15 h-15 rounded-full object-cover"
+              />
+              <div className="flex flex-col">
+                <div className="ag-h7 font-medium text-secondary">
+                  {seller.name}
                 </div>
-                <StarRating rating={1} size={16} />
-                <div className="g-h8 font-medium text-secondary ">
-                  — {seller.sellerRating.totalReviews} отзывов
+                <div className="flex items-center gap-2">
+                  <div className="ag-h8 font-medium text-secondary">
+                    {seller.sellerRating.averageRating.toFixed(1)}
+                  </div>
+                  <StarRating rating={1} size={16} />
+                  <div className="g-h8 font-medium text-secondary">
+                    — {seller.sellerRating.totalReviews} отзывов
+                  </div>
                 </div>
               </div>
             </div>
+
+            <RatingDistribution ratingStats={seller.productRating} />
           </div>
 
-          {/* Распределение */}
-          <RatingDistribution ratingStats={seller.productRating} />
+          {/* Правая колонка */}
+          <div className="hidden sm:flex relative min-w-0 h-full items-center">
+            <PhotoSlider
+              photos={filteredPhotos}
+              filter={filter}
+              onFilterChange={setFilter}
+            />
+          </div>
         </div>
 
-        {/* Правая колонка */}
-        <div className="lg:max-w-[65%] lg:w-full flex flex-col">
-          <PhotoSlider
-            photos={filteredPhotos}
-            filter={filter}
-            onFilterChange={setFilter}
-          />
-        </div>
+        {/* Комментарии */}
+        <ReviewList reviews={filteredProductReviews} />
       </div>
-
-      {/* Комментарии */}
-      <ReviewList reviews={filteredProductReviews} />
     </div>
   );
 }

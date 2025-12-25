@@ -16,6 +16,7 @@ export interface User {
 
   // системные поля
   createdAt: string;      // ISO дата
+  isFollowing?: boolean;
 }
 
 
@@ -30,6 +31,8 @@ export const USERS_DATA: User[] = [
 
     rating: 3,
     reviews: 22,
+
+    isFollowing: false,
 
     createdAt: "2023-08-15T10:23:00.000Z",
   },

@@ -1,10 +1,8 @@
 @import "tailwindcss";
 
-
 @font-face {
     font-family: TTNeoris;
-    src: url("/fonts/TTNeoris-Medium.woff2") format("woff2");
-    ;
+    src: url("/fonts/TTNeoris-Medium.woff2") format("woff2");   
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -12,10 +10,8 @@
 
 @theme {
     /* fonts */
-    --font-inter: "Inter", ui-sans-serif, system-ui, sans-serif,
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-inter: "Inter", sans-serif;
     --font-roboto: "Roboto", sans-serif;
-
     --font-geist: "Geist", sans-serif;
     --font-neoris: "TTNeoris", sans-serif;
 
@@ -48,69 +44,67 @@
 
 }
 
-
 @utility ag-w1 {
-    @apply text-[48px] leading-[1.17] font-semibold font-sans;
+    @apply text-[48px] leading-[1.17] font-semibold font-inter;
 }
 
 @utility ag-w3 {
-    @apply text-[36px] leading-[1.17] font-semibold font-sans;
+    @apply text-[36px] leading-[1.17] font-semibold font-inter;
 }
 
-
 @utility ag-c1 {
-    @apply text-[12px] leading-[1.333] font-sans;
+    @apply text-[12px] leading-[1.333] font-inter;
 }
 
 @utility ag-h1 {
-    @apply text-[28px] leading-[1.286] font-sans;
+    @apply text-[28px] leading-[1.286] font-inter;
 }
 
 @utility ag-w2 {
-    @apply text-[32px] leading-[1.25] font-sans;
+    @apply text-[32px] leading-[1.25] font-inter;
 }
 
 @utility ag-w4 {
-    @apply text-[32px] leading-[1.25] font-sans;
+    @apply text-[32px] leading-[1.25] font-inter;
 }
 
 @utility ag-h2 {
-    @apply text-[24px] leading-[1.333] font-sans;
+    @apply text-[24px] leading-[1.333] font-inter;
 }
 
 @utility ag-h3 {
-    @apply text-[20px] leading-[1.4] font-sans;
+    @apply text-[20px] leading-[1.4] font-inter;
 }
 
 @utility ag-h4 {
-    @apply text-[18px] leading-[1.333] font-sans;
+    @apply text-[18px] leading-[1.333] font-inter;
 }
 
 @utility ag-h5 {
-    @apply text-[17px] leading-[1.333] font-sans;
+    @apply text-[17px] leading-[1.333] font-inter;
 }
 
 @utility ag-h6 {
-    @apply text-[16px] leading-[1.5] font-sans;
+    @apply text-[16px] leading-[1.5] font-inter;
 }
 
 @utility ag-h7 {
-    @apply text-[15px] leading-[1.6] font-sans;
+    @apply text-[15px] leading-[1.6] font-inter;
 }
 
 @utility ag-h8 {
-    @apply text-[14px] leading-[1.429] font-sans;
+    @apply text-[14px] leading-[1.429] font-inter;
 }
 
 @utility ag-h9 {
-    @apply text-[13px] leading-[1.538] font-sans;
+    @apply text-[13px] leading-[1.538] font-inter;
 }
 
 
 @utility ag-h10 {
-    @apply text-[12px] leading-[1.33] font-sans;
+    @apply text-[12px] leading-[1.33] font-inter;
 }
 
 @utility ag-h12 {
-    @apply text-[10px] leading-[1.2] font-sans;
+    @apply text-[10px] leading-[1.2] font-inter;
 }

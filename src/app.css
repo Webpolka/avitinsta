@@ -1,55 +1,55 @@
-
-
 /* site-container styles */
 :root {
-    --container-width: 1460px;
-    --container-padding-desktop: 60px;
-    --container-padding-large: 30px;
-    --container-padding-small: 15px;
+  --container-width: 1460px;
+  --container-padding-desktop: 60px;
+  --container-padding-large: 30px;
+  --container-padding-small: 15px;
 
-    --scrollbar: #e5e5e5;
-    --scrollbar-track: #e5e5e5;
-    --scrollbar-thumb:#b2b2b2;
+  --scrollbar: #e5e5e5;
+  --scrollbar-track: #e5e5e5;
+  --scrollbar-thumb: #b2b2b2;
 }
 
-.bg-fon{
+.bg-fon {
   background-color: #f6f6f6;
 }
 
 .site-container {
-	margin-inline: auto;
-	min-inline-size: 320px;
-	max-inline-size: var(--container-width);
-	padding-inline: var(--container-padding-desktop);
-	@media (max-width:1024px) {
-		padding-inline: var(--container-padding-large);
-	}
-	@media (max-width:640px) {
-		padding-inline: var(--container-padding-small);
-	}
+  margin-inline: auto;
+  min-inline-size: 320px;
+  max-inline-size: var(--container-width);
+  padding-inline: var(--container-padding-desktop);
+
+  @media (max-width:1024px) {
+    padding-inline: var(--container-padding-large);
+  }
+
+  @media (max-width:640px) {
+    padding-inline: var(--container-padding-small);
+  }
 }
 
 .wrapper {
-	display: flex;
-	min-block-size: 100vh;
+  display: flex;
+  min-block-size: 100vh;
 
-	/** Поменять на clip - если используется в проекте position: sticky */
-	overflow: hidden;
-	flex-direction: column;
+  /** Поменять на clip - если используется в проекте position: sticky */
+  overflow: hidden;
+  flex-direction: column;
 }
 
 .main {
-	position: relative;
-	flex: 1 1 auto;
+  position: relative;
+  flex: 1 1 auto;
 }
 
 /*******************************************
 Product card mobile user hidden
 *******************************************/
-.hiddenMobileUser{
-	.mobileUser{
-		display: none;
-	}
+.hiddenMobileUser {
+  .mobileUser {
+    display: none;
+  }
 }
 
 /********************************************
@@ -76,4 +76,3 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   cursor: pointer;
 }
-

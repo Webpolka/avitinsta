@@ -10,7 +10,7 @@ import { BANNER_DATA } from "@/mocks/banner.mock";
 export function Home() {
   return (
     <>
-      <SearchForm
+      <SearchForm className="mb-6"
         onSubmit={(query) => {
           console.log("Ищем:", query);
           // тут будет AJAX

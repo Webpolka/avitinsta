@@ -6,7 +6,7 @@ import { PRODUCTS_DATA } from "@/mocks/products.mock";
 export function Search() {
   return (
     <div className="pt-2 sm:pt-5 lg:px-15">
-      <SearchForm
+      <SearchForm className="mb-6"
         onSubmit={(query) => {
           console.log("Ищем:", query);
           // тут будет AJAX

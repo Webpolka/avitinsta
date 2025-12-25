@@ -1,30 +1,31 @@
 import { type FormEvent, useState, type InputHTMLAttributes } from "react";
 
-interface SearchFormProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit"> {
+interface SearchFormProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit"> {
   placeholder?: string;
   onSubmit?: (value: string) => void;
+  className?: string;
 }
 
 export default function SearchForm({
   placeholder = "Найти вещь",
   onSubmit,
+  className = "",
   ...inputProps
 }: SearchFormProps) {
   const [value, setValue] = useState("");
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!value.trim()) return;
-
     onSubmit?.(value);
   };
 
   return (
-    <form className="mb-6" onSubmit={handleSubmit}>
-      <div className="rounded-full px-3 py-3 border border-gray-300 border-solid bg-white flex items-center gap-3 focus-within:border-blue-300">
+    <form onSubmit={handleSubmit} className={className}>
+      <div className="rounded-full px-3 py-3 border border-gray-300 bg-white flex items-center gap-3 focus-within:border-blue-300">
         <button type="submit" aria-label="Search" className="cursor-pointer">
-          <svg className="icon icon--search w-4 h-4">
+          <svg className="w-4 h-4">
             <use href="/icons/symbol/sprite.svg#search" />
           </svg>
         </button>

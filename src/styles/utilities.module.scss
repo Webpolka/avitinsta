@@ -1,0 +1,6 @@
+.hiddenScroll {
+  &::-webkit-scrollbar {
+    inline-size: 0;
+    background-color: transparent;
+  }
+}

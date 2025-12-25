@@ -17,7 +17,7 @@ export default function Header() {
         {/* header row */}
         <div className="min-h-[100px] flex items-center justify-between ">
           {/* Left side */}
-          <div className="flex items-center flex-shrink-0 gap-5 md:gap-7.5 xl:gap-7.5">
+          <div className="flex items-center flex-shrink-0 gap-5 md:gap-7.5 xl:gap-10">
             <HeaderOffCanvas items={menuItems} />
 
             <Link
@@ -49,7 +49,7 @@ export default function Header() {
                     aria-label={item.label}
                     className="block w-7.5 h-7.5"
                   >
-                    <svg className="w-full h-full fill-none stroke-black">
+                    <svg className="w-full h-full fill-none stroke-black stroke-1">
                       <use href={`/icons/symbol/sprite.svg#${item.icon}`} />
                     </svg>
                   </Link>
