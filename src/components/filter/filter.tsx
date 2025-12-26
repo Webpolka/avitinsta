@@ -33,9 +33,9 @@ const PRICE_MAX = 100000;
 const PRICE_STEP = 500;
 
 const sizesList = ["36", "37", "38", "39", "40", "41", "42", "43"];
-const brandsList = ["Ric Owans", "11 By Boris", "Jordan", "Super boll"];
-const categoriesList = ["Сумка", "Плащ", "Клатч"];
-const conditionsList = ["Новое", "Б/У", "Раритет"];
+const brandsList = ["Adidas", "Gucci",  "Puma", "Samsung"];
+const categoriesList = ["Сумка", "Футболка", "Кроссовки"];
+const conditionsList = ["new", "used"];
 
 /* =======================
    Компонент

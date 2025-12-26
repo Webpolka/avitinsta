@@ -1,20 +1,22 @@
-import { type FormEvent, useState, type InputHTMLAttributes } from "react";
+import { type FormEvent, type InputHTMLAttributes } from "react";
 
 interface SearchFormProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit"> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit" | "onChange"> {
   placeholder?: string;
   onSubmit?: (value: string) => void;
   className?: string;
+  value: string;
+  onChange: (value: string) => void; // сразу строка
 }
 
 export default function SearchForm({
+  value,          // теперь value приходит сверху
+  onChange,       // onChange приходит сверху
   placeholder = "Найти вещь",
   onSubmit,
   className = "",
   ...inputProps
-}: SearchFormProps) {
-  const [value, setValue] = useState("");
-
+}: SearchFormProps & { value: string; onChange: (v: string) => void }) {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!value.trim()) return;
@@ -32,8 +34,8 @@ export default function SearchForm({
 
         <input
           type="text"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          value={value}                  // берем из родителя
+          onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className="ag-h7 outline-none bg-transparent w-full"
           style={{ color: "var(--grayscale-700)" }}

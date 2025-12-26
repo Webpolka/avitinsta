@@ -56,7 +56,7 @@ export function Faq() {
   ).find((tab) => tab.id === activeTabId);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[35%_1fr] lg:grid-cols-[35%_1fr] gap-x-[90px] lg:gap-x-[110px] pt-6 sm:pb-50 xl:pr-15">
+    <div className="grid grid-cols-1 md:grid-cols-[35%_1fr] lg:grid-cols-[35%_1fr] gap-x-[90px] lg:gap-x-[110px] pt-6 pb-30 sm:pb-50 xl:pr-15">
       {/* левая колонка */}
       <div className="flex flex-col gap-4 pb-10 md:pb-0">
         <h2 className="ag-h2 lg:ag-h1 text-secondary font-semibold mb-4">

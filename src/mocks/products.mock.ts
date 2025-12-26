@@ -81,7 +81,7 @@ export const PRODUCTS_DATA: ProductCardData[] = [
       { system: "EU", value: 44 },
       { system: "EU", value: 46 },
     ],
-    condition: "new",
+    condition: "used",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -114,7 +114,7 @@ export const PRODUCTS_DATA: ProductCardData[] = [
       { system: "EU", value: 30 },
       { system: "EU", value: 32 },
     ],
-    condition: "new",
+    condition: "used",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -178,7 +178,7 @@ export const PRODUCTS_DATA: ProductCardData[] = [
       { system: "LETTER", value: "M" },
       { system: "LETTER", value: "L" },
     ],
-    condition: "new",
+    condition: "used",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -208,7 +208,7 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     description: "Стильная сумка из натуральной кожи.",
     price: 78000,
     size: [{ system: "ONE_SIZE" }],
-    condition: "new",
+    condition: "used",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
