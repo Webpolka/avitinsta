@@ -21,7 +21,7 @@ export interface Look {
 
 export const LOOKS_DATA: Look[] = [
   {
-    id: "1",
+    id: "l1",
     user: USERS_DATA[0],
     image: "/images/kukai.webp",
     description: "Мой повседневный образ на осень 🍂",
@@ -35,7 +35,7 @@ export const LOOKS_DATA: Look[] = [
     isSaved: true,
   },
   {
-    id: "2",
+    id: "l2",
     user: USERS_DATA[1],
      image: "/images/kukai.webp",
     description: "Минимализм и комфорт",

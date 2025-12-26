@@ -1,22 +1,116 @@
 import { type Look } from "@/mocks/looks.mock";
 import { USERS_DATA } from "@/mocks/users.mocks";
-import { useRef } from "react";
+import { COMMENTS_DATA, type Comment } from "@/mocks/comment.mock";
+import { useRef, useState } from "react";
+
+import { CommentItem } from "./commentItem";
+import { AddCommentInput } from "./addCommentInput";
+import { DesktopHeader } from "./desktopHeader";
+import { DesktopFooter } from "./desktopFooter";
+
 import styles from "@/styles/utilities.module.scss";
 
 type CommentsModalProps = {
   look: Look;
   onClose: () => void;
+  lookLiked: boolean; // состояние лайка образа
+  lookLikesCount: number; // количество лайков образа
+  toggleLookLike: () => void; // переключение лайка образа
+  subscribed: boolean; // подписка на автора образа
+  onToggleSubscribe: () => void; // переключение подписки
 };
 
-export function CommentsModal({ look, onClose }: CommentsModalProps) {
-  const user = USERS_DATA.find((u) => u.id === look.user.id);
+export function CommentsModal({
+  look,
+  onClose,
+  lookLiked,
+  lookLikesCount,
+  toggleLookLike,
+  subscribed,
+  onToggleSubscribe,
+}: CommentsModalProps) {
+  // Состояние закладки образа
+  const [bookmarked, setBookmarked] = useState(false);
+  const toggleBookmark = () => setBookmarked((prev) => !prev);
+
+  // Ссылка на overlay для закрытия по клику вне модалки
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === overlayRef.current) {
-      onClose();
-    }
+  // Лайки комментариев: хранение количества и состояния лайка
+  const [likesState, setLikesState] = useState<
+    Record<string, { count: number; liked: boolean }>
+  >(() => {
+    const initial: Record<string, { count: number; liked: boolean }> = {};
+    COMMENTS_DATA.filter((c) => c.lookId === look.id).forEach((c) => {
+      initial[c.id] = { count: c.likesCount, liked: c.isLiked || false };
+    });
+    return initial;
+  });
+
+  // Состояние комментариев (новые добавляются сюда)
+  const [, setCommentsState] = useState<Comment[]>(() =>
+    COMMENTS_DATA.filter((c) => c.lookId === look.id)
+  );
+
+  // Состояние для ответа на комментарий
+  const [replyTo, setReplyTo] = useState<{
+    commentId: string;
+    username: string;
+  } | null>(null);
+
+  // Сколько дочерних ответов показывать для каждого комментария
+  const [visibleRepliesCount, setVisibleRepliesCount] = useState<
+    Record<string, number>
+  >({});
+
+  // Добавление нового комментария / ответа
+  const handleSendComment = (text: string) => {
+    if (!replyTo) return; // если не ответ, не отправляем
+    const newComment: Comment = {
+      id: `tmp-${new Date().toISOString()}`,
+      lookId: look.id,
+      userId: "currentUserId",
+      parentId: replyTo.commentId,
+      text,
+      likesCount: 0,
+      createdAt: new Date().toISOString(),
+    };
+    setTimeout(() => {
+      setCommentsState((prev) => [...prev, newComment]);
+      setReplyTo(null); // сбрасываем состояние ответа
+    }, 800); // имитация задержки
   };
+
+  // Закрытие модалки по клику на overlay
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === overlayRef.current) onClose();
+  };
+
+  // Показать ещё ответы на комментарий
+  const handleShowMoreReplies = (commentId: string) => {
+    setVisibleRepliesCount((prev) => ({
+      ...prev,
+      [commentId]: (prev[commentId] || 0) + 3,
+    }));
+  };
+
+  // Берём комментарии только для текущего образа
+  const comments = COMMENTS_DATA.filter((c) => c.lookId === look.id);
+
+  // Корневые комментарии (без parentId)
+  const rootComments = comments.filter((c) => !c.parentId);
+
+  // Дочерние ответы сгруппированы по parentId
+  const repliesByParent = comments.reduce<Record<string, Comment[]>>(
+    (acc, comment) => {
+      if (comment.parentId) {
+        acc[comment.parentId] = acc[comment.parentId] || [];
+        acc[comment.parentId].push(comment);
+      }
+      return acc;
+    },
+    {}
+  );
 
   return (
     <div
@@ -24,296 +118,129 @@ export function CommentsModal({ look, onClose }: CommentsModalProps) {
       onClick={handleOverlayClick}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
     >
-      <div
-        className={`${styles.hiddenScroll} overflow-y-auto ml-4 mr-4 px-4 py-7.5 sm:px-0 sm:py-0 bottom-0 absolute sm:static sm:rounded-xl bg-white w-full sm:max-w-[707px] h-[90vh]  overflow-hidden flex flex-col gap-4`}
-      >
-        {/*MOBILE : Мобильный заголовок и кнопка "закрыть"  */}
-        <div className="relative sm:hidden flex flex-col gap-2 items-center pb-9">
-          {/* title */}
-          <h2 className="ag-h2 font-medium text-secondary">Комментарии</h2>
-          {/* mobile counter */}
-          <p className="ag-h7 font-medium text-grayscale-500">
-            Оценили {look.likesCount} человек · {look.viewsCount} просмотров
-          </p>
-          {/* mobile close button */}
-          <div className="absolute top-1 right-1">
-            <button
-              onClick={onClose}
-              className="cursor-pointer w-5 h-5 rounded-full bg-grayscale-100 flex items-center justify-center text-secondary hover:opacity-80"
-            >
-              <svg className="w-4 h-4">
-                <use href="/icons/symbol/sprite.svg#close" />
-              </svg>
-            </button>
+      <div className="sm:relative w-full sm:max-w-[707px]">
+        {/* Основной контейнер модалки */}
+        <div
+          className={`${styles.hiddenScroll} px-4 pb-0 pt-7.5 sm:px-0 sm:py-0 bottom-0 fixed sm:static sm:rounded-xl bg-white w-full sm:max-w-[707px] h-[90vh] overflow-hidden flex flex-col sm:overflow-y-auto`}
+        >
+          {/* Верхний мобильный header */}
+          <div className="relative sm:hidden flex flex-col gap-2 items-center pb-4">
+            <h2 className="ag-h2 font-medium text-secondary">Комментарии</h2>
+            <p className="ag-h7 font-medium text-grayscale-500">
+              Оценили {look.likesCount} человек · {look.viewsCount} просмотров
+            </p>
+            {/* Кнопка закрытия */}
+            <div className="absolute top-1 right-1">
+              <button
+                onClick={onClose}
+                className="cursor-pointer w-5 h-5 rounded-full bg-grayscale-100 flex items-center justify-center text-secondary hover:opacity-80"
+              >
+                <svg className="w-4 h-4">
+                  <use href="/icons/symbol/sprite.svg#close" />
+                </svg>
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* DESKTOP : Header + image + buttons */}
-        <div className="hidden sm:block flex-1">
-          {/* Header: пользователь + подписка */}
-          <div className="rounded-t-xl border-2 border-grayscale-100 flex items-center justify-between p-5">
-            <div className="flex items-center gap-3">
-              {user?.avatar && (
+          {/* Десктопный header и футер */}
+          <div className="hidden sm:block shrink-0">
+            <DesktopHeader
+              look={look}
+              user={USERS_DATA.find((u) => u.id === look.user.id)}
+              subscribed={subscribed} // прокинутая подписка
+              onToggleSubscribe={onToggleSubscribe} // переключение подписки
+            />
+            {look?.image && (
+              <div className="bg-grayscale-100 w-full aspect-[886/500] hidden sm:block">
                 <img
-                  src={user.avatar}
-                  className="w-10 h-10 sm:w-15 sm:h-15 rounded-full object-cover"
+                  src={look.image}
+                  className="w-full object-cover aspect-[886/500] overflow-hidden"
                 />
-              )}
-              <div className="flex flex-col">
-                <span className="ag-h6 sm:ag-h4 font-medium text-secondary">
-                  {user?.name}
-                </span>
-                {user?.handle && (
-                  <span className="ag-h9 text-grayscale-300 font-medium">
-                    {user.handle}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <button className="ag-h8 sm:ag-h7 text-secondary font-medium hover:opacity-80 cursor-pointer">
-              <span>Подписаться</span>
-            </button>
-          </div>
-
-          {/* Content: изображение (скрыто на мобилке) */}
-          {look?.image && (
-            <div className="bg-grayscale-100 w-full aspect-[886/500] hidden sm:block">
-              <img
-                src={look.image}
-                className="w-full object-cover aspect-[886/500] overflow-hidden"
-              />
-            </div>
-          )}
-
-          {/* Footer: лайки, описание, хештеги */}
-          <div className="px-6 py-5 flex flex-col gap-3">
-            {(look?.likesCount || look?.commentsCount) && (
-              <div className="flex justify-between items-center border-b border-grayscale-300 pb-5">
-                <div className="flex items-center gap-6">
-                  {look?.likesCount && (
-                    <button className="flex items-center gap-2 cursor-pointer">
-                      <svg className="w-7.5 h-7.5 ">
-                        <use href="/icons/symbol/sprite.svg#heart" />
-                      </svg>
-                      <span className="ag-h7 text-secondary font-medium">
-                        {look.likesCount}
-                      </span>
-                    </button>
-                  )}
-                  {look?.commentsCount && (
-                    <div className="flex items-center gap-2">
-                      <svg className="w-7.5 h-7.5">
-                        <use href="/icons/symbol/sprite.svg#comment" />
-                      </svg>
-                      <span className="ag-h7 text-secondary font-medium">
-                        {look.commentsCount}
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <button className="w-7.5 h.7.5 text-secondary hover:opacity-80 cursor-pointer">
-                  <svg className="w-7.5 h-7.5">
-                    <use href="/icons/symbol/sprite.svg#bookmark" />
-                  </svg>
-                </button>
               </div>
             )}
-          </div>
-        </div>
-
-        {/* Comment 1*/}
-        <div className="px-0 sm:px-6 pt-0  flex flex-col gap-3">
-          <div className="flex gap-5 mb-2">
-            {/* left */}
-            <img
-              src={user?.avatar}
-              className="w-7.5 h-7.5 rounded-full object-cover"
+            <DesktopFooter
+              lookLikesCount={lookLikesCount} // лайки образа
+              lookLiked={lookLiked} // состояние лайка образа
+              toggleLookLike={toggleLookLike} // переключение лайка образа
+              bookmarked={bookmarked} // закладка
+              toggleBookmark={toggleBookmark} // переключение закладки
+              commentsCount={comments.length} // кол-во комментариев
             />
-            {/* center */}
-            <div className="flex flex-1 flex-col">
-              <div className="ag-h6 font-medium text-grayscale-500 mb-1">
-                Annaasti 3дн.
-              </div>
-              <p className="ag-h7 font-medium text-secondary leading-5 mb-0.5 pr-5">
-                Эту историю придумать невозможно, только пережить
-              </p>
-              <div className="flex justify-between items-end gap-1">
-                <span className="ag-h9 font-medium text-grayscale-500">
-                  Отметки “Нравится” : 1468
-                </span>
+          </div>
 
-                <div className="relative">
-                  {/* like */}
-                  <button className="absolute top-[2px] sm:-top-5 right-0 w-5.5 h-5.5 text-black hover:opacity-80 cursor-pointer">
-                    <svg className="w-5.5 aspect-square">
-                      <use href="/icons/symbol/sprite.svg#like" />
-                    </svg>
-                  </button>
-
-                  {/* respond */}
-                  <button className="cursor-pointer text-grayscale-500 hover:text-secondary">
-                    <span className="ag-h10 font-medium pr-15 sm:pr-6">
-                      Ответить
-                    </span>
-                  </button>
+          {/* Список комментариев */}
+          <div
+            className={`${styles.hiddenScroll} relative flex-1 sm:flex-[initial] overflow-y-auto sm:overflow-y-hidden sm:shrink-0 pt-5`}
+          >
+            {rootComments.map((comment) => {
+              const commentUser = USERS_DATA.find(
+                (u) => u.id === comment.userId
+              );
+              const replies = repliesByParent[comment.id] || [];
+              const shownReplies = visibleRepliesCount[comment.id] || 0;
+              const remainingReplies = replies.length - shownReplies;
+              return (
+                <div
+                  key={comment.id}
+                  className="px-0 sm:px-6 pt-0 flex flex-col gap-3 mb-4"
+                >
+                  {/* Корневой комментарий */}
+                  <CommentItem
+                    comment={comment}
+                    user={commentUser}
+                    onReply={setReplyTo} // прокидываем setReplyTo для ответа
+                    likesState={likesState} // лайки комментариев
+                    setLikesState={setLikesState} // управление лайками
+                    isRoot
+                  />
+                  {/* Отображение дочерних ответов */}
+                  {replies.slice(0, shownReplies).map((reply) => {
+                    const replyUser = USERS_DATA.find(
+                      (u) => u.id === reply.userId
+                    );
+                    return (
+                      <CommentItem
+                        key={reply.id}
+                        comment={reply}
+                        user={replyUser}
+                        onReply={setReplyTo}
+                        likesState={likesState}
+                        setLikesState={setLikesState}
+                      />
+                    );
+                  })}
+                  {/* Кнопка "Смотреть ещё ответы" */}
+                  {remainingReplies > 0 && (
+                    <button
+                      onClick={() => handleShowMoreReplies(comment.id)}
+                      className="self-start flex items-center gap-3 text-grayscale-500 ag-h8 hover:text-secondary cursor-pointer mb-2"
+                    >
+                      <span className="ag-h9 font-medium block w-17.5 h-px bg-grayscale-500" />
+                      {shownReplies === 0
+                        ? `Смотреть ответы (${replies.length})`
+                        : `Показать ещё ответы (${remainingReplies})`}
+                    </button>
+                  )}
                 </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
 
-          {/* PARENT LIST BUTTON */}
-          <button className="self-start flex items-center gap-3 text-grayscale-500 ag-h8 hover:text-secondary cursor-pointer">
-            <span className="ag-h9 font-medium block w-17.5 h-px bg-grayscale-500" />
-            Смотреть все ответы (3)
-          </button>
+          {/* Input для нового комментария */}
+          <AddCommentInput
+            placeholder="Добавить комментарий..."
+            onSend={handleSendComment}
+          />
         </div>
 
-        {/* Comment 2*/}
-        <div className="px-0 sm:px-6 pt-0  flex flex-col gap-3">
-          <div className="flex gap-5 mb-2">
-            {/* left */}
-            <img
-              src={user?.avatar}
-              className="w-7.5 h-7.5 rounded-full object-cover"
-            />
-            {/* center */}
-            <div className="flex flex-1 flex-col">
-              <div className="ag-h6 font-medium text-grayscale-500 mb-1">
-                Annaasti 3дн.
-              </div>
-              <p className="ag-h7 font-medium text-secondary leading-5 mb-0.5 pr-5">
-                Эту историю придумать невозможно, только пережить
-              </p>
-              <div className="flex justify-between items-end gap-1">
-                <span className="ag-h9 font-medium text-grayscale-500">
-                  Отметки “Нравится” : 1468
-                </span>
-
-                <div className="relative">
-                  {/* like */}
-                  <button className="absolute top-[2px] sm:-top-5 right-0 w-5.5 h-5.5 text-black hover:opacity-80 cursor-pointer">
-                    <svg className="w-5.5 aspect-square">
-                      <use href="/icons/symbol/sprite.svg#like" />
-                    </svg>
-                  </button>
-
-                  {/* respond */}
-                  <button className="cursor-pointer text-grayscale-500 hover:text-secondary">
-                    <span className="ag-h10 font-medium pr-15 sm:pr-6">
-                      Ответить
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Comment 3*/}
-        <div className="px-0 sm:px-6 pt-0  flex flex-col gap-3">
-          <div className="flex gap-5 mb-2">
-            {/* left */}
-            <img
-              src={user?.avatar}
-              className="w-7.5 h-7.5 rounded-full object-cover"
-            />
-            {/* center */}
-            <div className="flex flex-1 flex-col">
-              <div className="ag-h6 font-medium text-grayscale-500 mb-1">
-                Annaasti 3дн.
-              </div>
-              <p className="ag-h7 font-medium text-secondary leading-5 mb-0.5 pr-5">
-                Эту историю придумать невозможно, только пережить
-              </p>
-              <div className="flex justify-between items-end gap-1">
-                <span className="ag-h9 font-medium text-grayscale-500">
-                  Отметки “Нравится” : 1468
-                </span>
-
-                <div className="relative">
-                  {/* like */}
-                  <button className="absolute top-[2px] sm:-top-5 right-0 w-5.5 h-5.5 text-black hover:opacity-80 cursor-pointer">
-                    <svg className="w-5.5 aspect-square">
-                      <use href="/icons/symbol/sprite.svg#like" />
-                    </svg>
-                  </button>
-
-                  {/* respond */}
-                  <button className="cursor-pointer text-grayscale-500 hover:text-secondary">
-                    <span className="ag-h10 font-medium pr-15 sm:pr-6">
-                      Ответить
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Comment 4*/}
-        <div className="px-0 sm:px-6 pt-0  flex flex-col gap-3">
-          <div className="flex gap-5 mb-2">
-            {/* left */}
-            <img
-              src={user?.avatar}
-              className="w-7.5 h-7.5 rounded-full object-cover"
-            />
-            {/* center */}
-            <div className="flex flex-1 flex-col">
-              <div className="ag-h6 font-medium text-grayscale-500 mb-1">
-                Annaasti 3дн.
-              </div>
-              <p className="ag-h7 font-medium text-secondary leading-5 mb-0.5pr-5">
-                Эту историю придумать невозможно, только пережить
-              </p>
-              <div className="flex justify-between items-end gap-1">
-                <span className="ag-h9 font-medium text-grayscale-500">
-                  Отметки “Нравится” : 1468
-                </span>
-
-                <div className="relative">
-                  {/* like */}
-                  <button className="absolute top-[2px] sm:-top-5 right-0 w-5.5 h-5.5 text-black hover:opacity-80 cursor-pointer">
-                    <svg className="w-5.5 aspect-square">
-                      <use href="/icons/symbol/sprite.svg#like" />
-                    </svg>
-                  </button>
-
-                  {/* respond */}
-                  <button className="cursor-pointer text-grayscale-500 hover:text-secondary">
-                    <span className="ag-h10 font-medium pr-15 sm:pr-6">
-                      Ответить
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Send mesage form */}
-
-        {/* Поиск */}
-        <div className="px-0 sm:px-6 mb-6 w-full flex-1">
-          <div className="rounded-full px-4 min-h-[46px] border border-gray-300 flex items-center gap-3 focus-within:border-grayscale-500">
-            <input
-              type="text"
-              placeholder="Добавить комментарий..."
-              className="ag-h7 font-medium placeholder:text-grayscale-00 outline-none bg-transparent w-full"
-            />
-
-            <button
-              type="submit"
-              aria-label="Search"
-              className="w-9 h-9 cursor-pointer rounded-full border border-grayscale-300 flex items-center justify-center"
-            >
-              <svg className="w-5 h-5 text-grayscale-500">
-                <use href="/icons/symbol/sprite.svg#arrow-right" />
-              </svg>
-            </button>
-          </div>
-        </div>
+        {/* Input для ответа на комментарий (отдельно при replyTo) */}
+        {replyTo && (
+          <AddCommentInput
+            placeholder={`Ответьте пользователю ${replyTo.username}...`}
+            absolute
+            onSend={handleSendComment}
+          />
+        )}
       </div>
     </div>
   );

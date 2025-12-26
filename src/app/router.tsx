@@ -14,7 +14,7 @@ import { Product } from "@/pages/product";
 import { ProductAdd } from "@/pages/product-add";
 import { Faq } from "@/pages/faq";
 import { SellerRating } from "@/pages/seller-rating";
-import { Looks } from "@/pages/looks";
+import { Looks } from "@/pages/looks/looks";
 
 export function AppRouter() {
   return (
