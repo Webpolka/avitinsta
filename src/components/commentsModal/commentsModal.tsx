@@ -8,6 +8,7 @@ import { AddCommentInput } from "./addCommentInput";
 import { DesktopHeader } from "./desktopHeader";
 import { DesktopFooter } from "./desktopFooter";
 
+import { useLockBodyScroll } from "@/hooks/lockBodyScroll";
 import styles from "@/styles/utilities.module.scss";
 
 type CommentsModalProps = {
@@ -112,6 +113,8 @@ export function CommentsModal({
     {}
   );
 
+  useLockBodyScroll();
+
   return (
     <div
       ref={overlayRef}
@@ -121,7 +124,7 @@ export function CommentsModal({
       <div className="sm:relative w-full sm:max-w-[707px]">
         {/* Основной контейнер модалки */}
         <div
-          className={`${styles.hiddenScroll} px-4 pb-0 pt-7.5 sm:px-0 sm:py-0 bottom-0 fixed sm:static sm:rounded-xl bg-white w-full sm:max-w-[707px] h-[90vh] overflow-hidden flex flex-col sm:overflow-y-auto`}
+          className={`${styles.hiddenScroll} px-4 pb-0 pt-7.5 sm:px-0 sm:py-0 bottom-0 fixed sm:static sm:rounded-xl bg-white w-full sm:max-w-[707px] h-[95vh] overflow-hidden flex flex-col sm:overflow-y-auto`}
         >
           {/* Верхний мобильный header */}
           <div className="relative sm:hidden flex flex-col gap-2 items-center pb-4">

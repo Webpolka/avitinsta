@@ -4,3 +4,9 @@
     background-color: transparent;
   }
 }
+
+.hFullHeaderMinus{
+  @media (max-width:640px){
+    height: calc(100vh - 100px);
+  }
+}

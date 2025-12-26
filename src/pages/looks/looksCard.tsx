@@ -74,7 +74,7 @@ export function LookCard({ look }: { look: Look }) {
         {/* Footer: лайки, комментарии, описание, хештеги */}
         <div className="px-6 py-5 flex flex-col gap-3">
           {/* Лайки и комментарии */}
-          {(likesCount || commentsCount) && (
+         
             <div className="flex items-center gap-6">
               <button
                 onClick={toggleLike}
@@ -90,7 +90,7 @@ export function LookCard({ look }: { look: Look }) {
                   <use href="/icons/symbol/sprite.svg#heart" />
                 </svg>
                 <span className="ag-h7 text-secondary font-medium">
-                  {likesCount}
+                  {likesCount || 0}
                 </span>
               </button>
               <button
@@ -105,7 +105,7 @@ export function LookCard({ look }: { look: Look }) {
                 </span>
               </button>
             </div>
-          )}
+      
 
           {/* Описание */}
           {look.description && (
@@ -120,7 +120,7 @@ export function LookCard({ look }: { look: Look }) {
           )}
 
           {/* Хештеги */}
-          {look.hashtags && (
+          {Array.isArray(look.hashtags) && look.hashtags.length > 0 && (
             <div className="flex flex-wrap gap-3">
               {look.hashtags.map((tag) => (
                 <button

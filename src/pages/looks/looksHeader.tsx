@@ -1,14 +1,23 @@
 // Пропсы для компонента шапки страницы (заголовок + поиск)
 export type LooksHeaderProps = {
-  query: string; // текущее значение поля поиска
-  onChange: (value: string) => void; // callback при изменении текста в input
-  onSubmit: () => void; // callback при нажатии Enter или кнопки поиска
+  query: string;
+  onChange: (value: string) => void;
+  onSubmit: () => void;
+
+  onAdd: () => void;     // ← плюсик
+  onDelete: () => void;  // ← крестик
 };
 
 // Компонент заголовка и поиска
-export function LooksHeader({ query, onChange, onSubmit }: LooksHeaderProps) {
+export function LooksHeader({
+  query,
+  onChange,
+  onSubmit,
+  onAdd,
+  onDelete,
+}: LooksHeaderProps) {
   return (
-    <div className="flex flex-wrap items-center gap-y-5">
+    <div className="flex flex-wrap items-center gap-y-5 w-full">
       {/* Заголовок страницы */}
       <h1 className="ag-h1 lg:ag-w3 font-semibold text-secondary order-1">
         Образы
@@ -37,12 +46,12 @@ export function LooksHeader({ query, onChange, onSubmit }: LooksHeaderProps) {
 
        {/* Действия: добавить образ / закрыть */}
       <div className="order-2 ml-auto lg:ml-0 flex items-center gap-5">
-        <button className="w-7.5 h-7.5 lg:w-10 lg:h-10 rounded-full bg-black flex items-center justify-center cursor-pointer hover:opacity-80">
+        <button onClick={onAdd} className="w-7.5 h-7.5 lg:w-10 lg:h-10 rounded-full bg-black flex items-center justify-center cursor-pointer hover:opacity-80">
           <svg className="w-6 h-6 text-white">
             <use href="/icons/symbol/sprite.svg#add_r" />
           </svg>
         </button>
-        <button className="cursor-pointer hover:opacity-80 w-10 h-10">
+        <button onClick={onDelete} className="cursor-pointer hover:opacity-80 w-10 h-10">
           <svg className="w-7.5 h-7.5 lg:w-10 lg:h-10">
             <use href="/icons/symbol/sprite.svg#close" />
           </svg>
