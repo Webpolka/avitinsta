@@ -116,7 +116,7 @@ const Filter: React.FC<FilterProps> = ({ onApply }) => {
     <div className="w-full mb-60 md:mb-30 lg:mb-60">
       {/* Цена */}
       <section className="mb-6 pb-4 border-b border-grayscale-100">
-        <h3 className="font-medium ag-h3 text-brand-secondary leading-1 mb-3 w-full flex justify-between">
+        <h3 className="font-medium ag-h3 text-brand-secondary mb-3 w-full flex justify-between">
           <span>Цена</span>
           <button
             type="button"

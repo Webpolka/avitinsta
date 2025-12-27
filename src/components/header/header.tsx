@@ -4,9 +4,9 @@ import HeaderOffCanvas from "@/components/header/headerOffcanvas";
 
 // передаем кнопки для действий а хедере
 const headerActions = [
-  { to: "/profile", icon: "user", label: "Профиль" },
-  { to: "/favorites", icon: "like", label: "Избранное" },
-  { to: "/cart", icon: "cart", label: "Корзина" },
+  { to: "profile", icon: "user", label: "Профиль" },
+  { to: "favourites", icon: "like", label: "Избранное" },
+  { to: "cart", icon: "cart", label: "Корзина" },
 ];
 
 export default function Header() {

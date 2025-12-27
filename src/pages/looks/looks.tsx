@@ -3,9 +3,9 @@ import { type Look } from "@/mocks/looks.mock";
 import { useDebounce } from "@/hooks/debounce";
 
 import { fetchLooksByHashtag } from "./api.ts";
-import { LooksHeader } from "./looksHeader.tsx";
-import { LookCard } from "./looksCard.tsx";
-import { AddLookModal } from "@/components/addLookModal.tsx";
+import { LooksHeader } from "@/components/looks/looksHeader.tsx";
+import { LookCard } from "@/components/looks/looksCard.tsx";
+import { AddLookModal } from "@/components/looks/addLookModal.tsx";
 
 import { USERS_DATA } from "@/mocks/users.mocks.ts";
 
