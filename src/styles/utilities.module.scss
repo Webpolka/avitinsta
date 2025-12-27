@@ -5,8 +5,21 @@
   }
 }
 
-.hFullHeaderMinus{
-  @media (max-width:640px){
+.hFullHeaderMinus {
+  @media (max-width: 640px) {
     height: calc(100vh - 100px);
+  }
+}
+
+.justifyBetween440 {
+  @media (max-width: 640px) {
+    gap: 40px;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 440px) {
+    width: 100%;
+    gap: 15px;
+    justify-content: space-between;
   }
 }

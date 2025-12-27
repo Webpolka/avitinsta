@@ -75,11 +75,11 @@ export function AddLookModal({ onClose, onSubmit }: AddLookModalProps) {
       <div
         className={`${styles.hiddenScroll} ${styles.hFullHeaderMinus} absolute bottom-0 sm:static bg-white sm:rounded-xl w-full max-w-full sm:max-w-[634px] xl:max-w-[707px] sm:max-h-[95vh] overflow-y-auto`}
       >
-        <div className="flex flex-col gap-6 p-5">
+        <div className="flex flex-col gap-6 px-5 pt-5 pb-6 sm:pb-2">
           {/* Dropzone */}
           <div
             {...getRootProps()}
-            className="bg-grayscale-100 border-2 border-solid border-grayscale-700 rounded-xl min-h-[320px] aspect-[659/320] overflow-hidden flex items-center justify-center cursor-pointer"
+            className="bg-grayscale-100 border-2 border-solid border-grayscale-700 rounded-xl min-h-[304px] aspect-[659/320] overflow-hidden flex items-center justify-center cursor-pointer"
           >
             <input {...getInputProps()} />
 
@@ -118,7 +118,7 @@ export function AddLookModal({ onClose, onSubmit }: AddLookModalProps) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Описание"
-              className="h-18 ag-h6 placeholder:text-grayscale-700 text-secondary font-medium w-full resize-none outline-none"
+              className="h-22 sm:h-18 ag-h6 placeholder:text-grayscale-700 text-secondary font-medium w-full resize-none outline-none"
             />
           </label>
 

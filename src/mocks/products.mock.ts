@@ -53,11 +53,11 @@ export const PRODUCTS_DATA: ProductCardData[] = [
       { method: "Самовывоз", id: "22" },
       { method: "Курьерская", id: "44" },
     ],
-    seller: {
-      id: "2",
-      name: "Иван Иванов",
+     seller: {
+      id: "1",
+      name: "Пётр Петров",
       avatar: "/images/avatar.png",
-      link: "/profile/1",
+      link: "/profile/3",
     },
     favoriteCount: 25,
     isFavorite: true,

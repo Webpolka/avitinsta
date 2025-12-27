@@ -16,6 +16,18 @@ import { Faq } from "@/pages/faq";
 import { SellerRating } from "@/pages/seller-rating";
 import { Looks } from "@/pages/looks/looks";
 
+import { ProfilePurchaseHistory } from "@/pages/profile/user-purchase-history";
+import { ProfileForBuyer } from "@/pages/profile/user-for-buyer";
+
+import { ProfilePersonal } from "@/pages/profile/personal";
+import { ProfileProducts } from "@/pages/profile/products";
+import { ProfilePurchases } from "@/pages/profile/purchases";
+import { ProfileSales } from "@/pages/profile/sales";
+import { ProfileFavourites } from "@/pages/profile/favourites";
+import { ProfileChats } from "@/pages/profile/chats";
+import { ProfileChat } from "@/pages/profile/chat";
+import { ProfilePublics } from "@/pages/profile/publics";
+
 export function AppRouter() {
   return (
     <Routes>
@@ -32,12 +44,26 @@ export function AppRouter() {
 
         <Route path="/product/add" element={<ProductAdd />} />
         <Route path="/product/:id" element={<Product />} />
+
+        <Route path="/profile/:id/purchase-history" element={<ProfilePurchaseHistory />}/>
+        <Route path="/profile/:id/for-buyer" element={<ProfileForBuyer />} />
+
+        <Route path="/profile/:id/personal" element={<ProfilePersonal />} />
+        <Route path="/profile/:id/products" element={<ProfileProducts />} />
+        <Route path="/profile/:id/purchases" element={<ProfilePurchases />} />
+        <Route path="/profile/:id/sales" element={<ProfileSales />} />
+        <Route path="/profile/:id/favourites" element={<ProfileFavourites />} />
+        <Route path="/profile/:id/chats" element={<ProfileChats />} />
+        <Route path="/profile/:id/publics" element={<ProfilePublics />} />
       </Route>
 
-      <Route element={<NoFooterLayout />}>
-        <Route path="/looks" element={<Looks />} />
+      
 
-        <Route path="/maintenance" element={<Maintenance />} />
+      <Route element={<NoFooterLayout />}>
+      <Route path="/profile/:id/chat" element={<ProfileChat />} />
+        
+        <Route path="/looks" element={<Looks />} />
+                <Route path="/maintenance" element={<Maintenance />} />
         <Route path="/*" element={<NotFound />} />
       </Route>
     </Routes>
