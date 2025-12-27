@@ -16,10 +16,27 @@ export type UserProfileDataType = {
   photos?: string[]; // личные фотографии (только для своего профиля)
 };
 
-export const USER_PROFILES: UserProfileDataType[] = [
+export const USER_PROFILES: UserProfileDataType[] = [  
   {
     id: "1",
     isMe: true,
+    avatar: "/images/avatar.png",
+    name: "Петр Петров",
+    description:
+      "Здесь продается оригинальная продукция: кроссовки и стритвир. Все вещи с чеками и гарантией подлинности. Быстрая доставка по всей России",
+    handleName: "@aleksei_petrov",
+    verified: true,
+    rating: 4.2,
+    reviewsCount: 34,
+    productsCount: 15,
+    followersCount: 120,
+    followingCount: 80,
+    isFollowing: false,
+     photos: ["/images/product.png", "/images/product.png"],
+  },
+  {
+    id: "2",
+    isMe: false,
     avatar: "/images/avatar.png",
     name: "Иван Иванов",
     description:
@@ -32,22 +49,6 @@ export const USER_PROFILES: UserProfileDataType[] = [
     followersCount: 180,
     followingCount: 50,
     photos: ["/images/product.png", "/images/product.png"],
-  },
-  {
-    id: "2",
-    isMe: false,
-    avatar: "/images/avatar.png",
-    name: "Алексей Петров",
-    description:
-      "Здесь продается оригинальная продукция: кроссовки и стритвир. Все вещи с чеками и гарантией подлинности. Быстрая доставка по всей России",
-    handleName: "@aleksei_petrov",
-    verified: true,
-    rating: 4.2,
-    reviewsCount: 34,
-    productsCount: 15,
-    followersCount: 120,
-    followingCount: 80,
-    isFollowing: false,
   },
   {
     id: "3",

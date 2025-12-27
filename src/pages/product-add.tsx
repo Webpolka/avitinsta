@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Listbox } from "@headlessui/react";
 import { useNavigate } from "react-router";
+import { ThisInput } from "@/ui/this-input";
 
 import { CATEGORIES_DATA, type CategoryData } from "@/mocks/categories.mock";
 
@@ -432,27 +433,5 @@ export function ProductAdd() {
         )}
       </div>
     </div>
-  );
-}
-
-/******************************  This local input template  **********************************************/
-type ThisInputProps = {
-  label: string;
-  value: string;
-  placeholder?: string;
-  onChange: (val: string) => void;
-};
-
-function ThisInput({ label, value, placeholder, onChange }: ThisInputProps) {
-  return (
-    <label className="flex flex-col gap-1">
-      <span className="text-secondary ag-h7 font-medium mb-3">{label}</span>
-      <input
-        className="w-full rounded-lg px-2.5 min-h-[45px] placeholder:ag-h8 text-secondary placeholder:text-grayscale-500 border border-[#e5e5e5] focus:border-grayscale-500 outline-none"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-      />
-    </label>
   );
 }

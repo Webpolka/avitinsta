@@ -1,8 +1,8 @@
-export function ProfileChat(){
+export function ProfileTabPosts(){
 
   return (
     <div className="flex flex-col">
-        <h1>chat</h1>
+        <h1>Posts tab</h1>
     </div>
   );
 }

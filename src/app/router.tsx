@@ -1,6 +1,11 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+// Layouts
 import { MainLayout } from "@/layouts/mainlayout";
 import { NoFooterLayout } from "@/layouts/nofooterlayout";
+import { ProfileLayout } from "@/pages/profile/layout";
+
+// Основные страницы
 import { Home } from "@/pages/home";
 import { NotFound } from "@/pages/notfound";
 import { Maintenance } from "@/pages/maintenance";
@@ -16,21 +21,26 @@ import { Faq } from "@/pages/faq";
 import { SellerRating } from "@/pages/seller-rating";
 import { Looks } from "@/pages/looks/looks";
 
-import { ProfilePurchaseHistory } from "@/pages/profile/user-purchase-history";
-import { ProfileForBuyer } from "@/pages/profile/user-for-buyer";
+// Таб-контент личного кабинета (private)
+import { ProfileTabProfile } from "@/pages/profile/tab/profile";
+import { ProfileTabProducts } from "@/pages/profile/tab/products";
+import { ProfileTabPurchases } from "@/pages/profile/tab/purchases";
+import { ProfileTabSales } from "@/pages/profile/tab/sales";
+import { ProfileTabFavourites } from "@/pages/profile/tab/favourites";
+import { ProfileTabChats } from "@/pages/profile/tab/chats";
+import { ProfileTabPosts } from "@/pages/profile/tab/posts";
 
-import { ProfilePersonal } from "@/pages/profile/personal";
-import { ProfileProducts } from "@/pages/profile/products";
-import { ProfilePurchases } from "@/pages/profile/purchases";
-import { ProfileSales } from "@/pages/profile/sales";
-import { ProfileFavourites } from "@/pages/profile/favourites";
-import { ProfileChats } from "@/pages/profile/chats";
+// Таб-контент публичного профиля
+import { PublicPurchaseHistory } from "@/pages/profile/public/purchase-history";
+
+// Chat
 import { ProfileChat } from "@/pages/profile/chat";
-import { ProfilePublics } from "@/pages/profile/publics";
 
 export function AppRouter() {
   return (
     <Routes>
+
+      {/* ===== Основной layout ===== */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog />} />
@@ -41,31 +51,46 @@ export function AppRouter() {
         <Route path="/search" element={<Search />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/rating" element={<SellerRating />} />
-
-        <Route path="/product/add" element={<ProductAdd />} />
         <Route path="/product/:id" element={<Product />} />
-
-        <Route path="/profile/:id/purchase-history" element={<ProfilePurchaseHistory />}/>
-        <Route path="/profile/:id/for-buyer" element={<ProfileForBuyer />} />
-
-        <Route path="/profile/:id/personal" element={<ProfilePersonal />} />
-        <Route path="/profile/:id/products" element={<ProfileProducts />} />
-        <Route path="/profile/:id/purchases" element={<ProfilePurchases />} />
-        <Route path="/profile/:id/sales" element={<ProfileSales />} />
-        <Route path="/profile/:id/favourites" element={<ProfileFavourites />} />
-        <Route path="/profile/:id/chats" element={<ProfileChats />} />
-        <Route path="/profile/:id/publics" element={<ProfilePublics />} />
+        <Route path="/product/add" element={<ProductAdd />} />
+        <Route path="/looks" element={<Looks />} />
       </Route>
 
-      
+      {/* ===== МОЙ ПРОФИЛЬ (личный кабинет) ===== */}
+      <Route path="/profile" element={<ProfileLayout mode="private" />}>
+        <Route path="profile" element={<ProfileTabProfile />} /> {/* ← Таб 1 */}
+        <Route path="products" element={<ProfileTabProducts />} />
+        <Route path="purchases" element={<ProfileTabPurchases />} />
+        <Route path="sales" element={<ProfileTabSales />} />
+        <Route path="favourites" element={<ProfileTabFavourites />} />
+        <Route path="chats" element={<ProfileTabChats />} />
+        <Route path="posts" element={<ProfileTabPosts />} />
+        {/* Редирект на первый таб */}
+        <Route index element={<Navigate to="profile" replace />} />
+      </Route>
 
-      <Route element={<NoFooterLayout />}>
-      <Route path="/profile/:id/chat" element={<ProfileChat />} />
-        
-        <Route path="/looks" element={<Looks />} />
-                <Route path="/maintenance" element={<Maintenance />} />
+      {/* ===== ПУБЛИЧНЫЙ ПРОФИЛЬ ===== */}
+      {/* История покупок — без картинок */}
+      <Route path="/purchases/:id"  element={<ProfileLayout mode="public-no-media" />}>
+           {/* Редирект на products по умолчанию */}
+        <Route index element={<Navigate to="products" replace />} />
+        <Route path="products" element={<PublicPurchaseHistory />} />
+      </Route>
+
+      {/* Публичный профиль продавца — с картинками */}
+      <Route path="/u/:id" element={<ProfileLayout mode="public-with-media"/>}>
+         {/* Редирект на products по умолчанию */}
+        <Route index element={<Navigate to="products" replace />} />       
+        <Route path="products" element={<PublicPurchaseHistory />} />
+        {/* <Route path="contacts" element={<Navigate to="/maintenance" replace />} />   */}
+      </Route>
+   
+     <Route element={<NoFooterLayout />}>
+        <Route path="/chats/:id" element={<ProfileChat />} />
+        {/* ===== 404 и техработы ===== */}
+        <Route path="/maintenance" element={<Maintenance />} />
         <Route path="/*" element={<NotFound />} />
       </Route>
-    </Routes>
+    </Routes>    
   );
 }
