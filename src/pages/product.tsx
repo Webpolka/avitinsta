@@ -187,7 +187,7 @@ function ProductView({ product }: ProductViewProps) {
                       </span>
                       <StarRating rating={seller.rating} size={16} gap={2} />
                       <span className="ag-h8 text-secondary font-medium">
-                        — {seller.reviews} отзыва
+                        — {seller.reviewsCount} отзыва
                       </span>
                     </div>
                   </div>
@@ -224,7 +224,7 @@ function ProductView({ product }: ProductViewProps) {
                           key={d?.id}
                           className="cursor-pointer select-none"
                         >
-                          <div className="flex flex-col sm:flex-row sm:justify-between md:flex-col md:items-start md:justify-normal xl:flex-row xl:items-center xl:justify-between gap-0 sm:gap-3 md:gap-0 xl:gap-3 mb-2">
+                          <div className="text-right flex flex-col sm:flex-row sm:justify-between md:flex-col md:items-start md:justify-normal xl:flex-row xl:items-center xl:justify-between gap-0 sm:gap-3 md:gap-0 xl:gap-3 mb-2">
                             <div className="flex gap-3 items-center">
                               {/* Радио-квадратик */}
                               <input

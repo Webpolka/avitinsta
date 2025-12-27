@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Button from "@/ui/button";
 import StarRating from "@/ui/star-rating";
-import { type UserProfileDataType } from "@/mocks/profile-user.mock";
+import { type User } from "@/mocks/users.mocks";
 import styles from "@/styles/utilities.module.scss";
 
 type PhotoItem = {
@@ -12,7 +12,7 @@ type PhotoItem = {
 };
 
 type ProfileHeaderProps = {
-  user: UserProfileDataType;
+  user: User;
   mode: "private" | "public-with-media" | "public-no-media";
   photos: PhotoItem[];
   setPhotos: React.Dispatch<React.SetStateAction<PhotoItem[]>>;
@@ -84,7 +84,7 @@ export function ProfileHeader({
                 </svg>
               )}
             </h1>
-            <p className="text-grayscale-700 ag-h3 mb-1">{user.handleName}</p>
+            <p className="text-grayscale-700 ag-h3 mb-1">{user.handle}</p>
             <div className="flex items-center gap-2">
               <span className="ag-h8 text-secondary font-medium">
                 {user.rating.toFixed(1)}

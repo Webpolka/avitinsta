@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import { USER_PROFILES } from "@/mocks/profile-user.mock";
+import { USERS_DATA } from "@/mocks/users.mocks";
 import PurchasesHistory from "@/components/product/purchasesHistory";
 import { PRODUCTS_DATA } from "@/mocks/products.mock";
 
 export function PublicPurchaseHistory() {
   const { id } = useParams<{ id: string }>();
 
-  const user = USER_PROFILES.find((u) => u.id === id);
+  const user = USERS_DATA.find((u) => u.id === id);
 
   if (!user) {
     return (

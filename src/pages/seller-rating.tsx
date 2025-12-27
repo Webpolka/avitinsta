@@ -46,7 +46,7 @@ function RatingDistribution({
             const isFilled = index < Math.floor(average);
             return (
               <svg
-                key={index}
+                key={`star-${index}`}
                 className="w-6 h-6 sm:w-7.5 sm:h-7.5"
                 viewBox="0 0 24 24"
                 fill="none"
@@ -71,7 +71,7 @@ function RatingDistribution({
       {/* Распределение с прогресс-барами */}
       <div className="hidden sm:flex flex-auto flex-col">
         {ratingStats.distribution.map((row) => (
-          <div key={row.stars} className="flex items-center gap-2">
+          <div  key={`star-row-${row.stars}`} className="flex items-center gap-2">
             {/* Левая часть: цифра + одна звезда */}
             <div className="flex items-center justify-between w-9">
               <span className="font-normal ag-h6 text-secondary">
@@ -223,7 +223,7 @@ function PhotoSlider({
       <div className="flex gap-7.5 flex-wrap mt-5">
         {["all", 5, 4, 3, 2, 1].map((star) => (
           <button
-            key={star}
+            key={`star-two-${star}`}
             onClick={() => onFilterChange(star as RatingFilter)}
             className={`px-3 flex items-center gap-1 min-h-[34px] border rounded-full cursor-pointer hover:opacity-70 ${
               filter === star ? "bg-black text-white" : ""
@@ -249,7 +249,7 @@ function ReviewList({ reviews }: { reviews: SellerReview[] }) {
     <div className="flex flex-col gap-15">
       {reviews.map((r) => (
         <div
-          key={r.id}
+          key={`r-id-${r.id}`}
           className="border-b border-grayscale-100 last:border-b-0 pb-16 flex flex-col gap-2"
         >
           <div className="flex gap-3">
@@ -273,6 +273,7 @@ function ReviewList({ reviews }: { reviews: SellerReview[] }) {
             <div className="flex flex-wrap gap-3 mt-3">
               {r.photos.map((photo, idx) => (
                 <Link
+                key= {`photo-key-${idx}`}
                   to={`/product/${r.productId}`}
                   className="block w-45 aspect-[18/14] overflow-hidden "
                 >

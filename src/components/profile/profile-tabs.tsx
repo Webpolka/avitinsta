@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 type ProfileTabsProps = {
   userId?: string;
@@ -7,12 +9,16 @@ type ProfileTabsProps = {
   setActiveTab: (value: string) => void;
 };
 
-export function ProfileTabs({
-  userId,
-  mode,
-  activeTab,
-  setActiveTab,
-}: ProfileTabsProps) {
+export function ProfileTabs({ userId, mode, setActiveTab }: ProfileTabsProps) {
+  const location = useLocation();
+
+  useEffect(() => {
+    const lastSegment = location.pathname.split("/").pop();
+    if (lastSegment) {
+      setActiveTab(lastSegment);
+    }
+  }, [location.pathname, setActiveTab]);
+
   if (!userId && mode !== "private") return null;
 
   const tabs =
@@ -36,23 +42,20 @@ export function ProfileTabs({
       : [];
 
   return (
-    <div className="flex flex-wrap justify-between gap-1 sm:gap-4 mb-10">
+    <div className="flex flex-wrap gap-4 mb-10">
       {tabs.map((tab) => {
-        const isTabActive =
-          activeTab === tab.path || activeTab === tab.label.toLowerCase();
-
         return (
-          <div  key={tab.path} className="inline-flex flex-1 justify-center shrink-0">
           <NavLink
-           
+            key={tab.path}
             to={tab.path}
-            onClick={() => setActiveTab(tab.path)}
-            end
-            className={`px-3 sm:px-6 min-h-9.5 rounded-xl flex items-center ${
-              isTabActive
-                ? "text-secondary border bg-grayscale-white border-grayscale-300"
-                : "text-grayscale-300 hover:text-grayscale-500"
-            }`}
+            end={tab.path === "profile"}
+            className={({ isActive }) =>
+              `px-6 min-h-9.5 rounded-xl flex items-center ${
+                isActive
+                  ? "text-secondary border bg-grayscale-white border-grayscale-300"
+                  : "text-grayscale-300 hover:text-grayscale-500"
+              }`
+            }
           >
             <div className="flex gap-2 items-center ">
               {tab.icon && (
@@ -64,7 +67,6 @@ export function ProfileTabs({
               <span className="ag-h4 font-medium">{tab.label}</span>
             </div>
           </NavLink>
-          </div>
         );
       })}
     </div>

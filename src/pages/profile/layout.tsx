@@ -6,7 +6,7 @@ import { Footer } from "@/components/footer/footer";
 import { ProfileHeader } from "@/components/profile/profile-header";
 import { ProfileTabs } from "@/components/profile/profile-tabs";
 
-import { USER_PROFILES } from "@/mocks/profile-user.mock";
+import { USERS_DATA } from "@/mocks/users.mocks";
 
 /* =========================
    types
@@ -46,9 +46,9 @@ export function ProfileLayout({ mode }: ProfileLayoutProps) {
   ========================= */
 
   const user = useMemo(() => {
-    if (mode === "private") return USER_PROFILES[0];
+    if (mode === "private") return USERS_DATA[0];
     if (!id) return undefined;
-    return USER_PROFILES.find((u) => u.id === id);
+    return USERS_DATA.find((u) => u.id === id);
   }, [id, mode]);
 
   /* =========================

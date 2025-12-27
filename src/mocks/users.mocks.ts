@@ -1,52 +1,77 @@
-export interface User {
-  id: string;
-
-  // базовые данные
-  name: string;
-  avatar?: string;
-  handle?: string;
-  background?: string;
-
-  // контакты
+// types/userProfile.ts
+export type User = {
+  id: string; // уникальный ID пользователя
+  name: string; // Имя пользователя
+  avatar?: string; // URL аватара
+  isMe: boolean; // это мой профиль или чужой  
+  background?: string; // фон  
+  description?: string;
+  photos?: string[]; // личные фотографии (только для своего профиля)
+  handle?: string; // @handle
   email?: string;
-
-  // метрики продавца
-  rating?: number;        // средний рейтинг
-  reviews?: number;  // кол-во отзывов
-
-  // системные поля
+  verified: boolean; // статус "зелёная галочка" для чужого
+  rating: number; // рейтинг пользователя
+  reviewsCount?: number; // количество отзывов
+  productsCount: number; // количество товаров на площадке
+  followersCount: number; // подписчики
+  followingCount: number; // подписки
+  isFollowing?: boolean; // подписка на чужого пользователя
   createdAt: string;      // ISO дата
-  isFollowing?: boolean;
-}
+};
 
-
-export const USERS_DATA: User[] = [
+export const USERS_DATA: User[] = [ 
   {
     id: "1",
-    name: "Пётр Петров",
+    isMe: true,
     avatar: "/images/avatar.png",
-    handle: "@petrstyle",
-    background: "/images/bg.jpg",
-    email: "petr.petrov@example.com",
-
-    rating: 3,
-    reviews: 22,
-
+    name: "Петр Петров",
+    description:
+      "Здесь продается оригинальная продукция: кроссовки и стритвир. Все вещи с чеками и гарантией подлинности. Быстрая доставка по всей России",
+    handle: "@petr_petrov",
+     email: "petr.petrov@example.com",
+    verified: true,
+    rating: 4.2,
+    reviewsCount: 34,
+    productsCount: 15,
+    followersCount: 120,
+    followingCount: 80,
     isFollowing: false,
-
-    createdAt: "2023-08-15T10:23:00.000Z",
+     photos: ["/images/product.png", "/images/product.png"],
+         createdAt: "2023-09-15T10:23:00.000Z",
   },
-
   {
     id: "2",
-    name: "Иван Иванов",
+    isMe: false,
     avatar: "/images/avatar.png",
-    handle: "@ivanstyle",
-    email: "ivanivanov@example.com",
-
-    rating: 3.4,
-    reviews: 134,
-
-    createdAt: "2022-04-02T18:40:00.000Z",
+    name: "Иван Иванов",
+    description:
+      "Здесь продается оригинальная продукция: кроссовки и стритвир. Все вещи с чеками и гарантией подлинности. Быстрая доставка по всей России",
+    handle: "@ivan_ivanov",
+        email: "ivanivanov@example.com",
+    verified: false,
+    rating: 4.8,
+    reviewsCount: 12,
+    productsCount: 24,
+    followersCount: 180,
+    followingCount: 50,
+    photos: ["/images/product.png", "/images/product.png"],
+        createdAt: "2023-08-15T10:23:00.000Z",
+  },
+  {
+    id: "3",
+    isMe: false,
+    avatar: "/images/avatar.png",
+    name: "Мария Смирнова",
+    description:
+      "Здесь продается оригинальная продукция: кроссовки и стритвир. Все вещи с чеками и гарантией подлинности. Быстрая доставка по всей России",
+    handle: "@maria_smirnova",
+    verified: true,
+    rating: 4.9,
+    reviewsCount: 56,
+    productsCount: 40,
+    followersCount: 300,
+    followingCount: 120,
+    isFollowing: true,
+        createdAt: "2023-07-15T10:23:00.000Z",
   },
 ];
