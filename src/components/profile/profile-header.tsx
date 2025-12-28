@@ -1,3 +1,4 @@
+import {v4 as uuidv4} from "uuid";
 import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Button from "@/ui/button";
@@ -37,7 +38,7 @@ export function ProfileHeader({
   useEffect(() => {
     if (mode === "private" && activeTab === "profile" && user.photos?.length) {
       const initialPhotos: PhotoItem[] = user.photos.map((url) => ({
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         src: url,
         isNew: false,
       }));
@@ -50,7 +51,7 @@ export function ProfileHeader({
     accept: { "image/*": [] },
     onDrop: (files) => {
       const newPhotos: PhotoItem[] = files.map((file) => ({
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         src: URL.createObjectURL(file),
         isNew: true,
       }));
