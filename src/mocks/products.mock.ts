@@ -1,28 +1,29 @@
 export interface ProductCardData {
   id: string;
-  images: string[];
-  brand: string;
   title: string;
-  description: string;
-  category: string[];
+  images: string[];
   price: number;
-  size: Array<
+  brand?: string;  
+  description?: string;
+  category?: string[];
+  
+  size?: Array<
     | { system: "EU"; value: number | string }
     | { system: "ONE_SIZE" }
     | { system: "LETTER"; value: string }
   >;
-  condition: "new" | "used";
-  delivery: { method: string; id: string }[];
-  seller: {
+  condition?: "new" | "used";
+  delivery?: { method: string; id: string }[];
+  seller?: {
     id: string;
     name: string;
     avatar: string;
     link: string;
   };
-  favoriteCount: number;
-  isFavorite: boolean;
-  createdAt: string;
-  views: number;
+  favoriteCount?: number;
+  isFavorite?: boolean;
+  createdAt?: string;
+  views?: number;
 }
 
 export const PRODUCTS_DATA: ProductCardData[] = [

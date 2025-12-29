@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // Layouts
 import { MainLayout } from "@/layouts/mainlayout";
 import { NoFooterLayout } from "@/layouts/nofooterlayout";
-import { ProfileLayout } from "@/pages/profile/layout";
+import { ProfileLayout } from "@/pages/profile/profileLayout";
 
 // Основные страницы
 import { Home } from "@/pages/home";
@@ -34,7 +34,7 @@ import { ProfileTabPosts } from "@/pages/profile/tab/posts";
 import { PublicPurchaseHistory } from "@/pages/profile/public/purchase-history";
 
 // Chat
-import { ProfileChat } from "@/pages/profile/chat";
+import { ProfileChat } from "@/pages/chat";
 
 export function AppRouter() {
   return (
@@ -86,7 +86,7 @@ export function AppRouter() {
       </Route>
    
      <Route element={<NoFooterLayout />}>
-        <Route path="/chats/:id" element={<ProfileChat />} />
+        <Route path="/chats/:chatId" element={<ProfileChat />} />
         {/* ===== 404 и техработы ===== */}
         <Route path="/maintenance" element={<Maintenance />} />
         <Route path="/*" element={<NotFound />} />

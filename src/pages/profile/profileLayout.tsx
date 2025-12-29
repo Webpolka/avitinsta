@@ -1,35 +1,28 @@
-import { Outlet, useParams } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { useState } from "react";
 
 import Header from "@/components/header/header";
 import { Footer } from "@/components/footer/footer";
 import { ProfileHeader } from "@/components/profile/profile-header";
 import { ProfileTabs } from "@/components/profile/profile-tabs";
 
-import { USERS_DATA } from "@/mocks/users.mocks";
+import { type User } from "@/mocks/users.mocks";
+import { type ProfileFormState, type PhotoItem } from "./tab/profile";
+import { useUser } from "@/context/use.user";
 
 /* =========================
-   types
+   Context type
 ========================= */
-
-export type ProfileFormState = {
-  firstName: string;
-  birthDate: string;
-  gender: "male" | "female";
-  phone: string;
-  email: string;
-
-  // address
-  addressFirstName: string;
-  lastName: string;
-  middleName: string;
-  region: string;
-  city: string;
-  street: string;
-  house: string; 
+export type ProfileContext = {
+  user: User;
+  mode: "private" | "public-with-media" | "public-no-media";
+  form: ProfileFormState;
+  setForm: React.Dispatch<React.SetStateAction<ProfileFormState>>;
+  photos: File[];
+  setPhotos: React.Dispatch<React.SetStateAction<File[]>>;
 };
 
-type ProfileLayoutProps = {
+type ModeProps = {
   mode: "private" | "public-with-media" | "public-no-media";
 };
 
@@ -37,24 +30,17 @@ type ProfileLayoutProps = {
    component
 ========================= */
 
-export function ProfileLayout({ mode }: ProfileLayoutProps) {
-  const { id } = useParams<{ id: string }>();
+export function ProfileLayout({ mode }: ModeProps) {
   const [activeTab, setActiveTab] = useState<string>("profile"); // добавили state
 
   /* =========================
-     user
+     user from global context
   ========================= */
-
-  const user = useMemo(() => {
-    if (mode === "private") return USERS_DATA[0];
-    if (!id) return undefined;
-    return USERS_DATA.find((u) => u.id === id);
-  }, [id, mode]);
+  const { user } = useUser();
 
   /* =========================
      form state (CENTRAL)
   ========================= */
-
   const [form, setForm] = useState<ProfileFormState>({
     firstName: "",
     birthDate: "",
@@ -68,14 +54,14 @@ export function ProfileLayout({ mode }: ProfileLayoutProps) {
     region: "",
     city: "",
     street: "",
-    house: ""
-       });
+    house: "",
+  });
 
   /* =========================
      photos (CENTRAL)
   ========================= */
 
-  const [photos, setPhotos] = useState<File[]>([]);
+  const [photos, setPhotos] = useState<PhotoItem[]>([]);
 
   /* =========================
      guards
@@ -104,24 +90,26 @@ export function ProfileLayout({ mode }: ProfileLayoutProps) {
             <ProfileHeader
               user={user}
               mode={mode}
-              activeTab={activeTab} 
+              activeTab={activeTab}
               photos={photos}
               setPhotos={setPhotos}
             />
 
             {/* tabs */}
-            <ProfileTabs userId={user.id} mode={mode}  activeTab={activeTab}  setActiveTab={setActiveTab} />
+            <ProfileTabs
+              userId={user.id}
+              mode={mode}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
 
             {/* pages */}
             <Outlet
               context={{
                 user,
                 mode,
-                
-
                 form,
                 setForm,
-
                 photos,
                 setPhotos,
               }}

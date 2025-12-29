@@ -9,8 +9,6 @@ interface ProfileProductsListProps {
   button?: boolean;
 }
 
-// сколько показываем по умолчанию
-
 export default function ProfileProductsList({
   title,
   items,

@@ -3,23 +3,25 @@ export type User = {
   id: string; // уникальный ID пользователя
   name: string; // Имя пользователя
   avatar?: string; // URL аватара
-  isMe: boolean; // это мой профиль или чужой  
-  background?: string; // фон  
+  isMe?: boolean; // это мой профиль или чужой
+  background?: string; // фон
   description?: string;
   photos?: string[]; // личные фотографии (только для своего профиля)
   handle?: string; // @handle
   email?: string;
-  verified: boolean; // статус "зелёная галочка" для чужого
-  rating: number; // рейтинг пользователя
+  verified?: boolean; // статус "зелёная галочка" для чужого
+  rating?: number; // рейтинг пользователя
   reviewsCount?: number; // количество отзывов
-  productsCount: number; // количество товаров на площадке
-  followersCount: number; // подписчики
-  followingCount: number; // подписки
+  productsCount?: number; // количество товаров на площадке
+  followersCount?: number; // подписчики
+  followingCount?: number; // подписки
   isFollowing?: boolean; // подписка на чужого пользователя
-  createdAt: string;      // ISO дата
+  favouriteProducts?: string[];
+  createdAt?: string; // ISO дата
+  online?: boolean;
 };
 
-export const USERS_DATA: User[] = [ 
+export const USERS_DATA: User[] = [
   {
     id: "1",
     isMe: true,
@@ -28,7 +30,7 @@ export const USERS_DATA: User[] = [
     description:
       "Здесь продается оригинальная продукция: кроссовки и стритвир. Все вещи с чеками и гарантией подлинности. Быстрая доставка по всей России",
     handle: "@petr_petrov",
-     email: "petr.petrov@example.com",
+    email: "petr.petrov@example.com",
     verified: true,
     rating: 4.2,
     reviewsCount: 34,
@@ -36,8 +38,10 @@ export const USERS_DATA: User[] = [
     followersCount: 120,
     followingCount: 80,
     isFollowing: false,
-     photos: ["/images/product.png", "/images/product.png"],
-         createdAt: "2023-09-15T10:23:00.000Z",
+    favouriteProducts: ["1", "3", "5", "6", "8", "9"],
+    photos: ["/images/product.png", "/images/product.png"],
+    createdAt: "2023-09-15T10:23:00.000Z",
+    online: false,
   },
   {
     id: "2",
@@ -47,15 +51,17 @@ export const USERS_DATA: User[] = [
     description:
       "Здесь продается оригинальная продукция: кроссовки и стритвир. Все вещи с чеками и гарантией подлинности. Быстрая доставка по всей России",
     handle: "@ivan_ivanov",
-        email: "ivanivanov@example.com",
+    email: "ivanivanov@example.com",
     verified: false,
     rating: 4.8,
     reviewsCount: 12,
     productsCount: 24,
     followersCount: 180,
     followingCount: 50,
+    favouriteProducts: [],
     photos: ["/images/product.png", "/images/product.png"],
-        createdAt: "2023-08-15T10:23:00.000Z",
+    createdAt: "2023-08-15T10:23:00.000Z",
+    online: true,
   },
   {
     id: "3",
@@ -71,7 +77,9 @@ export const USERS_DATA: User[] = [
     productsCount: 40,
     followersCount: 300,
     followingCount: 120,
+    favouriteProducts: ["1", "2", "4", "5", "10", "9"],
     isFollowing: true,
-        createdAt: "2023-07-15T10:23:00.000Z",
+    createdAt: "2023-07-15T10:23:00.000Z",
+    online: false,
   },
 ];

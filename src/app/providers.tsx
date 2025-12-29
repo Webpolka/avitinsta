@@ -1,5 +1,6 @@
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { AppRouter } from "./router";
+import { UserProvider } from "@/context/user.provider";
 // import ScrollToTop from "@/components/scrolltotop";
 
 const Router =
@@ -7,9 +8,11 @@ const Router =
 
 export function AppProviders() {
   return (
-    <Router>     
+    <Router>
       {/* <ScrollToTop /> */}
-      <AppRouter />
+      <UserProvider>
+        <AppRouter />
+      </UserProvider>
     </Router>
   );
 }

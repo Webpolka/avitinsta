@@ -1,42 +1,69 @@
+import { useEffect, useState } from "react";
 import ProfileProductsList from "@/components/profile/profile-products-list";
-import { PRODUCTS_DATA } from "@/mocks/products.mock";
+
+import { PRODUCTS_DATA, type ProductCardData } from "@/mocks/products.mock";
+
+import { useOutletContext } from "react-router-dom";
+import { type ProfileContext } from "@/pages/profile/profileLayout";
 
 /* =========================
-   Component: ProfileTabFavorites
-   Вывод понравишихся товаров
+   Component: ProfileTabFavourites
+   Вкладка "Избранное"
 ========================= */
-export function ProfileTabFavourites() {
-  const id = "1"; // мой профиль
 
-  // фильтруем покупки по пользователю
-  const userProducts = PRODUCTS_DATA.filter(
-    (product) => product.seller.id === id
+export function ProfileTabFavourites() {
+  // Состояние избранных товаров
+  const { user } = useOutletContext<ProfileContext>();
+  const [favouriteProducts, setFavouriteProducts] = useState<ProductCardData[]>(
+    []
   );
 
-  /* =========================
-     Render: JSX
-     - адаптивные колонки через flex и Tailwind breakpoints
-     - для мобильных все поля занимают full-width (flex-1 + w-full)
-  ========================== */
-  return (
-    <div className="flex flex-col gap-30 ">
-      {/* Контент таба */}
-      {userProducts.length > 0 ? (
-        <>
-          {/* ИЗБРАННОЕ ограничено 4мя просто для верстки */}
-          <ProfileProductsList button={false} limit={4} items={userProducts} />
+  useEffect(() => {
+    if (!user) return;
 
-          {/* НЕДАВНО ПРОСМОТРЕННЫЕ */}
+    // 1. Берём ID избранных товаров пользователя
+    const favouriteIds = user.favouriteProducts ?? [];
+
+    // 2. Находим товары по этим ID
+    const favouriteItems = PRODUCTS_DATA.filter((product) =>
+      favouriteIds.includes(product.id)
+    );
+
+    // 3. Кладём в state
+    const updateFavouriteState = () => {
+      setFavouriteProducts(favouriteItems);
+    };
+    updateFavouriteState();
+  }, [user]);
+
+  return (
+    <div className="flex flex-col gap-30">
+      {favouriteProducts.length > 0 ? (
+        <>
+          {/* Список избранных товаров */}
           <ProfileProductsList
-            title="Недавно просмотренные"
+            button={false}
             limit={4}
-            items={userProducts}
+            items={favouriteProducts}
           />
         </>
       ) : (
-        <h2 className="text-center font-medium text-grayscale-700">
-          Пользователь не имеет избранных !
-        </h2>
+        /* Пустое состояние "Избранного" */
+        <div className="flex flex-col items-center justify-center text-center gap-6 py-30">
+          {/* Иконка */}
+          <svg className="w-25 h-25 opacity-40">
+            <use href="/icons/symbol/sprite.svg#broken" />
+          </svg>
+
+          {/* Текст */}
+          <p className="ag-h4 text-secondary font-medium">
+            <span>Пока здесь пусто. Нажмите на</span>
+            <svg className="w-6 h-6 inline-block mx-2 fill-none stroke-grayscale-300">
+              <use href="/icons/symbol/sprite.svg#heart" />
+            </svg>
+            <span>и добавляйте товары в избранное</span>
+          </p>
+        </div>
       )}
     </div>
   );

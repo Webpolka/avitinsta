@@ -2,18 +2,32 @@ import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 import { ThisInput } from "@/ui/this-input";
-import { type ProfileFormState } from "@/pages/profile/layout";
+import { type ProfileContext } from "@/pages/profile/profileLayout";
 
 /* =========================
-   Context type
+   types
 ========================= */
-type ProfileContext = {
-  user: string;
-  mode: "private" | "public-with-media" | "public-no-media";
-  form: ProfileFormState;
-  setForm: React.Dispatch<React.SetStateAction<ProfileFormState>>;
-  photos: File[];
-  setPhotos: React.Dispatch<React.SetStateAction<File[]>>;
+export type ProfileFormState = {
+  firstName: string;
+  birthDate: string;
+  gender: "male" | "female";
+  phone: string;
+  email: string;
+
+  // address
+  addressFirstName: string;
+  lastName: string;
+  middleName: string;
+  region: string;
+  city: string;
+  street: string;
+  house: string; 
+};
+
+export type PhotoItem = {
+  id: string;
+  src: string;
+  isNew: boolean;
 };
 
 /* =========================

@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Button from "@/ui/button";
@@ -5,6 +7,9 @@ import StarRating from "@/ui/star-rating";
 import { type User } from "@/mocks/users.mocks";
 import styles from "@/styles/utilities.module.scss";
 
+import FollowersModal from "./profile-followers-modal";
+
+// Тип для загрузчика фото в профиль
 type PhotoItem = {
   id: string;
   src: string; // url или preview
@@ -26,18 +31,34 @@ export function ProfileHeader({
   photos,
   setPhotos,
 }: ProfileHeaderProps) {
-  const [isFollowing, setIsFollowing] = useState(user.isFollowing ?? false);
+  // СТЕЙТ - подписка на пользователя для публичного профиля (ПУБЛИЧНАЯ СТРАНИЦА)
+  const [isPublicFollowing, setIsPublicFollowing] = useState(
+    user.isFollowing ?? false
+  );
 
+  // СТЕЙТ - открытие модального окна со всеми подписчиками внутри профиля (В ЛИЧНОМ КАБИНЕТЕ)
+  const [isFollowersOpen, setIsFollowersOpen] = useState(false);
+
+  // модалка откроется только если mode = private
+  const setIsFollowersOpenOnlyPrivat = () => {
+    if (mode == "private") {
+      setIsFollowersOpen(true);
+    } else {
+      return;
+    }
+  };
+
+  // Здесь будет запрос на сервер для подписки на пользователя
   const handleFollowClick = () => {
-    setIsFollowing(!isFollowing);
+    setIsPublicFollowing(!isPublicFollowing);
     console.log(`Подписка/отписка на пользователя ${user.id}`);
   };
 
-  // Инициализация массива фото из моков только один раз
+  // Инициализация фото из моков (один раз)
   useEffect(() => {
     if (mode === "private" && activeTab === "profile" && user.photos?.length) {
       const initialPhotos: PhotoItem[] = user.photos.map((url) => ({
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         src: url,
         isNew: false,
       }));
@@ -50,7 +71,7 @@ export function ProfileHeader({
     accept: { "image/*": [] },
     onDrop: (files) => {
       const newPhotos: PhotoItem[] = files.map((file) => ({
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         src: URL.createObjectURL(file),
         isNew: true,
       }));
@@ -58,7 +79,7 @@ export function ProfileHeader({
     },
   });
 
-  // Удаление фото по id
+  // Удаление фото по id из стейта
   const removePhoto = (id: string) => {
     setPhotos((prev) => prev.filter((photo) => photo.id !== id));
   };
@@ -101,12 +122,12 @@ export function ProfileHeader({
           <Button
             onClick={handleFollowClick}
             className={`self-start px-4 cursor-pointer ag-h8 min-h-11 font-medium min-w-[150px] ${
-              isFollowing
+              isPublicFollowing
                 ? "bg-grayscale-300 text-secondary"
                 : "bg-secondary text-grayscale-white hover:opacity-90"
             }`}
           >
-            {isFollowing ? "Отписаться" : "Подписаться"}
+            {isPublicFollowing ? "Отписаться" : "Подписаться"}
           </Button>
         )}
       </div>
@@ -120,7 +141,11 @@ export function ProfileHeader({
             </span>
             <span className="ag-h4 text-grayscale-700 font-medium">товара</span>
           </span>
-          <button className="flex flex-col gap-1 cursor-pointer items-start">
+
+          <button
+            onClick={() => setIsFollowersOpenOnlyPrivat()}
+            className={`flex flex-col gap-1 items-start ${mode === 'private' ? " cursor-pointer" : ""}`}
+          >
             <span className="font-semibold text-secondary ag-h1">
               {user.followersCount}
             </span>
@@ -128,6 +153,7 @@ export function ProfileHeader({
               подписчиков
             </span>
           </button>
+
           <button className="flex flex-col gap-1 cursor-pointer items-start">
             <span className="font-semibold text-secondary ag-h1">
               {user.followingCount}
@@ -195,6 +221,14 @@ export function ProfileHeader({
       <div className="ag-h6 font-medium text-grayscale-700 pt-2">
         <p>{user.description}</p>
       </div>
+
+      {/* Модалка с подписчиками */}
+      {isFollowersOpen && (
+        <FollowersModal
+          userId={user.id}
+          onClose={() => setIsFollowersOpen(false)}
+        />
+      )}
     </div>
   );
 }
