@@ -54,7 +54,7 @@ function Card({ id, title, image, link }: CardProps) {
 // Высокая карточка
 function CardTall({ id, title, image, link }: CardProps) {
   return (
-    <div className="relative w-full h-full shrink-0 aspect-[358/221] sm:aspect-[initial] overflow-hidden">
+    <div className="relative w-full h-full shrink-0 aspect-[358/221] md:aspect-[initial] overflow-hidden">
       <Link
         id={`category-${id}`}
         to={link || "/"}

@@ -4,7 +4,7 @@ import ProductGallery from "@/components/product/productGallery";
 import Button from "@/ui/button";
 import StarRating from "@/ui/star-rating";
 import Accordion from "@/components/accordion";
-import ScrollToTop from "@/components/scrolltotop";
+import ScrollToTop from "@/hooks/scrolltotop";
 
 import { PRODUCTS_DATA } from "@/mocks/products.mock";
 import { DELIVERY_DATA } from "@/mocks/delivery.mock";
