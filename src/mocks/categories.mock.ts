@@ -1,5 +1,3 @@
-
-
 export interface CategoryData {
   id: string;
   title: string;
@@ -10,44 +8,44 @@ export interface CategoryData {
 export const CATEGORIES_DATA: CategoryData[] = [
   {
     id:"1",
-    title: 'Мужская одежда',
+    title: 'Мужская обувь',
     image: '/images/categories/cat-1.png',
-    link: '/category/men',
+    link: '/category/men-shoes',
   },
   {
     id:"2",
-    title: 'Женская одежда',
+    title: 'Мужская одежда',
     image: '/images/categories/cat-2.png',
-    link: '/category/women',
+    link: '/category/men-clothes',
   },
   {
     id:"3",
-    title: 'Обувь',
-    image: '/images/categories/cat-3.png',
-    link: '/category/shoes',
-  },
-  {
-    id:"4",
     title: 'Аксессуары',
-    image: '/images/categories/cat-4.png',
+    image: '/images/categories/cat-3.png',
     link: '/category/accessories',
   },
   {
+    id:"4",
+    title: 'Женская обувь',
+    image: '/images/categories/cat-4.png',
+    link: '/category/woman-shoes',
+  },
+  {
     id:"5",
-    title: 'Спорт',
+    title: 'Женская одежда',
     image: '/images/categories/cat-5.png',
-    link: '/category/sport',
+    link: '/category/woman-clothes',
   },
   {
     id:"6",
-    title: 'Детям',
+    title: 'Сумки',
     image: '/images/categories/cat-6.png',
-    link: '/category/kids',
+    link: '/category/bags',
   },
   {
     id:"7",
     title: 'Опубликуй свой стиль',
     image: '/images/categories/cat-7.png',
-    link: '/upload',
+    link: '/category/add',
   },
 ];

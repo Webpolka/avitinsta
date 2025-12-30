@@ -35,22 +35,20 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
   // форматирование числа с пробелами для читаемости
   const formattedPrice = price.toLocaleString("ru-RU") + " ₽";
 
-  const formattedSize =
-    size && size.length > 0
-      ? (() => {
-          const first = size[0];
-          switch (first.system) {
-            case "EU":
-              return `EU: ${first.value}`;
-            case "LETTER":
-              return `${first.value}`;
-            case "ONE_SIZE":
-              return "One Size";
-            default:
-              return "";
-          }
-        })()
-      : "";
+  const formattedSize = (() => {
+    if (!size) return "";
+
+    switch (size.system) {
+      case "EU":
+        return `EU: ${size.value}`;
+      case "LETTER":
+        return size.value;
+      case "ONE_SIZE":
+        return "One Size";
+      default:
+        return "";
+    }
+  })();
 
   return (
     <div className={`group flex flex-col gap-3 overflow-hidden ${className ?? ""}`}> 

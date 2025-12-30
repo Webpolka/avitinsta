@@ -4,9 +4,10 @@ import ProductGallery from "@/components/product/productGallery";
 import Button from "@/ui/button";
 import StarRating from "@/ui/star-rating";
 import Accordion from "@/components/accordion";
-// import ScrollToTop from "@/components/scrolltotop";
+import ScrollToTop from "@/components/scrolltotop";
 
 import { PRODUCTS_DATA } from "@/mocks/products.mock";
+import { DELIVERY_DATA } from "@/mocks/delivery.mock";
 import { USERS_DATA } from "@/mocks/users.mocks";
 
 import ProductsSeller from "@/components/product/productsSeller";
@@ -43,15 +44,11 @@ interface ProductViewProps {
 
 function ProductView({ product }: ProductViewProps) {
   const [liked, setLiked] = useState<boolean>(false);
-  const [cartItem, setCartItem] = useState<CartItem>();
-
-  const handleLike = () => setLiked((prev) => !prev);
-
-  const { size } = product;
-
   const seller = USERS_DATA.find(
     (user) => product.seller && user.id === product.seller.id
   );
+
+  const { size } = product;
 
   const formattedSize = (() => {
     if (!size) return "";
@@ -68,14 +65,27 @@ function ProductView({ product }: ProductViewProps) {
     }
   })();
 
-  const addToCart = () => {
-    setCartItem({
-      productId: product.id,
-      size: formattedSize,
-      sellerId: product.seller && product.seller.id,
-    });
+  const activeDelivery =
+    product.delivery &&
+    product.delivery
+      .map((item) => DELIVERY_DATA.find((d) => d.id === item.id))
+      .filter((d): d is NonNullable<typeof d> => Boolean(d && d.enabled));
 
-    // Дальше код для добавления в корзину ...
+  const firstDeliveryId =
+    activeDelivery && activeDelivery.length > 0
+      ? activeDelivery[0].id
+      : undefined;
+
+  const [cartItem, setCartItem] = useState<CartItem>({
+    productId: product.id,
+    size: formattedSize,
+    deliveryId: firstDeliveryId,
+    sellerId: product.seller && product.seller.id,
+  });
+
+  const handleLike = () => setLiked((prev) => !prev);
+
+  const addToCart = () => {
     console.log("Добавляем в корзину:", cartItem);
   };
 
@@ -84,6 +94,8 @@ function ProductView({ product }: ProductViewProps) {
     currency: "RUB",
     maximumFractionDigits: 0,
   }).format(product.price);
+
+  ScrollToTop();
 
   return (
     <>
@@ -191,23 +203,64 @@ function ProductView({ product }: ProductViewProps) {
               <p>{product.description}</p>
             </Accordion>
 
-            <Accordion title="Доставка" button={false}>
-              <div className="flex gap-3 pt-2">
-                <svg className="h-5 w-5 mt-0.5 shrink-0">
-                  <use href="/icons/symbol/sprite.svg#truck-fast" />
-                </svg>
-                <div className="flex-1 flex flex-col gap-2">
-                  <div className="flex flex-row justify-between items-center gap-1 sm:gap-2 mb-2 text-right flex-wrap">
-                    <span className="ag-h6 font-medium text-secondary">
-                      Курьерская
-                    </span>
-                    <span className="ag-h6 font-normal text-secondary">
-                      доставка курьером или до ПВЗ
-                    </span>
+            {activeDelivery && activeDelivery.length > 0 && (
+              <Accordion title="Доставка">
+                <div className="flex gap-3 pt-2">
+                  <svg className="h-5 w-5 mt-0.5 shrink-0">
+                    <use href="/icons/symbol/sprite.svg#truck-fast" />
+                  </svg>
+                  <div className="flex-1 flex flex-col gap-2">
+                    {activeDelivery.length === 1 ? (
+                      <div className="flex flex-col sm:flex-row sm:justify-between md:flex-col md:items-start md:justify-normal xl:flex-row xl:items-center xl:justify-between gap-0 sm:gap-3 md:gap-0 xl:gap-3 mb-2">
+                        <span className="ag-h6 font-medium text-secondary">
+                          {activeDelivery[0].method}
+                        </span>
+                        <span className="ag-h6 font-normal text-secondary">
+                          {activeDelivery[0].description}
+                        </span>
+                      </div>
+                    ) : (
+                      activeDelivery.map((d) => (
+                        <label
+                          key={d?.id}
+                          className="cursor-pointer select-none"
+                        >
+                          <div className="text-right flex flex-col sm:flex-row sm:justify-between md:flex-col md:items-start md:justify-normal xl:flex-row xl:items-center xl:justify-between gap-0 sm:gap-3 md:gap-0 xl:gap-3 mb-2">
+                            <div className="flex gap-3 items-center">
+                              {/* Радио-квадратик */}
+                              <input
+                                type="radio"
+                                name="delivery"
+                                value={d.id}
+                                checked={cartItem.deliveryId === d.id}
+                                onChange={() =>
+                                  setCartItem((prev) => ({
+                                    ...prev,
+                                    deliveryId: d.id,
+                                  }))
+                                }
+                                className="peer hidden"
+                              />
+                              <span className="w-4 h-4 border border-[#d3d3d3] flex-shrink-0 peer-checked:border-black peer-checked:bg-black transition-colors"></span>
+
+                              {/* Метод доставки */}
+                              <span className="ag-h6 font-medium text-secondary">
+                                {d?.method}
+                              </span>
+                            </div>
+
+                            {/* Описание метода доставки */}
+                            <span className="ag-h6 font-normal text-secondary">
+                              {d?.description}
+                            </span>
+                          </div>
+                        </label>
+                      ))
+                    )}
                   </div>
                 </div>
-              </div>
-            </Accordion>
+              </Accordion>
+            )}
           </div>
         </div>
       </div>

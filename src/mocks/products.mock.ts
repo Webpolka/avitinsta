@@ -5,13 +5,10 @@ export interface ProductCardData {
   price: number;
   brand?: string;  
   description?: string;
-  category?: string[];
-  
-  size?: Array<
-    | { system: "EU"; value: number | string }
+  category?: string[];  
+  size?: { system: "EU"; value: number | string }
     | { system: "ONE_SIZE" }
-    | { system: "LETTER"; value: string }
-  >;
+    | { system: "LETTER"; value: string };
   condition?: "new" | "used";
   delivery?: { method: string; id: string }[];
   seller?: {
@@ -41,13 +38,9 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     brand: "Nike Jordan",
     title: "Кросы",
     category: ["Обувь", "Кроссовки", "Nike", "Air Jordan"],
-    description: "Яркий пример современных тенденций...",
+    description: "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
     price: 13000,
-    size: [
-      { system: "LETTER", value: "S" },
-      { system: "LETTER", value: "M" },
-      { system: "LETTER", value: "XL" },
-    ],
+    size:  {system: "LETTER", value: "S"} ,
     condition: "new",
     delivery: [
       { method: "CDEK", id: "33" },
@@ -75,13 +68,10 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     brand: "Adidas",
     title: "Куртка спортивная",
     category: ["Одежда", "Верхняя одежда", "Adidas"],
-    description: "Комфортная и стильная спортивная куртка.",
+    description: "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
     price: 8500,
-    size: [
-      { system: "EU", value: 42 },
-      { system: "EU", value: 44 },
-      { system: "EU", value: 46 },
-    ],
+    size:  {system: "EU", value: 42}       
+    ,
     condition: "used",
     delivery: [
       { method: "CDEK", id: "33" },
@@ -90,7 +80,7 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     ],
     seller: {
       id: "1",
-      name: "Пётр Петров",
+      name: "Anna Style",
       avatar: "/images/avatar.png",
       link: "/profile/2",
     },
@@ -109,12 +99,9 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     brand: "Levi's",
     title: "Джинсы",
     category: ["Одежда", "Джинсы", "Levi's"],
-    description: "Классические прямые джинсы для повседневной носки.",
+    description: "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
     price: 10200,
-    size: [
-      { system: "EU", value: 30 },
-      { system: "EU", value: 32 },
-    ],
+   size:  {system: "EU", value: 36}       ,
     condition: "used",
     delivery: [
       { method: "CDEK", id: "33" },
@@ -123,7 +110,7 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     ],
     seller: {
       id: "1",
-      name: "Пётр Петров",
+      name: "Anna Style",
       avatar: "/images/avatar.png",
       link: "/profile/3",
     },
@@ -142,9 +129,9 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     brand: "Rolex",
     title: "Часы",
     category: ["Аксессуары", "Часы", "Rolex"],
-    description: "Элитные наручные часы с автоматическим механизмом.",
+    description: "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
     price: 95000,
-    size: [{ system: "ONE_SIZE" }],
+    size: { system: "ONE_SIZE" },
     condition: "new",
     delivery: [
       { method: "CDEK", id: "33" },
@@ -153,7 +140,7 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     ],
     seller: {
       id: "1",
-      name: "Пётр Петров",
+      name: "Anna Style",
       avatar: "/images/avatar.png",
       link: "/profile/4",
     },
@@ -172,13 +159,9 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     brand: "Zara",
     title: "Футболка",
     category: ["Одежда", "Футболки", "Zara"],
-    description: "Лёгкая хлопковая футболка для лета.",
+    description: "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
     price: 2500,
-    size: [
-      { system: "LETTER", value: "S" },
-      { system: "LETTER", value: "M" },
-      { system: "LETTER", value: "L" },
-    ],
+    size: {system: "LETTER", value: "M" },    
     condition: "used",
     delivery: [
       { method: "CDEK", id: "33" },
@@ -187,7 +170,7 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     ],
     seller: {
       id: "1",
-      name: "Пётр Петров",
+      name: "Anna Style",
       avatar: "/images/avatar.png",
       link: "/profile/5",
     },
@@ -206,9 +189,9 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     brand: "Gucci",
     title: "Сумка",
     category: ["Аксессуары", "Сумки", "Gucci"],
-    description: "Стильная сумка из натуральной кожи.",
+    description: "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
     price: 78000,
-    size: [{ system: "ONE_SIZE" }],
+    size: { system: "ONE_SIZE" },
     condition: "used",
     delivery: [
       { method: "CDEK", id: "33" },
@@ -217,7 +200,7 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     ],
     seller: {
       id: "2",
-      name: "Иван Иванов",
+      name: "Anna Style",
       avatar: "/images/avatar.png",
       link: "/profile/6",
     },
@@ -236,13 +219,9 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     brand: "Puma",
     title: "Кроссовки",
     category: ["Обувь", "Кроссовки", "Puma"],
-    description: "Удобные кроссовки для повседневной носки и спорта.",
+    description: "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
     price: 6700,
-    size: [
-      { system: "EU", value: 41 },
-      { system: "EU", value: 42 },
-      { system: "EU", value: 43 },
-    ],
+    size: {system: "EU", value: 43 },
     condition: "new",
     delivery: [
       { method: "CDEK", id: "33" },
@@ -251,7 +230,7 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     ],
     seller: {
       id: "2",
-      name: "Иван Иванов",
+      name: "Anna Style",
       avatar: "/images/avatar.png",
       link: "/profile/7",
     },
@@ -270,9 +249,9 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     brand: "Samsung",
     title: "Смартфон",
     category: ["Электроника", "Смартфоны", "Samsung"],
-    description: "Новый смартфон с большим экраном и мощным процессором.",
+    description: "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
     price: 52000,
-    size: [{ system: "ONE_SIZE" }],
+    size: { system: "ONE_SIZE" },
     condition: "new",
     delivery: [
       { method: "CDEK", id: "33" },
@@ -300,12 +279,9 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     brand: "H&M",
     title: "Джинсовая куртка",
     category: ["Одежда", "Верхняя одежда", "H&M"],
-    description: "Модная джинсовая куртка для весны и осени.",
+    description: "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
     price: 4200,
-    size: [
-      { system: "LETTER", value: "M" },
-      { system: "LETTER", value: "L" },
-    ],
+    size: {system: "LETTER", value: "L" },
     condition: "new",
     delivery: [
       { method: "CDEK", id: "33" },
@@ -333,13 +309,9 @@ export const PRODUCTS_DATA: ProductCardData[] = [
     brand: "Reebok",
     title: "Спортивные штаны",
     category: ["Одежда", "Спортивные", "Reebok"],
-    description: "Удобные спортивные штаны для тренировок и дома.",
+    description: "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
     price: 3100,
-    size: [
-      { system: "LETTER", value: "S" },
-      { system: "LETTER", value: "M" },
-      { system: "LETTER", value: "L" },
-    ],
+    size: {system: "LETTER", value: "XL" },
     condition: "new",
     delivery: [
       { method: "CDEK", id: "33" },

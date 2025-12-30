@@ -1,49 +1,106 @@
-import { Link } from 'react-router';
-import styles from '@/components/categories/categories.module.scss';
-import { type CategoryData } from '@/mocks/categories.mock';
+import { Link } from "react-router";
+import { type CategoryData } from "@/mocks/categories.mock";
 
 type CardProps = CategoryData;
 interface CategoriesProps {
   items: CategoryData[];
 }
 
-function Card({id, title, image, link }: CardProps) {
-  return (    
-    <div className={styles.categoriesCol}>
-      <Link id={`category-${id}`} to={link}  className={`group ${styles.categoriesCard}`}>
-        <img
-          loading="lazy"   // lazy-loading
-          src={image}
-          alt={title}
-          className="absolute inset-0 w-full h-full object-cover object-center "
-        />
-        <h2 className="relative z-10 ag-h1 text-white group-hover:text-grayscale-300 text-center">{title}</h2>
-      </Link>
-    </div>
-  );
-}
-
-function CardTall({id, title, image, link }: CardProps) {
+//  Маленькая карточка
+function Card({ id, title, image, link }: CardProps) {
   return (
-    <div className={styles.categoriesColfull}>
-    <Link id={`category-${id}`} to={link}  className={`group ${styles.categoriesCardfull}`}>
+    <div className="relative aspect-[171/170] sm:aspect-[209/170] lg:aspect-[319/170] overflow-hidden">
+      <Link
+        id={`category-${id}`}
+        to={link || "/"}
+        className="
+          group
+          block w-full h-full
+          rounded-xl
+          overflow-hidden
+        "
+      >
         <img
-          loading="lazy"   // lazy-loading
+          loading="lazy"
           src={image}
           alt={title}
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          className="
+            w-full h-full object-cover
+            shadow-md
+            transform
+            transition-all duration-300
+            group-hover:shadow-xl
+            group-hover:scale-105
+          "
         />
-         <h2 className="relative z-10 ag-h1 text-white group-hover:text-grayscale-300 text-center">{title}</h2>
+
+        <h2
+          className="
+          pointer-events-none
+          absolute bottom-6 xl:bottom-10 left-0 w-full
+          z-10
+          ag-h2 sm:ag-h1
+          text-white text-center
+          px-2
+        "
+        >
+          {title}
+        </h2>
       </Link>
     </div>
   );
 }
 
+// Высокая карточка
+function CardTall({ id, title, image, link }: CardProps) {
+  return (
+    <div className="relative w-full h-full shrink-0 aspect-[358/221] sm:aspect-[initial] overflow-hidden">
+      <Link
+        id={`category-${id}`}
+        to={link || "/"}
+        className="
+          group
+          block w-full h-full
+          rounded-xl
+          overflow-hidden
+        "
+      >
+        <img
+          loading="lazy"
+          src={image}
+          alt={title}
+          className="
+            w-full h-full object-cover
+            shadow-md
+            transform
+            transition-all duration-300
+            group-hover:shadow-xl
+            group-hover:scale-105
+          "
+        />
 
+        <h2
+          className="
+          pointer-events-none
+          absolute bottom-6 xl:bottom-10 left-0 w-full
+          z-10
+          ag-h2 sm:ag-h1
+          text-white text-center
+          px-3
+        "
+        >
+          {title}
+        </h2>
+      </Link>
+    </div>
+  );
+}
+
+// Вывод категорий
 export default function Categories({ items }: CategoriesProps) {
   return (
-    <div className={styles.categories}>
-      <div className={styles.categoriesLeft}>
+    <div className="flex flex-wrap md:flex-nowrap gap-5 lg:mb-25 mb-20">
+      <div className="w-full md:w-[76.2%] grid grid-cols-2 md:grid-cols-3 gap-5 ">
         {items.slice(0, 6).map((item, index) => (
           <Card
             key={index}
@@ -55,7 +112,7 @@ export default function Categories({ items }: CategoriesProps) {
         ))}
       </div>
 
-      <div className={styles.categoriesRight}>
+      <div className="w-full md:w-[23.8%]">
         {items[6] && (
           <CardTall
             id={items[6].id}
@@ -68,4 +125,3 @@ export default function Categories({ items }: CategoriesProps) {
     </div>
   );
 }
-

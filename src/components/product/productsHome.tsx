@@ -18,7 +18,7 @@ export default function ProductsHome({ items }: ProductsHomeProps) {
       let step = 4; // по умолчанию mobile и desktop
       const width = window.innerWidth;
 
-      if (width >= 640 && width < 1024) {
+      if (width >= 640 && width < 768) {
         // tablet
         step = 3;
       }
@@ -42,7 +42,7 @@ export default function ProductsHome({ items }: ProductsHomeProps) {
   }, [items]); // зависимость: пересчёт при изменении списка товаров
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-16 gap-x-4 sm:gap-x-5 md:gap-x-[6.5%] mb-[150px]">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-15 gap-x-4 sm:gap-x-5 lg:gap-x-[6.5%] mb-[150px]">
       {visibleItems.map((product) => (
         <ProductCard key={product.id} data={product} />
       ))}

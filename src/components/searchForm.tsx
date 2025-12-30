@@ -36,7 +36,7 @@ export default function SearchForm({
 
   return (
     <form onSubmit={handleSubmit} className={className}>
-      <div className="rounded-full px-3 py-3 border border-gray-300 bg-white flex items-center gap-3 focus-within:border-blue-300">
+      <div className="rounded-full px-3 py-3 border border-gray-300 bg-white flex items-center gap-3 focus-within:border-grayscale-300">
         <button type="submit" aria-label="Search">
           <svg className="w-4 h-4">
             <use href="/icons/symbol/sprite.svg#search" />

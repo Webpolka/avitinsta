@@ -12,15 +12,16 @@ import { type BannerData} from "@/mocks/banner.mock";
 
 interface BannerProps {
   data?: BannerData;
+  className? : string;
 }
 
-export default function Banner({ data }: BannerProps) {
+export default function Banner({ data, className = "" }: BannerProps) {
   if (!data) return null;
 
   const { title, subtitle, btnText, btnLink, rightTitle, rightSubtitle } = data;
 
   return (
-    <div className="banner mb-5">
+    <div className={`banner mb-5 ${className}`}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 min-h-[220px]">
         {/* Левая колонка */}
         {(title || subtitle || (btnText && btnLink)) && (
