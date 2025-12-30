@@ -1,14 +1,14 @@
 import clsx from "clsx";
 
 interface StarRatingProps {
-  rating: number; // 0 - 5
+  rating?: number; // 0 - 5
   size?: number; // в px, по умолчанию 16
   gap?: number; // в px, по умолчанию 2
   className?: string;
 }
 
 export default function StarRating({
-  rating,
+  rating = 0,
   size = 16,
   gap = 2,
   className,

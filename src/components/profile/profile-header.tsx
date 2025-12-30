@@ -108,7 +108,7 @@ export function ProfileHeader({
             <p className="text-grayscale-700 ag-h3 mb-1">{user.handle}</p>
             <div className="flex items-center gap-2">
               <span className="ag-h8 text-secondary font-medium">
-                {user.rating.toFixed(1)}
+                {user.rating?.toFixed(1)}
               </span>
               <StarRating rating={user.rating} size={16} gap={1} />
               <span className="ag-h8 text-secondary font-medium">

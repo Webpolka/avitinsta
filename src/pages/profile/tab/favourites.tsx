@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import ProfileProductsList from "@/components/profile/profile-products-list";
 
 import { PRODUCTS_DATA, type ProductCardData } from "@/mocks/products.mock";
-
-import { useOutletContext } from "react-router-dom";
-import { type ProfileContext } from "@/pages/profile/profileLayout";
+import { useUser } from "@/context/use.user";
 
 /* =========================
    Component: ProfileTabFavourites
@@ -13,7 +11,7 @@ import { type ProfileContext } from "@/pages/profile/profileLayout";
 
 export function ProfileTabFavourites() {
   // Состояние избранных товаров
-  const { user } = useOutletContext<ProfileContext>();
+  const { user } = useUser();
   const [favouriteProducts, setFavouriteProducts] = useState<ProductCardData[]>(
     []
   );
@@ -36,6 +34,7 @@ export function ProfileTabFavourites() {
     updateFavouriteState();
   }, [user]);
 
+
   return (
     <div className="flex flex-col gap-30">
       {favouriteProducts.length > 0 ? (
@@ -45,6 +44,13 @@ export function ProfileTabFavourites() {
             button={false}
             limit={4}
             items={favouriteProducts}
+          />
+
+          <ProfileProductsList
+            title="Недавно просмотренные"
+            button={true}
+            limit={4}
+            items={favouriteProducts}  //Пока что условно (канечно это будет ответ от сервера)
           />
         </>
       ) : (

@@ -8,7 +8,7 @@ interface ProductCardProps {
   className?: string;
 }
 
-export default function ProductCard({ data, className }: ProductCardProps) {
+export default function ProductCard({ data, className = ""}: ProductCardProps) {
   const {
     id,
     images,
@@ -17,8 +17,8 @@ export default function ProductCard({ data, className }: ProductCardProps) {
     price,
     size,
     seller,
-    favoriteCount,
-    isFavorite,
+    favoriteCount = 0,
+    isFavorite = false,
   } = data;
 
   const mainImage = images[0]; 
@@ -53,7 +53,7 @@ export default function ProductCard({ data, className }: ProductCardProps) {
       : "";
 
   return (
-    <div className={`group flex flex-col gap-3 overflow-hidden ${className ?? ""}`}>
+    <div className={`group flex flex-col gap-3 overflow-hidden ${className ?? ""}`}> 
       {/* Мобильный блок с пользователем */}
       {seller && (
         <Link to={seller.link} className="flex sm:hidden items-start gap-2">

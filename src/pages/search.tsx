@@ -26,14 +26,14 @@ export function Search() {
       setLoading(true);
 
       const filtered = PRODUCTS_DATA.filter((p) => {
-        const matchesCategory =
-          activeCategory === "Все" ? true : p.category.includes(activeCategory);
+        const matchesCategory =    
+          activeCategory === "Все" ? true : p.category && (p.category.includes(activeCategory));
 
         const q = debouncedQuery.toLowerCase();
-        const matchesQuery =
+        const matchesQuery = 
           !debouncedQuery ||
           p.title.toLowerCase().includes(q) ||
-          p.brand.toLowerCase().includes(q);
+          p.brand && (p.brand.toLowerCase().includes(q));
 
         return matchesCategory && matchesQuery;
       });

@@ -19,7 +19,7 @@ export default function ProductsSearch({ data }: ProductsSearchProps) {
       if (activeCategory === "Все") {
         setProducts(data);
       } else {
-        setProducts(data.filter((p) => p.category[0] === activeCategory));
+       data.filter((p) => p.category && p.category[0] === activeCategory)
       }
       setLoading(false);
     }, 500); // имитация задержки

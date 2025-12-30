@@ -1,29 +1,35 @@
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
+import { useRef, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+import { v4 as uuidv4 } from "uuid";
+import { getMessageTime } from "@/hooks/getMessageTime";
 
 import { CHATS_DATA } from "@/mocks/chats.mocks";
 import { useUser } from "@/context/use.user";
+
+import styles from "@/styles/utilities.module.scss";
 
 /* =========================
    Страница конкретного чата
 ========================= */
 
 export function ProfileChat() {
-  /* =========================
-     user from global context
-  ========================= */
   const { user } = useUser();
-  // Находим чат
   const { chatId } = useParams<{ chatId: string }>();
   const chat = CHATS_DATA.find((c) => c.id === chatId);
 
-  // Локальный state для сообщений
-  const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState(chat?.messages ?? []);
+  const [sendingStatus, setSendingStatus] = useState(false);
 
-  const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   if (!chat || !user) {
     return (
@@ -34,99 +40,140 @@ export function ProfileChat() {
   }
 
   const sendMessage = () => {
-    if (!newMessage.trim()) return;
+    if (!inputRef.current) return;
+    const text = inputRef.current.value.trim();
+    if (!text) return;
+
+    // очищаем поле сразу, чтобы показать placeholder "Отправление..."
+    inputRef.current.value = "";
+    setSendingStatus(true);
 
     const message = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       senderId: user.id,
-      text: newMessage,
+      text,
       time: new Date().toISOString(),
     };
 
-    setMessages((prev) => [...prev, message]);
-    setNewMessage("");
+    // Симулируем задержку отправки
+    setTimeout(() => {
+      setMessages((prev) => [...prev, message]);
+      setSendingStatus(false); // сброс статуса после отправки
+    }, 500);
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div
+      className={`${styles.hFullHeaderMinusAll} -mt-3 sm:mt-0 pt-0 xl:pl-16 xl:pr-20 flex flex-col gap-5`}
+    >
       {/* Хедер чата */}
-      <div className="flex items-center gap-3 p-4 bg-white shadow-md">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-gray-500 hover:text-gray-700"
-        >
-          Назад
-        </button>
+      <div className="flex items-center gap-5 px-5 py-4 border-b border-gray-300">
         <img
           src={chat.participant.avatar}
           alt={chat.participant.name}
-          className="w-12 h-12 rounded-full object-cover"
+          className="w-15 h-15 rounded-full object-cover shrink-0"
         />
-        <div className="flex flex-col">
-          <span className="font-medium text-secondary">
+
+        <div className="flex flex-col gap-1">
+          <span className="font-medium text-secondary ag-h4">
             {chat.participant.name}
+            {chat.pinned && (
+              <svg className="w-4.5 h-4.5 inline-block ml-1.5">
+                <use href="/icons/symbol/sprite.svg#pin" />
+              </svg>
+            )}
           </span>
-          <span className="text-sm text-gray-500">
-            {chat.participant.handle}
-          </span>
+          {chat.participant.online ? (
+            <span className="ag-h9 font-medium text-system-green">Онлайн</span>
+          ) : (
+             <span className="ag-h9 font-medium text-system-red">Не в сети</span>
+          )}
         </div>
-        {/* Товар */}
-        <div className="flex items-center gap-2 ml-auto">
+      </div>
+
+      {/* Товар */}
+      <div
+        className="px-5 py-2 flex items-center gap-2 border border-grayscale-25 rounded-xl mb-5"
+        style={{
+          boxShadow:
+            "0 1px 1px 0 rgba(0,0,0,0.1), 1px 0 1px 0 rgba(0,0,0,0.1), -1px 0 1px 0 rgba(0,0,0,0.1), 0 -1px 1px 0 rgba(0,0,0,0.1)",
+        }}
+      >
+        <div className="flex items-center gap-4">
           <img
             src={chat.product.images[0]}
             alt={chat.product.title}
-            className="w-12 h-12 rounded object-cover"
+            className="w-15 h-15 rounded-xl object-cover"
           />
-          <div className="flex flex-col">
-            <span className="font-medium text-gray-700 text-sm">
+          <div className="flex flex-col gap-2">
+            <span className="font-medium ag-h6 text-secondary">
               {chat.product.title}
             </span>
-            <span className="text-xs text-gray-500">₽{chat.product.price}</span>
+            <span className="ag-h4 text-grayscale-700 font-medium">
+              {chat.product.price} ₽
+            </span>
           </div>
         </div>
       </div>
 
       {/* Сообщения */}
-      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3 bg-gray-50">
+      <div
+        className={`${styles.hiddenScroll} " flex-auto overflow-y-auto flex flex-col "`}
+      >
         {messages.map((msg) => {
           const isMe = msg.senderId === user.id;
+
           return (
             <div
               key={msg.id}
-              className={`flex ${isMe ? "justify-end" : "justify-start"}`}
+              className={`flex mb-5  sm:mb-2 px-3 ${
+                isMe ? "justify-end" : "justify-start"
+              }`} // добавляем зазор, если предыдущий был от того же отправителя
             >
               <div
-                className={`p-3 rounded-lg max-w-[70%] ${
-                  isMe ? "bg-secondary text-white" : "bg-white text-gray-800"
+                className={`max-w-[264px] sm:max-w-[318px] xl:max-w-[421px] p-3 rounded-lg  ${
+                  isMe
+                    ? "bg-[#08f] text-white"
+                    : "bg-grayscale-100 text-secondary"
                 }`}
               >
-                <p className="text-sm">{msg.text}</p>
-                <span className="text-xs text-gray-400">
-                  {formatDistanceToNow(new Date(msg.time), {
-                    addSuffix: true,
-                    locale: ru,
-                  })}
+                <p className="ag-h7 mb-1">{msg.text}</p>
+                <span
+                  className={`ag-h9 text-grayscale-700 ${
+                    isMe
+                      ? "bg-[#08f] text-white"
+                      : "bg-grayscale-100 text-secondary"
+                  }`}
+                >
+                  {getMessageTime(msg.time)}
                 </span>
               </div>
             </div>
           );
         })}
+
+        {/* Это пустой див, на который скроллим */}
+        <div ref={messagesEndRef} />
       </div>
 
-      {/* Ввод сообщения */}
-      <div className="flex items-center gap-2 p-3 bg-white border-t border-gray-200">
+      {/* Поле ввода + кнопка отправки */}
+      <div className="mb-5 sm:mb-7.5 bg-white rounded-full px-4 min-h-[46px] border border-gray-300 flex items-center gap-3 focus-within:border-grayscale-500">
         <input
           type="text"
-          placeholder="Напишите сообщение..."
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          className="flex-1 border border-gray-300 rounded-full px-4 py-2 outline-none"
+          ref={inputRef}
+          placeholder={sendingStatus ? "Отправление..." : "Напишите сообщение"}
+          className="ag-h7 font-medium placeholder:text-grayscale-00 outline-none bg-transparent w-full"
+          disabled={sendingStatus}
         />
         <button
+          type="button"
+          aria-label="Send"
           onClick={sendMessage}
-          className="bg-secondary text-white px-4 py-2 rounded-full hover:opacity-90"
+          className="w-9 h-9 aspect-square cursor-pointer rounded-full border border-grayscale-300 flex items-center justify-center hover:border-secondary"
         >
-          Отправить
+          <svg className="w-[8px] h-[14px] text-secondary ml-0.5">
+            <use href="/icons/symbol/sprite.svg#chevron_r" />
+          </svg>
         </button>
       </div>
     </div>

@@ -20,7 +20,7 @@ export default function Banner({ data }: BannerProps) {
   const { title, subtitle, btnText, btnLink, rightTitle, rightSubtitle } = data;
 
   return (
-    <div className="banner">
+    <div className="banner mb-5">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 min-h-[220px]">
         {/* Левая колонка */}
         {(title || subtitle || (btnText && btnLink)) && (

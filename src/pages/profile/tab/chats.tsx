@@ -50,9 +50,13 @@ export function ProfileTabChats() {
             <Link
               to={`/chats/${chat.id}`}
               key={chat.id}
-              className="flex justify-between items-center px-3 pt-[16px]  pb-[26px] sm:px-6 sm:py-[12px] rounded-lg border-solid border border-grayscale-100 shadow-sm hover:bg-gray-50 cursor-pointer"
+              className="flex justify-between items-center px-3 pt-[16px]  pb-[26px] sm:px-6 sm:py-[12px] rounded-lg border-solid border border-grayscale-25 shadow-sm hover:bg-gray-50 cursor-pointer"
+              style={{
+                boxShadow:
+                  "0 1px 1px 0 rgba(0,0,0,0.1), 1px 0 1px 0 rgba(0,0,0,0.1), -1px 0 1px 0 rgba(0,0,0,0.1), 0 -1px 1px 0 rgba(0,0,0,0.1)",
+              }}
             >
-              {/* Левая часть: участник + товар */}
+             
               <div className="flex gap-4.5 items-center w-full">
                 {/* Аватар */}
                 <div className="relative shrink-0">
@@ -86,8 +90,8 @@ export function ProfileTabChats() {
                     </span>
                   </div>
 
-                  {/* Правая часть: последнее сообщение, дата, непрочитанные */}
-                  <div className="flex gap-2 justify-between items-center " >
+            
+                  <div className="flex gap-2 justify-between items-center max-h-[12px] sm:max-h-[16px]">
                     <span className="text-grayscale-300 font-medium ah-h9 leading-4">
                       {lastMessage.text}
                     </span>

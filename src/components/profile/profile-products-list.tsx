@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "@/components/product/productCard";
 import { type ProductCardData } from "@/mocks/products.mock";
 
 interface ProfileProductsListProps {
   title?: string;
   limit: number;
-  items: ProductCardData[]; // товары (моки / SSR)
+  items: ProductCardData[];
   button?: boolean;
 }
 
@@ -15,25 +15,46 @@ export default function ProfileProductsList({
   limit,
   button = true,
 }: ProfileProductsListProps) {
-  // текущие отображаемые товары
-  const [products, setProducts] = useState<ProductCardData[]>(
-    items.slice(0, limit)
-  );
-
-  // состояние загрузки
+  const [products, setProducts] = useState<ProductCardData[]>([]);
   const [loading, setLoading] = useState(false);
-
-  // флаг — показали все товары
   const [showAll, setShowAll] = useState(false);
 
-  // обработчик "Посмотреть все"
+  // адаптивный расчёт
+  useEffect(() => {
+    if (showAll) {
+      setProducts(items);
+      return;
+    }
+
+    const calculateVisibleItems = () => {
+      let step = 4; // mobile + desktop
+      const width = window.innerWidth;
+
+      if (width >= 640 && width < 1024) {
+        step = 3; // tablet
+      }
+
+      const maxVisible = Math.min(limit, items.length);
+      const visibleCount =
+        maxVisible < step
+          ? maxVisible
+          : Math.floor(maxVisible / step) * step;
+
+      setProducts(items.slice(0, visibleCount));
+    };
+
+    calculateVisibleItems();
+    window.addEventListener("resize", calculateVisibleItems);
+
+    return () =>
+      window.removeEventListener("resize", calculateVisibleItems);
+  }, [items, limit, showAll]);
+
   const handleShowAll = async () => {
-    if (loading) return;
-    if (!button) return;
+    if (loading || !button) return;
 
     setLoading(true);
     try {
-      // эмуляция серверного запроса
       await new Promise((res) => setTimeout(res, 600));
       setProducts(items);
       setShowAll(true);
@@ -52,13 +73,14 @@ export default function ProfileProductsList({
       )}
 
       {/* Сетка товаров */}
-      <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-12 lg:gap-y-16 gap-5 lg:gap-x-9">
+      <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-12 lg:gap-y-16 gap-5 lg:gap-x-9">
         {products.map((product) => (
           <ProductCard key={product.id} data={product} />
         ))}
       </div>
-      {/* Кнопка "Показать все" */}
-      {button && !showAll && items.length > limit && (
+
+      {/* Кнопка */}
+      {button && !showAll && items.length > products.length && (
         <button
           onClick={handleShowAll}
           disabled={loading}
@@ -71,7 +93,7 @@ export default function ProfileProductsList({
             disabled:opacity-50 disabled:cursor-not-allowed
           "
         >
-          <span>{loading ? "Загрузка..." : "Посмотреть все"}</span>
+          {loading ? "Загрузка..." : "Посмотреть все"}
         </button>
       )}
     </div>

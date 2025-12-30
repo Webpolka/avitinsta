@@ -56,15 +56,15 @@ export function Catalog() {
         }) ?? false);
 
       // фильтр по бренду
-      const matchesBrand = filters.brands.length === 0 || filters.brands.includes(p.brand);
+      const matchesBrand = p.brand && (filters.brands.length === 0 || filters.brands.includes(p.brand));
 
       // фильтр по категории / названию
       const matchesCategory =
         filters.categories.length === 0 || filters.categories.includes(p.title);
 
       // фильтр по состоянию (condition)
-      const matchesConditions =
-        filters.conditions.length === 0 || filters.conditions.includes(p.condition);
+      const matchesConditions = p.condition && (
+        filters.conditions.length === 0 || filters.conditions.includes(p.condition));
 
       // возвращаем только товары, которые проходят все фильтры
       return matchesPrice && matchesSize && matchesBrand && matchesCategory && matchesConditions;

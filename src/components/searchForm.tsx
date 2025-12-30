@@ -1,22 +1,33 @@
-import { type FormEvent, type InputHTMLAttributes } from "react";
+import {
+  type FormEvent,
+  type ComponentPropsWithoutRef,
+} from "react";
 
-interface SearchFormProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit" | "onChange"> {
-  placeholder?: string;
+/**
+ * Нативные пропсы input без value / onChange / type
+ */
+type InputProps = Omit<
+  ComponentPropsWithoutRef<"input">,
+  "value" | "onChange" | "type"
+>;
+
+interface SearchFormProps {
+  value: string;
+  onChange: (value: string) => void;
   onSubmit?: (value: string) => void;
   className?: string;
-  value: string;
-  onChange: (value: string) => void; // сразу строка
+  placeholder?: string;
+  inputProps?: InputProps;
 }
 
 export default function SearchForm({
-  value,          // теперь value приходит сверху
-  onChange,       // onChange приходит сверху
-  placeholder = "Найти вещь",
+  value,
+  onChange,
   onSubmit,
+  placeholder = "Найти вещь",
   className = "",
-  ...inputProps
-}: SearchFormProps & { value: string; onChange: (v: string) => void }) {
+  inputProps,
+}: SearchFormProps) {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!value.trim()) return;
@@ -26,7 +37,7 @@ export default function SearchForm({
   return (
     <form onSubmit={handleSubmit} className={className}>
       <div className="rounded-full px-3 py-3 border border-gray-300 bg-white flex items-center gap-3 focus-within:border-blue-300">
-        <button type="submit" aria-label="Search" className="cursor-pointer">
+        <button type="submit" aria-label="Search">
           <svg className="w-4 h-4">
             <use href="/icons/symbol/sprite.svg#search" />
           </svg>
@@ -34,7 +45,7 @@ export default function SearchForm({
 
         <input
           type="text"
-          value={value}                  // берем из родителя
+          value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className="ag-h7 outline-none bg-transparent w-full"

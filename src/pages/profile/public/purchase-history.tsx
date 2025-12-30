@@ -18,7 +18,7 @@ export function PublicPurchaseHistory() {
 
   // фильтруем покупки по пользователю
   const userProducts = PRODUCTS_DATA.filter(
-    (product) => product.seller.id === id
+    (product) =>  product.seller &&  product.seller.id === id
   );
 
   return (

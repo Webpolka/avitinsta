@@ -23,7 +23,7 @@ import { Looks } from "@/pages/looks/looks";
 
 // Таб-контент личного кабинета (private)
 import { ProfileTabProfile } from "@/pages/profile/tab/profile";
-import { ProfileTabProducts } from "@/pages/profile/tab/products";
+import { ProfileTabAds } from "@/pages/profile/tab/ads";
 import { ProfileTabPurchases } from "@/pages/profile/tab/purchases";
 import { ProfileTabSales } from "@/pages/profile/tab/sales";
 import { ProfileTabFavourites } from "@/pages/profile/tab/favourites";
@@ -59,7 +59,7 @@ export function AppRouter() {
       {/* ===== МОЙ ПРОФИЛЬ (личный кабинет) ===== */}
       <Route path="/profile" element={<ProfileLayout mode="private" />}>
         <Route path="profile" element={<ProfileTabProfile />} /> {/* ← Таб 1 */}
-        <Route path="products" element={<ProfileTabProducts />} />
+        <Route path="products" element={<ProfileTabAds />} />
         <Route path="purchases" element={<ProfileTabPurchases />} />
         <Route path="sales" element={<ProfileTabSales />} />
         <Route path="favourites" element={<ProfileTabFavourites />} />

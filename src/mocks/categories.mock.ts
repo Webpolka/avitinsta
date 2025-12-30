@@ -3,8 +3,8 @@
 export interface CategoryData {
   id: string;
   title: string;
-  image: string;
-  link: string;
+  image?: string;
+  link?: string;
 }
 
 export const CATEGORIES_DATA: CategoryData[] = [

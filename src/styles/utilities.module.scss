@@ -11,6 +11,16 @@
   }
 }
 
+.hFullHeaderMinusAll {
+  height: calc(100vh - 100px);
+}
+
+.hFullHeaderMinusDesktop {
+  @media (min-width: 640px) {
+    height: calc(100vh - 100px);
+  }
+}
+
 .justifyBetween440 {
   @media (max-width: 640px) {
     gap: 40px;
@@ -26,7 +36,8 @@
 
 .overlayOnlyMobileTransparent {
   background-color: rgb(0, 0, 0, 0.5);
-  @media (max-width:640px){
+  @media (max-width: 640px) {
     background-color: transparent;
   }
 }
+

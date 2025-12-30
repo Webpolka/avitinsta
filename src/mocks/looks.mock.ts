@@ -34,6 +34,49 @@ export const LOOKS_DATA: Look[] = [
     isLiked: true,
     isSaved: true,
   },
+   {
+    id: "l1",
+    user: USERS_DATA[0],
+    image: "/images/kukai.webp",
+    description: "Мой повседневный образ на осень 🍂",
+    hashtags: ["осень", "streetstyle", "casual"],
+
+    viewsCount: 3000,
+    likesCount: 124,
+    commentsCount: 18,
+
+    isLiked: true,
+    isSaved: true,
+  },
+   {
+    id: "l1",
+    user: USERS_DATA[0],
+    image: "/images/kukai.webp",
+    description: "Мой повседневный образ на осень 🍂",
+    hashtags: ["осень", "streetstyle", "casual"],
+
+    viewsCount: 3000,
+    likesCount: 124,
+    commentsCount: 18,
+
+    isLiked: true,
+    isSaved: true,
+  },
+   {
+    id: "l1",
+    user: USERS_DATA[0],
+    image: "/images/kukai.webp",
+    description: "Мой повседневный образ на осень 🍂",
+    hashtags: ["осень", "streetstyle", "casual"],
+
+    viewsCount: 3000,
+    likesCount: 124,
+    commentsCount: 18,
+
+    isLiked: true,
+    isSaved: true,
+  },
+    
   {
     id: "l2",
     user: USERS_DATA[1],
