@@ -4,6 +4,8 @@ import { useOutletContext } from "react-router-dom";
 import { ThisInput } from "@/ui/this-input";
 import { type ProfileContext } from "@/pages/profile/profileLayout";
 
+import { BirthDatePicker } from "@/components/profile/birthday-day-picker";
+
 /* =========================
    types
 ========================= */
@@ -21,7 +23,7 @@ export type ProfileFormState = {
   region: string;
   city: string;
   street: string;
-  house: string; 
+  house: string;
 };
 
 export type PhotoItem = {
@@ -61,8 +63,8 @@ export function ProfileTabProfile() {
     setIsSaving(true);
 
     const payload = {
-      ...form,       // все поля формы
-      images: photos // добавляем фотки из Header
+      ...form, // все поля формы
+      images: photos, // добавляем фотки из Header
     };
 
     console.log("Сохраняем данные:", payload);
@@ -94,14 +96,20 @@ export function ProfileTabProfile() {
             className="flex-1 w-full"
             top="0.4"
           />
-          <ThisInput
+
+          <BirthDatePicker
+            value={form.birthDate}
+            onChange={(val: string) => updateField("birthDate", val)}
+          />
+
+          {/* <ThisInput
             label="Дата рождения"
             type="date"
             value={form.birthDate}
             onChange={(val) => updateField("birthDate", val)}
             className="flex-1 w-full"
             top="0.4"
-          />
+          /> */}
         </div>
 
         {/* Пол */}
@@ -215,7 +223,7 @@ export function ProfileTabProfile() {
               onChange={(val) => updateField("house", val)}
               className="flex-1 w-full"
               top="0.4"
-            />            
+            />
           </div>
         </div>
 

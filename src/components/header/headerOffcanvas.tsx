@@ -32,7 +32,7 @@ export default function HeaderOffcanvas({ items }: HeaderOffcanvasProps) {
       <button
         onClick={() => setIsOpen(true)}        
       >
-        <svg className="scale-x-133 w-7.5 sm:w-10 h-3 xl:scale-x-100 cursor-pointer">
+        <svg preserveAspectRatio="none" className="w-10 h-[15px] sm:w-7.5 sm:h-3 cursor-pointer">
           <use href='/icons/symbol/sprite.svg#burger' />
         </svg>
       </button>

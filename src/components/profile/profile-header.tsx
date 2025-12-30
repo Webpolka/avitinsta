@@ -85,7 +85,7 @@ export function ProfileHeader({
   };
 
   return (
-    <div className="flex flex-col gap-5 mb-14">
+    <div className="flex flex-col gap-4 mb-9">
       {/* шапка профиля */}
       <div className="flex flex-col sm:flex-row gap-6 sm:gap-9 sm:items-start">
         <div className="flex gap-8">
@@ -93,7 +93,7 @@ export function ProfileHeader({
             <img
               src={user.avatar}
               alt={user.name}
-              className="w-25 h-25 rounded-full object-cover border-2 border-gray-200"
+              className="w-26 h-26 rounded-full object-cover border-2 border-gray-200"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -106,7 +106,7 @@ export function ProfileHeader({
               )}
             </h1>
             <p className="text-grayscale-700 ag-h3 mb-1">{user.handle}</p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 whitespace-nowrap">
               <span className="ag-h8 text-secondary font-medium">
                 {user.rating?.toFixed(1)}
               </span>

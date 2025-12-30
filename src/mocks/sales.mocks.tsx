@@ -1,6 +1,5 @@
 export type SaleStatus =
-  | "Оплачен"
-  | "Готовится к отправке"
+  | "Оплачен - готов к отправке"  
   | "Едет к получателю"
   | "Отменен"
   | "Завершен";
@@ -18,41 +17,41 @@ export type SaleData = {
 export const SALES_DATA: SaleData[] = [
   {
     id: "1",
-    productName: "Ноутбук Lenovo Legion 5",
-    price: 75000,
-    buyerName: "Иван Петров",
-    status: "Готовится к отправке",
+    productName: "The row",
+    price: 76000,
+    buyerName: "Smakerlover",
+    status: "Оплачен - готов к отправке",
     productImage: "/images/lenovo.jpg",
   },
   {
     id: "2",
-    productName: "Смартфон Samsung Galaxy S21",
-    price: 45000,
-    buyerName: "Мария Иванова",
+    productName: "The row",
+    price: 76000,
+    buyerName: "Smakerlover",
     status: "Едет к получателю",
     productImage: "/images/samsung.jpg",
   },
   {
     id: "3",
-    productName: "Игровая приставка PlayStation 5",
-    price: 55000,
-    buyerName: "Алексей Смирнов",
+    productName: "The row",
+    price: 76000,
+    buyerName: "Smakerlover",
     status: "Завершен",
     productImage: "/images/ps5.jpg",
   },
   {
     id: "4",
-    productName: "Наушники Bose QuietComfort",
-    price: 18000,
-    buyerName: "Ольга Кузнецова",
+    productName: "The row",
+    price: 76000,
+    buyerName: "Smakerlover",
     status: "Отменен",
     productImage: "/images/bose.jpg",
   },
   {
     id: "5",
-    productName: "Планшет iPad Air",
-    price: 60000,
-    buyerName: "Дмитрий Соколов",
+    productName: "The row",
+    price: 76000,
+    buyerName: "Smakerlover",
     status: "Отменен",
     productImage: "/images/ipad.jpg",
   },

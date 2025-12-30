@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { CHATS_DATA, type Chat } from "@/mocks/chats.mocks";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNowStrict  } from "date-fns";
 import { ru } from "date-fns/locale";
 
 import { Link } from "react-router-dom";
@@ -39,7 +39,7 @@ export function ProfileTabChats() {
 
   return (
     <>
-      <h2 className="ag-w4 text-secondary font-semibold mt-15 mb-15">
+      <h2 className="ag-h2 sm:ag-w4 text-secondary font-semibold mb-10 sm:mb-15">
         Сообщения
       </h2>
       <div className="flex flex-col gap-3">
@@ -50,14 +50,14 @@ export function ProfileTabChats() {
             <Link
               to={`/chats/${chat.id}`}
               key={chat.id}
-              className="flex justify-between items-center px-3 pt-[16px]  pb-[26px] sm:px-6 sm:py-[12px] rounded-lg border-solid border border-grayscale-25 shadow-sm hover:bg-gray-50 cursor-pointer"
+              className="flex justify-between items-center px-3 pt-[16px]  pb-[26px] sm:px-6 sm:py-[12px] rounded-xl border-solid border border-grayscale-25 shadow-sm hover:bg-gray-50 cursor-pointer"
               style={{
                 boxShadow:
                   "0 1px 1px 0 rgba(0,0,0,0.1), 1px 0 1px 0 rgba(0,0,0,0.1), -1px 0 1px 0 rgba(0,0,0,0.1), 0 -1px 1px 0 rgba(0,0,0,0.1)",
               }}
             >
              
-              <div className="flex gap-4.5 items-center w-full">
+              <div className="flex gap-2 sm:gap-4.5 items-center w-full">
                 {/* Аватар */}
                 <div className="relative shrink-0">
                   <img
@@ -65,12 +65,12 @@ export function ProfileTabChats() {
                     alt={chat.participant.name}
                     className="w-10 h-10 sm:w-15 sm:h-15 rounded-full object-cover"
                   />
-                  {chat.participant.online && (
+                  {/* {chat.participant.online && (
                     <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full" />
-                  )}
+                  )} */}
                 </div>
 
-                <div className="flex flex-1 flex-col gap-1.5  ">
+                <div className="flex flex-1 flex-col gap-2.5  ">
                   {/* Имя и handle */}
                   <div className="flex gap-2 justify-between items-center w-full ">
                     <span className="font-medium text-secondary ag-h6 sm:ag-h4 leading-4 sm:leading-[initial] whitespace-nowrap">
@@ -83,7 +83,7 @@ export function ProfileTabChats() {
                     </span>
 
                     <span className="text-right ag-h10 font-medium text-grayscale-300 sm:mr-10 -mt-1.5">
-                      {formatDistanceToNow(new Date(lastMessage.time), {
+                      {formatDistanceToNowStrict (new Date(lastMessage.time), {
                         addSuffix: true,
                         locale: ru,
                       })}
@@ -92,7 +92,7 @@ export function ProfileTabChats() {
 
             
                   <div className="flex gap-2 justify-between items-center max-h-[12px] sm:max-h-[16px]">
-                    <span className="text-grayscale-300 font-medium ah-h9 leading-4">
+                    <span className="text-grayscale-300 font-medium ag-h9 leading-4">
                       {lastMessage.text}
                     </span>
 

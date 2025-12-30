@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-export type TabItem = {
+export type TabItemData = {
   label: string;
   count?: number;
   key: string;
 };
 
 type TabsProps = {
-  tabs: TabItem[];
+  tabs: TabItemData[];
   activeKey?: string;
   onChange?: (key: string) => void;
 };
@@ -21,19 +21,19 @@ export function UniversalTabs({ tabs, activeKey, onChange }: TabsProps) {
   };
 
   return (
-    <div className="flex gap-4 mb-5 flex-wrap">
+    <div className="flex gap-1 sm:gap-4 mb-5 flex-wrap">
       {tabs.map((tab) => (
         <button
           key={tab.key}
           onClick={() => handleClick(tab.key)}
-          className={`min-h-9.5 rounded-xl flex items-center px-6 cursor-pointer ${
+          className={`min-h-9.5 rounded-xl flex items-center px-[9px] sm:px-6 cursor-pointer ${
             currentTab === tab.key
               ? "text-secondary border bg-grayscale-white border-grayscale-300 "
               : "text-grayscale-300 hover:text-grayscale-500"
           }`}
         >
           <span className="ag-h7 sm:ag-h4 font-medium">
-            {tab.label} {tab.count !== undefined && ` (${tab.count})`}
+            {tab.label} {(tab.count !== undefined && tab.count !== 0) && ` (${tab.count})`}
           </span>
         </button>
       ))}

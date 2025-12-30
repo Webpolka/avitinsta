@@ -85,7 +85,7 @@ export function ProfileLayout({ mode }: ModeProps) {
 
       <main className="main">
         <div className="site-container">
-          <div className="pt-7.5 sm:pl-0 sm:pr-0 sm:pt-11 xl:pl-15 xl:pr-15 xl:pt-26 xl:mb-55 mb-37.5 w-full">
+          <div className="pt-7.5 sm:pl-0 sm:pr-0 sm:pt-11 xl:pl-15 xl:pr-15 xl:pt-26 xl:mb-55 mb-45 w-full">
             {/* profile header */}
             <ProfileHeader
               user={user}

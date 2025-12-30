@@ -42,7 +42,7 @@ export function ProfileTabs({ userId, mode, setActiveTab }: ProfileTabsProps) {
       : [];
 
   return (
-    <div className="flex flex-wrap mb-10 justify-center xl:justify-between xl:flex-nowrap gap-y-3" >
+    <div className="flex flex-wrap mb-10 justify-center xl:justify-between xl:flex-nowrap gap-y-4.5" >
       {tabs.map((tab) => {
         return (
           <NavLink
@@ -50,7 +50,7 @@ export function ProfileTabs({ userId, mode, setActiveTab }: ProfileTabsProps) {
             to={tab.path}
             end={tab.path === "profile"}
             className={({ isActive }) =>
-              `min-h-9.5 rounded-xl flex items-center px-6  ${
+              `min-h-9.5 rounded-xl flex items-center px-[9px] sm:px-6  ${
                 isActive
                   ? "text-secondary border bg-grayscale-white border-grayscale-300 "
                   : "text-grayscale-300 hover:text-grayscale-500"

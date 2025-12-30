@@ -17,14 +17,16 @@ export default function Header() {
         {/* header row */}
         <div className="min-h-[100px] flex items-center justify-between ">
           {/* Left side */}
-          <div className="flex items-center flex-shrink-0 gap-5 md:gap-7.5 xl:gap-10">
+          <div className="flex items-center flex-shrink-0 gap-6 md:gap-7.5 xl:gap-10">
             <HeaderOffCanvas items={menuItems} />
 
             <Link
               to="/"
-              className="flex items-center overflow-hidden h-11 w-[140px] min-[365px]:w-[150px] min-[375px]:w-[175px] min-[380px]:w-[203px]"
+              className="flex items-center overflow-hidden h-11 w-[140px] min-[365px]:w-[150px] min-[380px]:w-[170px]"
             >
+
               <img
+              className="w-full h-full object-cover"
                 src="/images/logo-placeholder.png"
                 alt="Логотип"
                 loading="lazy"
@@ -33,7 +35,7 @@ export default function Header() {
           </div>
 
           {/* Right side */}
-          <div className="flex items-center gap-2 sm:gap-5 flex-shrink-0">
+          <div className="flex items-center gap-2 sm:gap-5 flex-shrink-0 ml-1">
             <Button
               to="/sell"
               className="max-[576px]:hidden min-h-11 bg-black text-grayscale-white px-7.5 hover:opacity-80"
