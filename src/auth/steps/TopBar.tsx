@@ -4,34 +4,34 @@ interface TopBarProps {
   onClose: () => void;
 }
 
-export function TopBar({
-  canGoBack,
-  onBack,
-  onClose,
-}: TopBarProps) {
+export function TopBar({ canGoBack, onBack, onClose }: TopBarProps) {
   return (
-    <div className="h-16 flex items-center justify-between px-6 border-b">
+    <div className="absolute top-[5%] lg:top-[10%] right-[8%] left-[8%] flex items-center justify-between px-6 ">
       {/* Левая зона */}
       <div className="w-10">
         {canGoBack && (
           <button
             onClick={onBack}
-            className="text-xl hover:opacity-70 transition"
+            className="w-8 h-8 flex items-center text-xl transition cursor-pointer hover:opacity-80"
             aria-label="Назад"
           >
-            ←
+          <svg className="w-5 h-5 aspect-square inline-block">
+            <use href="/icons/symbol/sprite.svg#chevron_l" />
+          </svg>
           </button>
         )}
       </div>
 
       {/* Правая зона */}
-      <div className="w-10 flex justify-end">
+      <div className="flex justify-end">
         <button
           onClick={onClose}
-          className="text-xl hover:opacity-70 transition"
+          className="text-xl flex items-center  transition cursor-pointer hover:opacity-80"
           aria-label="Закрыть"
         >
-          ✕
+          <svg className="w-8 h-8 aspect-square inline-block">
+            <use href="/icons/symbol/sprite.svg#close" />
+          </svg>
         </button>
       </div>
     </div>

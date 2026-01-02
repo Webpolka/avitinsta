@@ -45,7 +45,7 @@ export function verifyCode(target: {
 
       if (storedCode !== target.code) {
         reject(new Error("Неверный код"));
-        return;
+        return ;
       }
 
       codeStorage.delete(key);

@@ -1,139 +1,232 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useState,
+  useRef,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   phone: string;
   code: string;
   setCode: (v: string) => void;
-  onConfirm: () => void;
+  onConfirm: () => Promise<void>; // серверная проверка
   onHelp: () => void;
+  isOpen?: boolean;
 }
 
 export function PhoneConfirmStep({
   phone,
-  onConfirm,
-  onHelp,
   code,
   setCode,
+  onConfirm,
+  onHelp,
 }: Props) {
-  /** Таймер повторной отправки SMS */
+  // Таймер повторной отправки
   const [counter, setCounter] = useState(30);
 
-  /**
-   * Рефы для инпутов кода
-   * Нужны, чтобы управлять фокусом между полями
-   */
-  const inputsRef = useRef<HTMLInputElement[]>([]);
+  // Флаг ошибки неверного кода
+  const [error, setError] = useState(false);
 
-  /**
-   * Обратный отсчёт таймера
-   */
+  // Индекс активного input (0–3), 4 = все заполнены
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Ссылки на input'ы для управления фокусом
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  // ⏱ Таймер обратного отсчёта
   useEffect(() => {
     if (counter <= 0) return;
-
-    const timer = setTimeout(() => {
-      setCounter((c) => c - 1);
-    }, 1000);
-
+    const timer = setTimeout(() => setCounter((c) => c - 1), 1000);
     return () => clearTimeout(timer);
   }, [counter]);
 
-  /**
-   * Обработка ввода цифры
-   * - разрешаем только 1 цифру
-   * - записываем её в нужную позицию
-   * - автоматически переводим фокус на следующий инпут
-   */
-  const handleChange = (value: string, index: number) => {
-    // Разрешаем ввод только цифры
-    if (!/^\d?$/.test(value)) return;
+  // Автофокус на активный input
+  useEffect(() => {
+    if (activeIndex < 4) {
+      inputRefs.current[activeIndex]?.focus();
+    }
+  }, [activeIndex]);
 
-    // Собираем новый код
-    const newCode =
-      code.substring(0, index) + value + code.substring(index + 1);
+  // Подтверждение кода
+  const handleConfirm = async () => {
+    // Проверяем только заполненность
+    if (code.length < 4) return;
 
-    setCode(newCode);
+    try {
+      // Доверяем проверку серверу
+      await onConfirm();
 
-    // Если цифра введена — переходим к следующему инпуту
-    if (value && index < 3) {
-      inputsRef.current[index + 1]?.focus();
+      // Если сервер принял код
+      setError(false);
+    } catch {
+      // Если код неверный
+      setError(true);
+      setCode("");
+      setActiveIndex(0);
     }
   };
 
-  /**
-   * Обработка нажатий клавиш
-   * - Backspace / Delete:
-   *   • удаляет текущую цифру
-   *   • если поле пустое — переходит к предыдущему
-   */
+  // Глобальная обработка Enter / Space
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleConfirm();
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [code]);
+
+  // Ввод цифры в input
+  const handleChange = (val: string, index: number) => {
+    // Разрешаем только цифры
+    if (!/^\d*$/.test(val)) return;
+
+    const codeArr = code.split("").slice(0, 4);
+    codeArr[index] = val;
+
+    setCode(codeArr.join(""));
+
+    // При вводе сбрасываем ошибку
+    if (error) setError(false);
+
+    // Переход на следующий input
+    if (index < 3 && val) {
+      setActiveIndex(index + 1);
+    } else if (index === 3 && val) {
+      // Последняя цифра — убираем фокус
+      setActiveIndex(4);
+    }
+  };
+
+  // Обработка клавиш навигации и удаления
   const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
+    e: ReactKeyboardEvent<HTMLInputElement>,
     index: number
   ) => {
-    if (e.key === "Backspace" || e.key === "Delete") {
-      if (code[index]) {
-        // Если в текущем поле есть значение — просто очищаем его
-        const newCode =
-          code.substring(0, index) + "" + code.substring(index + 1);
-        setCode(newCode);
-      } else if (index > 0) {
-        // Если поле пустое — переходим назад и очищаем предыдущее
-        inputsRef.current[index - 1]?.focus();
+    const codeArr = code.split("").slice(0, 4);
 
-        const newCode =
-          code.substring(0, index - 1) + "" + code.substring(index);
-        setCode(newCode);
+    // Backspace — удаление назад
+    if (e.key === "Backspace") {
+      e.preventDefault();
+
+      if (codeArr[index]) {
+        codeArr[index] = "";
+        setCode(codeArr.join(""));
+        setActiveIndex(index);
+      } else if (index > 0) {
+        codeArr[index - 1] = "";
+        setCode(codeArr.join(""));
+        setActiveIndex(index - 1);
       }
+    }
+
+    // Delete — удаление текущего
+    else if (e.key === "Delete") {
+      e.preventDefault();
+      codeArr[index] = "";
+      setCode(codeArr.join(""));
+      setActiveIndex(index);
+    }
+
+    // Стрелка влево
+    else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      if (index > 0) setActiveIndex(index - 1);
+    }
+
+    // Стрелка вправо
+    else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      if (index < 3) setActiveIndex(index + 1);
     }
   };
 
   return (
-    <div className="flex flex-col gap-4 w-full max-w-md">
-      <h1 className="text-3xl font-semibold">Подтвердите номер телефона</h1>
+    <div className="flex flex-col max-w-[392px] px-5">
+      {/* Заголовок */}
+      <h2 className="ag-w3 max-w-[250px] mx-auto font-semibold text-center text-secondary mb-5">
+        Подтвердите номер
+      </h2>
 
-      <p className="text-sm text-gray-500">{phone}</p>
-      <p className="text-sm text-gray-500">Введите код из SMS</p>
+      {/* Телефон */}
+      <p className="ag-h2 text-secondary text-center mb-5">8 {phone}</p>
 
-      {/* Инпуты для ввода SMS-кода */}
-      <div className="flex gap-2 justify-center mt-2">
-        {[...Array(4)].map((_, i) => (
-          <input
-            key={i}
-            ref={(el) => {
-              if (el) inputsRef.current[i] = el;
-            }}
-            type="text"
-            inputMode="numeric"
-            maxLength={1}
-            value={code[i] || ""}
-            onChange={(e) => handleChange(e.target.value, i)}
-            onKeyDown={(e) => handleKeyDown(e, i)}
-            className="w-12 h-12 text-center border border-gray-400 rounded text-xl"
-          />
-        ))}
+      {/* Подсказка */}
+      <p className="ag-h3 text-grayscale-700 text-center mb-4">
+        введите код из смс
+      </p>
+
+      {/* OTP-инпуты */}
+      <div className="flex gap-7.5 justify-center mt-2">
+        {[0, 1, 2, 3].map((i) => {
+          const isActive = i === activeIndex && activeIndex < 4;
+        
+          return (
+            <input
+              key={i}
+              ref={(el) => {
+                inputRefs.current[i] = el;
+              }}
+              name={`auth-code-${i}`}
+              value={code[i] || ""}
+              onChange={(e) => handleChange(e.target.value, i)}
+              onKeyDown={(e) => handleKeyDown(e, i)}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              className={`ag-w10 sm:ag-w11 w-[50px] h-[50px] sm:w-[69px] sm:h-[69px] border border-solid text-center
+                ${
+                  error
+                    ? "border-red-500 bg-white text-black"
+                    : isActive
+                    ? "border-black bg-white text-black"
+                    : "border-black bg-black text-white"
+                } focus:outline-none selection:bg-transparent`}
+              onFocus={() => setActiveIndex(i)}
+              onClick={(e) => e.currentTarget.select()}
+            />
+          );
+        })}
       </div>
 
-      {/* Таймер повторной отправки */}
-      <p className="text-xs text-gray-500 mt-2">
+      {/* Ошибка */}
+      {error && (
+        <p className="text-red-500 text-center mt-3 ag-h4">
+          Неверный код
+        </p>
+      )}
+
+      {/* Таймер */}
+      <p className="ag-h4 text-grayscale-700 mt-4 mb-3 text-center">
         Отправим код повторно через {counter} сек.
       </p>
 
-      <p
-        className="text-xs text-blue-600 mt-1 cursor-pointer"
+      {/* Помощь */}
+      <button
+        className="ag-h4 text-secondary mt-3 cursor-pointer hover:opacity-80 mx-auto mb-9"
         onClick={onHelp}
       >
         Не приходит SMS?
-      </p>
-
-      <button
-        className="w-full py-3 bg-black text-white rounded mt-2 cursor-pointer hover:opacity-90"
-        onClick={onConfirm}
-      >
-        Подтвердить номер
       </button>
 
-      <p className="text-xs text-gray-600 mt-1">
-        Подтверждая номер телефона, я согласен с политикой обработки персональных
-        данных
+      {/* Подтверждение */}
+      <button
+        className="w-full min-h-[55px] flex cursor-pointer items-center justify-center ag-h6 font-medium bg-black text-white hover:opacity-90"
+        onClick={handleConfirm}
+      >
+        подтвердить номер
+      </button>
+
+      {/* Политика */}
+      <p className="max-w-[392px] ag-n1 text-grayscale-700 mt-3 tracking-[0.08em] text-center">
+        подтверждая номер телефона, я согласен с{" "}
+        <Link className="font-semibold hover:text-secondary" to="/policy">
+          политикой обработки персональных данных
+        </Link>
       </p>
     </div>
   );

@@ -60,7 +60,7 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
   };
 
   // Если модалка закрыта, ничего не рендерим
-  if (!isOpen) return null;
+  //  if (!isOpen) return null;
 
   // --- Отправка данных профиля на сервер ---
   const handleProfileSubmit = async () => {
@@ -96,7 +96,7 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
         onClose(); // если старый пользователь — закрываем (потом будет getMe)
       }
     } catch {
-      alert("Неверный код"); // обработка ошибки
+      throw Error("Неверный код");
     }
   };
 
@@ -110,7 +110,7 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
         onClose();
       }
     } catch {
-      alert("Неверный код");
+      throw Error("Неверный код");
     }
   };
 
@@ -118,11 +118,12 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
   return (
     <div
       className={`
-        z-50 fixed top-0 right-0 h-screen w-full md:w-1/2 bg-white
-        transform transition-transform duration-300 ease-in-out
-        ${isOpen ? "translate-x-0" : "translate-x-full"}
-        flex flex-col
-      `}
+    fixed top-0 right-0 z-50 h-screen w-full md:w-1/2 bg-white
+    transform transition-transform duration-300 ease-in-out
+    ${isOpen ? "translate-x-0" : "translate-x-full"}
+    ${isOpen ? "pointer-events-auto" : "pointer-events-none"}
+    flex flex-col
+  `}
     >
       {/* Верхняя панель с кнопкой назад и закрытия */}
       <TopBar
@@ -133,7 +134,7 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
 
       {/* Контент модалки */}
       <div className="flex-1 flex items-center justify-center px-6 md:px-12">
-        <div className="w-full max-w-md text-center">
+        <div className="w-full flex flex-col items-center">
           {/* --- Выбор метода авторизации --- */}
           {step === "method" && (
             <MethodStep onSelect={(method) => goToStep(method)} />
@@ -177,22 +178,23 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
               setCode={setCode}
               onConfirm={handleVerifyPhoneCode}
               onHelp={() => goToStep("helpPhone")}
+              isOpen={isOpen}
             />
           )}
 
           {/* --- Справка по Email --- */}
           {step === "helpEmail" && (
             <HelpStep
-              title="Не приходит письмо"
-              text="Убедитесь, что вы указали корректный адрес электронной почты..."
+              title="Не приходит письмо ?"
+              text="Убедитесь, что Вы указали корректный адрес электронной почты, находитесь в зоне действия сети, и Ваше мобильное устройство работает в штатном режиме или напишите в поддержку"
             />
           )}
 
           {/* --- Справка по телефону --- */}
           {step === "helpPhone" && (
             <HelpStep
-              title="Не приходит SMS"
-              text="Убедитесь, что вы указали корректный номер телефона..."
+              title="Не приходит Смс?"
+              text="Убедитесь, что вы указали корректный номер телефона, находитесь в зоне действия сети, и ваше мобильное устройство работает в штатном режиме.Если данная ситуация не решается, напишите в поддержку."
             />
           )}
 

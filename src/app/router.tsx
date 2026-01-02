@@ -1,8 +1,4 @@
-import {
-  Routes,
-  Route,
-  Navigate
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useUser } from "@/context/use.user";
 
 // Layouts
@@ -42,10 +38,11 @@ import { PublicPurchaseHistory } from "@/pages/profile/public/purchase-history";
 import { ProfileChat } from "@/pages/chat";
 
 // AUTH CANVAS
-import AuthCanvas from "@/auth/authCanvas";
+import AuthCanvas from "@/auth/AuthCanvas";
+import Overlay from "@/hooks/overlay";
 
 export function AppRouter() {
-    const { isAuthOpen, closeAuth } = useUser();
+  const { isAuthOpen, closeAuth } = useUser();
 
   return (
     <>
@@ -64,7 +61,6 @@ export function AppRouter() {
           <Route path="/product/:id" element={<Product />} />
           <Route path="/product/add" element={<ProductAdd />} />
           <Route path="/looks" element={<Looks />} />
-         
         </Route>
 
         {/* ===== ЛИЧНЫЙ ПРОФИЛЬ ===== */}
@@ -104,9 +100,10 @@ export function AppRouter() {
         </Route>
       </Routes>
 
-     
-       {/* модалка открывается через контекст */}
-      <AuthCanvas isOpen={isAuthOpen} onClose={closeAuth}/>
+      
+      {/* модалка открывается через контекст */}
+      <Overlay isOpen={isAuthOpen} onClick={closeAuth} />
+      <AuthCanvas isOpen={isAuthOpen} onClose={closeAuth} />
     </>
   );
 }

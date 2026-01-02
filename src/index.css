@@ -48,8 +48,11 @@
     @apply text-[48px] leading-[1.17] font-semibold font-inter;
 }
 
-@utility ag-w3 {
-    @apply text-[36px] leading-[1.17] font-semibold font-inter;
+@utility ag-w10 {
+    @apply text-[40px] leading-[1.17] font-normal font-inter;
+}
+@utility ag-w11 {
+    @apply text-[48px] leading-[1.17] font-normal font-inter;
 }
 
 @utility ag-c1 {
@@ -60,12 +63,22 @@
     @apply text-[28px] leading-[1.286] font-inter;
 }
 
+@utility ag-w22 {
+    @apply text-[30px] leading-[1.25] font-inter;
+}
+
+
 @utility ag-w2 {
     @apply text-[32px] leading-[1.25] font-inter;
 }
 
+
+@utility ag-w3 {
+    @apply text-[36px] leading-[1.17] font-semibold font-inter;
+}
+
 @utility ag-w4 {
-    @apply text-[32px] leading-[1.25] font-inter;
+    @apply text-[36px] leading-[1.25] font-inter;
 }
 
 @utility ag-h2 {
@@ -107,4 +120,9 @@
 
 @utility ag-h12 {
     @apply text-[10px] leading-[1.2] font-inter;
+}
+
+
+@utility ag-n1 {
+    @apply text-[12px] leading-[1.33] font-medium font-neoris;
 }

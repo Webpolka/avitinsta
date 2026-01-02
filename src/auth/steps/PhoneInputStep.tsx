@@ -1,5 +1,6 @@
 import { PatternFormat } from "react-number-format";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   phone: string;
@@ -9,60 +10,118 @@ interface Props {
 
 /**
  * Шаг ввода номера телефона
- * Форматирует номер и проверяет длину перед переходом дальше
+ * Форматирование + базовая валидация
  */
 export function PhoneInputStep({ phone, setPhone, onNext }: Props) {
-  /** Текст ошибки при некорректном номере */
+  // Текст ошибки валидации
   const [error, setError] = useState("");
 
-  /**
-   * Проверка номера телефона и переход к следующему шагу
-   */
+  // Ref для автофокуса на input
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  // Автофокус при открытии шага
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  // Проверка номера и переход дальше
   const handleNext = () => {
     const digits = phone.replace(/\D/g, "");
-    if (digits.length !== 11) {
-      setError("Введите корректный номер");
+
+    // Проверяем количество цифр
+    if (digits.length !== 10) {
+      setError("введите корректный номер");
       return;
     }
+
     setError("");
     onNext();
   };
 
+  // Отправка по Enter / Space
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [phone]);
+
   return (
-    <div className="flex flex-col gap-4 w-full max-w-md">
+    <div className="flex flex-col max-w-[392px]">
       {/* Заголовок */}
-      <h1 className="text-3xl font-semibold">Введите номер телефона</h1>
+      <h2 className="ag-w3 font-semibold text-center text-secondary mb-5">
+        Введите номер телефона
+      </h2>
 
       {/* Подсказка */}
-      <p className="text-sm text-gray-500">
+      <p className="ag-h3 text-secondary text-center">
         Отправим код из 4 цифр в SMS
       </p>
 
-      {/* Инпут с маской для номера телефона */}
-      <PatternFormat
-        format="+7 ###-##-##-###"       // Маска номера
-        mask="_"                        // Символ для пустых мест
-        value={phone}                   // Текущее значение
-        onValueChange={(values) => setPhone(values.formattedValue)} // Обновление
-        placeholder="+7 ___-___-__-__"
-        className={`w-full p-3 border rounded focus:outline-none
-                   caret-transparent ${error ? "border-red-500" : "border-gray-300"}`}/>
+      {/*  Инпут номера с маской */}
+      <div className="relative flex gap-4 mt-11 mb-17">
+        {/* Код страны */}
+        <span
+          className={`inline-block py-1 ag-h4 border-b ${
+            error ? "border-red-500" : "border-secondary"
+          }`}
+        >
+          +7
+        </span>
 
-      {/* Сообщение об ошибке */}
-      {error && <p className="text-xs text-red-500">{error}</p>}
+        <div className="w-full">
+          <PatternFormat
+            // Пробрасываем ref для автофокуса
+            getInputRef={inputRef}
+            format="###-##-##-###"
+            mask="_"
+            type="tel"
+            name={`auth-phone-1`}
+            value={phone}
+            onValueChange={(values) => {
+              setPhone(values.formattedValue);
 
-      {/* Кнопка перехода к следующему шагу */}
+              // Сбрасываем ошибку при полном вводе
+              const digits = values.formattedValue.replace(/\D/g, "");
+              if (digits.length === 10) {
+                setError("");
+              }
+            }}
+            placeholder="___-___-__-__"
+            className={`w-full py-1 ag-h4 border-b focus:outline-none ${
+              error ? "border-red-500" : "border-secondary"
+            }`}
+          />
+
+          {/* Ошибка */}
+          {error && (
+            <p className="absolute w-full -bottom-8 left-0 ag-h4 text-center text-red-500">
+              {error}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Кнопка подтверждения */}
       <button
-        className="w-full py-3 bg-black text-white rounded cursor-pointer hover:opacity-90"
+        className="w-full min-h-[55px] flex cursor-pointer items-center justify-center ag-h6 font-medium bg-black text-white hover:opacity-90"
         onClick={handleNext}
       >
-        Получить код
+        получить код
       </button>
 
-      {/* Подпись о согласии на обработку персональных данных */}
-      <p className="text-xs text-gray-600 mt-1">
-        Нажимая на кнопку «Получить код», я даю согласие на обработку своих
-        персональных данных
+      {/* Политика персональных данных */}
+      <p className="max-w-[392px] ag-n1 text-grayscale-700 mt-3 tracking-[0.08em] text-center">
+        нажимая на кнопку «Получить код», я даю согласие на обработку своих
+        персональных данных в соответствии с{" "}
+        <Link className="font-semibold hover:text-secondary" to="/policy">
+          политикой обработки персональных данных
+        </Link>
       </p>
     </div>
   );

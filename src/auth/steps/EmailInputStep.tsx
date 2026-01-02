@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   email: string;
@@ -6,16 +7,18 @@ interface Props {
   onNext: () => void;
 }
 
+// Регулярка для базовой email-валидации
+const EMAIL_REGEXP =
+  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
 export function EmailInputStep({ email, setEmail, onNext }: Props) {
-  /** Текст ошибки валидации email */
+  // Текст ошибки валидации
   const [error, setError] = useState("");
 
-  /**
-   * Проверка email и переход к следующему шагу
-   */
+  // Проверка email и переход дальше
   const handleNext = () => {
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Некорректный формат");
+    if (!EMAIL_REGEXP.test(email.trim())) {
+      setError("некорректный формат");
       return;
     }
 
@@ -23,41 +26,70 @@ export function EmailInputStep({ email, setEmail, onNext }: Props) {
     onNext();
   };
 
-  return (
-    <div className="flex flex-col gap-4 w-full max-w-md">
-      <h1 className="text-3xl font-semibold">
-        Введите адрес электронной почты
-      </h1>
+  // Отправка по Enter / Space
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleNext();
+      }
+    };
 
-      <p className="text-sm text-gray-500">
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [email]);
+
+  return (
+    <div className="flex flex-col w-full max-w-[394px]">
+      {/* Заголовок */}
+      <h2 className="ag-w22 lg:ag-w3 font-semibold text-center text-secondary mb-5">
+        Введите адрес электронной почты
+      </h2>
+
+      {/* Подсказка */}
+      <p className="ag-h3 text-secondary text-center mb-12">
         Отправим код из 4 цифр на почту
       </p>
 
       {/* Поле ввода email */}
-      <input
-        type="email"
-        value={email}
-        autoComplete="on"
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Ваш email"
-        className={`w-full p-3 border rounded focus:outline-none focus:border-grayscale-700 
-          ${error ? "border-red-500" : "border-gray-300"}`}
-      />
+      <div className="w-full relative mb-16">
+        <input
+          type="email"
+          value={email}
+          name={`auth-email-1`}
+          autoComplete="email"
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (error) setError(""); // сбрасываем ошибку при вводе
+          }}
+          className={`w-full py-1 ag-h4 border-b focus:outline-none ${
+            error ? "border-red-500" : "border-secondary"
+          }`}
+        />
 
-      {/* Сообщение об ошибке */}
-      {error && <p className="text-xs text-red-500">{error}</p>}
+        {/* Ошибка */}
+        {error && (
+          <p className="absolute w-full -bottom-8 left-0 ag-h4 text-center text-red-500">
+            {error}
+          </p>
+        )}
+      </div>
 
+      {/* Кнопка подтверждения */}
       <button
-        className="w-full py-3 bg-black text-white rounded cursor-pointer hover:opacity-90"
+        className="w-full min-h-[55px] flex cursor-pointer items-center justify-center ag-h6 font-medium bg-black text-white hover:opacity-90"
         onClick={handleNext}
       >
         Получить код
       </button>
 
-      <p className="text-xs text-gray-600 text-center mt-2">
+      {/* Политика персональных данных */}
+      <p className="max-w-[392px] ag-n1 text-grayscale-700 mt-3 tracking-[0.08em] text-center">
         нажимая на кнопку «Получить код», я даю согласие на обработку своих
-        персональных данных в соответствии с политикой обработки персональных
-        данных
+        персональных данных в соответствии с{" "}
+        <Link className="font-semibold hover:text-secondary" to="/policy">
+          политикой обработки персональных данных
+        </Link>
       </p>
     </div>
   );
