@@ -19,6 +19,8 @@ export type User = {
   favouriteProducts?: string[];
   createdAt?: string; // ISO дата
   online?: boolean;
+  token?:string;
+  phone?:string;
 };
 
 export const USERS_DATA: User[] = [
@@ -42,6 +44,7 @@ export const USERS_DATA: User[] = [
     photos: ["/images/product.png", "/images/product.png"],
     createdAt: "2023-09-15T10:23:00.000Z",
     online: false,
+    token: "jwt-12yguyg12w32hj12o32",
   },
   {
     id: "2",

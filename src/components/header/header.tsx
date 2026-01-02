@@ -1,15 +1,12 @@
 import Button from "@/ui/button";
 import { Link } from "react-router";
 import HeaderOffCanvas from "@/components/header/headerOffcanvas";
+import { useUser } from "@/context/use.user";
 
-// передаем кнопки для действий а хедере
-const headerActions = [
-  { to: "profile", icon: "user", label: "Профиль" },
-  { to: "favourites", icon: "like", label: "Избранное" },
-  { to: "cart", icon: "cart", label: "Корзина" },
-];
 
 export default function Header() {
+const { openAuth } = useUser();
+
   return (
     <header>
       {/* container */}
@@ -24,9 +21,8 @@ export default function Header() {
               to="/"
               className="flex items-center overflow-hidden h-11 w-[140px] min-[365px]:w-[150px] min-[380px]:w-[170px]"
             >
-
               <img
-              className="w-full h-full object-cover"
+                className="w-full h-full object-cover"
                 src="/images/logo-placeholder.png"
                 alt="Логотип"
                 loading="lazy"
@@ -44,18 +40,40 @@ export default function Header() {
             </Button>
             <div className="flex items-center gap-2 sm:gap-5 translate-x-2.5 sm:translate-x-0">
               <div className="flex items-center gap-1 min-[350px]:gap-2 sm:gap-5 flex-shrink-0">
-                {headerActions.map((item) => (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    aria-label={item.label}
-                    className="block w-7.5 h-7.5"
-                  >
-                    <svg className="w-full h-full fill-none stroke-black stroke-1">
-                      <use href={`/icons/symbol/sprite.svg#${item.icon}`} />
-                    </svg>
-                  </Link>
-                ))}
+                {/* Профиль */}
+                <button
+                  onClick={openAuth}
+                  aria-label="Профиль"
+                  title="Профиль"
+                  className="block w-7.5 h-7.5 cursor-pointer"
+                >
+                  <svg className="w-full h-full fill-none stroke-black stroke-1">
+                    <use href={`/icons/symbol/sprite.svg#user`} />
+                  </svg>
+                </button>
+
+                {/* Избранное */}
+                <Link
+                  to="favourites"
+                  aria-label="Избранное"
+                  title="Избранное"
+                  className="block w-7.5 h-7.5"
+                >
+                  <svg className="w-full h-full fill-none stroke-black stroke-1">
+                    <use href={`/icons/symbol/sprite.svg#like`} />
+                  </svg>
+                </Link>
+                {/* Корзина */}
+                <Link
+                  to="cart"
+                  aria-label="Корзина"
+                  title="Корзина"
+                  className="block w-7.5 h-7.5"
+                >
+                  <svg className="w-full h-full fill-none stroke-black stroke-1">
+                    <use href={`/icons/symbol/sprite.svg#cart`} />
+                  </svg>
+                </Link>
               </div>
             </div>
           </div>
@@ -65,30 +83,28 @@ export default function Header() {
   );
 }
 
-
 /**
  * =====================================================================
  * ВРЕМЕННЫЕ ДАННЫЕ (будут заменены на API response)
  * =====================================================================
  */
 
- /**
-   * ВАЖНО
-   * Сейчас массив продуктов захардкожен в компоненте.
-   * В будущем он будет приходить от API.
-   */
+/**
+ * ВАЖНО
+ * Сейчас массив продуктов захардкожен в компоненте.
+ * В будущем он будет приходить от API.
+ */
 
 // меню для офканваса
 const menuItems = [
-  { title: "Образы", to:  "/" },
-  { title: "Продать", to:  "/sell" },
-  { title: "Новинки", to:  "/new" },
-  { title: "Предзаказ", to:  "/preorder" },
-  { title: "Мужская одежда", to:  "/men/clothing" },
-  { title: "Мужская обувь", to:  "/men/shoes" },
-  { title: "Женская одежда", to:  "/women/clothing" },
-  { title: "Женская обувь", to:  "/women/shoes" },
-  { title: "Сумки", to:  "/bags" },
-  { title: "Аксессуары", to:  "/accessories" },
+  { title: "Образы", to: "/" },
+  { title: "Продать", to: "/sell" },
+  { title: "Новинки", to: "/new" },
+  { title: "Предзаказ", to: "/preorder" },
+  { title: "Мужская одежда", to: "/men/clothing" },
+  { title: "Мужская обувь", to: "/men/shoes" },
+  { title: "Женская одежда", to: "/women/clothing" },
+  { title: "Женская обувь", to: "/women/shoes" },
+  { title: "Сумки", to: "/bags" },
+  { title: "Аксессуары", to: "/accessories" },
 ];
-
