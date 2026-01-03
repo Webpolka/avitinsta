@@ -44,15 +44,15 @@ import AuthCanvas from "@/auth/AuthCanvas";
 import Overlay from "@/hooks/overlay";
 
 export function AppRouter() {
-  const { isAuthOpen, closeAuth, backgroundLocation } = useAuthUI();
+  const { isAuthOpen, closeAuth } = useAuthUI();
   const location = useLocation();
 
   // используем фон, если он есть, иначе текущий location
-  const routesLocation = backgroundLocation || location;
+  const state = location.state as { backgroundLocation?: Location };
 
   return (
     <>
-      <Routes location={routesLocation}>
+        <Routes location={state?.backgroundLocation || location}>
         {/* Main layout */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
@@ -69,7 +69,7 @@ export function AppRouter() {
           <Route path="/looks" element={<Looks />} />
 
           {/* Ловим /login, чтобы router не ругался */}
-          <Route path="/login" element={null} />
+          <Route path="/login" element={<Home />} />
         </Route>
 
         {/* Profile */}
@@ -92,11 +92,17 @@ export function AppRouter() {
         </Route>
 
         {/* Public profile */}
-        <Route path="/purchases/:id" element={<ProfileLayout mode="public-no-media" />}>
+        <Route
+          path="/purchases/:id"
+          element={<ProfileLayout mode="public-no-media" />}
+        >
           <Route index element={<Navigate to="products" replace />} />
           <Route path="products" element={<PublicPurchaseHistory />} />
         </Route>
-        <Route path="/u/:id" element={<ProfileLayout mode="public-with-media" />}>
+        <Route
+          path="/u/:id"
+          element={<ProfileLayout mode="public-with-media" />}
+        >
           <Route index element={<Navigate to="products" replace />} />
           <Route path="products" element={<PublicPurchaseHistory />} />
         </Route>
@@ -110,7 +116,7 @@ export function AppRouter() {
       </Routes>
 
       {/* Auth modal */}
-      {isAuthOpen && <AuthCanvas isOpen={isAuthOpen} onClose={closeAuth} />}
+      <AuthCanvas isOpen={isAuthOpen} onClose={closeAuth} />
       <Overlay isOpen={isAuthOpen} onClick={closeAuth} />
     </>
   );
