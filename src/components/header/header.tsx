@@ -3,9 +3,12 @@ import { Link } from "react-router";
 import HeaderOffCanvas from "@/components/header/headerOffcanvas";
 import { useUser } from "@/context/use.user";
 
-
 export default function Header() {
-const { openAuth } = useUser();
+  const {
+    // user,
+    openAuth,
+    // handleLogout
+  } = useUser();
 
   return (
     <header>
@@ -40,7 +43,19 @@ const { openAuth } = useUser();
             </Button>
             <div className="flex items-center gap-2 sm:gap-5 translate-x-2.5 sm:translate-x-0">
               <div className="flex items-center gap-1 min-[350px]:gap-2 sm:gap-5 flex-shrink-0">
-                {/* Профиль */}
+                {/* Кнопки войти и выйти */}
+                {/* {user ? (
+                  <button
+                    onClick={handleLogout}
+                    aria-label="Выйти"
+                    title="Выйти"
+                    className="block w-7.5 h-7.5 cursor-pointer"
+                  >
+                    <svg className="w-full h-full fill-none stroke-black stroke-1">
+                      <use href={`/icons/symbol/sprite.svg#`} />
+                    </svg>
+                  </button>
+                ) : ( */}
                 <button
                   onClick={openAuth}
                   aria-label="Профиль"
@@ -51,6 +66,7 @@ const { openAuth } = useUser();
                     <use href={`/icons/symbol/sprite.svg#user`} />
                   </svg>
                 </button>
+                {/* )} */}
 
                 {/* Избранное */}
                 <Link

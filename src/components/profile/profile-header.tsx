@@ -1,4 +1,4 @@
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
@@ -93,7 +93,7 @@ export function ProfileHeader({
             <img
               src={user.avatar}
               alt={user.name}
-              className="w-26 h-26 rounded-full object-cover border-2 border-gray-200"
+              className="w-26 h-26 rounded-full object-cover border-2 border-gray-200 bg-grayscale-500"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -108,12 +108,14 @@ export function ProfileHeader({
             <p className="text-grayscale-700 ag-h3 mb-1">{user.handle}</p>
             <div className="flex items-center gap-2 whitespace-nowrap">
               <span className="ag-h8 text-secondary font-medium">
-                {user.rating?.toFixed(1)}
+                {user.rating?.toFixed(1) || 0}
               </span>
               <StarRating rating={user.rating} size={16} gap={1} />
-              <span className="ag-h8 text-secondary font-medium">
-                — {user.reviewsCount} отзыва
-              </span>
+              {user.reviewsCount && (
+                <span className="ag-h8 text-secondary font-medium">
+                  — {user.reviewsCount} отзыва
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -137,17 +139,19 @@ export function ProfileHeader({
         <div className={`${styles.justifyBetween440} flex sm:gap-10 mt-2`}>
           <span className="flex flex-col gap-1 items-start">
             <span className="font-semibold text-secondary ag-h1">
-              {user.productsCount}
+              {user.productsCount || 0}
             </span>
             <span className="ag-h4 text-grayscale-700 font-medium">товара</span>
           </span>
 
           <button
             onClick={() => setIsFollowersOpenOnlyPrivat()}
-            className={`flex flex-col gap-1 items-start ${mode === 'private' ? " cursor-pointer" : ""}`}
+            className={`flex flex-col gap-1 items-start ${
+              mode === "private" ? " cursor-pointer" : ""
+            }`}
           >
             <span className="font-semibold text-secondary ag-h1">
-              {user.followersCount}
+              {user.followersCount || 0}
             </span>
             <span className="ag-h4 text-grayscale-700 font-medium">
               подписчиков
@@ -156,7 +160,7 @@ export function ProfileHeader({
 
           <button className="flex flex-col gap-1 cursor-pointer items-start">
             <span className="font-semibold text-secondary ag-h1">
-              {user.followingCount}
+              {user.followingCount || 0}
             </span>
             <span className="ag-h4 text-grayscale-700 font-medium">
               подписки

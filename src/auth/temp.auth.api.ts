@@ -1,5 +1,5 @@
-import type { User } from "@/mocks/users.mocks";
-
+// import {v4 as uuidv4} from "uuid";
+import { USERS_DATA, type User } from "@/mocks/users.mocks";
 /**
  * Имитация базы кодов на сервере
  * key = email или phone
@@ -25,6 +25,7 @@ export function sendCode(target: {
       codeStorage.set(key, code);
 
       console.log(`📩 MOCK CODE for ${key}:`, code);
+      alert(`Введи этот код для подтверждения: ${code}`);
       resolve();
     }, 700);
   });
@@ -51,7 +52,8 @@ export function verifyCode(target: {
       codeStorage.delete(key);
 
       // имитация: новый или существующий пользователь
-      const isNewUser = Math.random() > 0.5;
+      // const isNewUser = Math.random() > 0.5;
+      const isNewUser = true;
 
       resolve({ isNewUser });
     }, 700);
@@ -65,23 +67,36 @@ export function registerUser(data: {
   email?: string;
   phone?: string;
   name: string;
+  mailingAgree: boolean;
+  policyAgree: boolean;
 }): Promise<User> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const user: User = {
-        id: crypto.randomUUID(),
-        email: data.email,
-        phone: data.phone,
-        name: data.name,
-        avatar: "",
-        token: "mock-jwt-token",
-      } as User;
+      // обязательная проверка
+      if (!data.policyAgree) {
+        reject(new Error("Policy must be accepted"));
+        return;
+      }
 
+      const user: User = USERS_DATA[0] as User;
+
+      // const user: User = {
+      //   id: uuidv4(),
+      //   email: data.email,
+      //   phone: data.phone,
+      //   name: data.name,
+      //   avatar: "",
+      //   token: "mock-jwt-token",
+      //   mailingAgree: data.mailingAgree,
+      //   policyAgree: data.policyAgree,
+      // } as User;
+
+      // сохраняем токен
       localStorage.setItem("token", user.token ?? "");
-      console.log(localStorage.getItem('token'));
 
       resolve(user);
     }, 800);
   });
 }
+
 

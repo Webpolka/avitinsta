@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useUser } from "@/context/use.user";
 
-import { sendCode, verifyCode, registerUser } from "./auth.api";
+import { sendCode, verifyCode, registerUser } from "./temp.auth.api";
 import { type AuthStep } from "./auth.types";
 
 import { TopBar } from "./steps/TopBar";
@@ -11,6 +11,8 @@ import { PhoneConfirmStep } from "./steps/PhoneConfirmStep";
 import { PhoneInputStep } from "./steps/PhoneInputStep";
 import { HelpStep } from "./steps/HelpStep";
 import { MethodStep } from "./steps/MethodStep";
+
+import { Checkbox } from "@/ui/checkbox";
 
 // ----- AuthCanvas Props -----
 interface AuthCanvasProps {
@@ -33,6 +35,10 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
 
   // История шагов для кнопки "назад"
   const [history, setHistory] = useState<AuthStep[]>([]);
+
+  // Подписка и политика конфеденциальности если пользователь создан
+  const [mailingAgree, setMailingAgree] = useState(false);
+  const [policyAgree, setPolicyAgree] = useState(false);
 
   // --- Переход на новый шаг ---
   const goToStep = (newStep: AuthStep) => {
@@ -68,6 +74,8 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
       email,
       phone,
       name,
+      mailingAgree,
+      policyAgree,
     });
 
     setUser(userFromServer); // сохраняем пользователя в контекст
@@ -113,6 +121,8 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
       throw Error("Неверный код");
     }
   };
+
+  const isSubmitDisabled = !name || !policyAgree;
 
   // -------------------- Рендер --------------------
   return (
@@ -200,62 +210,74 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
 
           {/* --- Профиль пользователя --- */}
           {step === "profile" && (
-            <div className="flex flex-col gap-4 w-full max-w-md">
+            <div className="flex flex-col gap-7.5 w-full max-w-[431px]">
               <h1 className="text-3xl font-semibold">Личная информация</h1>
 
               {/* Аватар */}
-              <div className="flex justify-center mt-2 mb-4">
+              <div className="flex justify-center">
                 <img
                   src="/images/placeholder-square.png"
                   alt="Аватар"
-                  className="w-24 h-24 rounded-full object-cover border border-gray-300"
+                  className="w-20 h-20 rounded-full object-cover border border-gray-300"
                 />
               </div>
 
               {/* Email и имя */}
-              {email ? (
-                <span className="w-full text-left p-3 border border-gray-300 rounded focus:outline-none focus:border-grayscale-700">
-                  {email}
-                </span>
-              ) : (
+
+              <label className="flex flex-col gap-2.5">
+                <span className="ag-h7 text-secondary font-medium">E-mail</span>
                 <input
                   type="email"
-                  placeholder="Email"
+                  placeholder="E-mail"
                   value={email}
+                  name="auth-email-finish"
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-grayscale-700"
+                  className="w-full p-3 bg-[#f8f8f8] border placeholder:text-grayscale-500 border-grayscale-100 rounded-[8px] focus:outline-none focus:border-grayscale-500"
                 />
-              )}
+              </label>
 
               {/* имя */}
-              <input
-                type="text"
-                placeholder="Имя"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-grayscale-700"
-              />
+              <label className="flex flex-col gap-2.5 ">
+                <span className="ag-h7 text-secondary font-medium">
+                  Имя пользователя*
+                </span>
+                <input
+                  type="text"
+                  placeholder="Nikita"
+                  name="auth-name-finish"
+                  required
+                  autoComplete="off"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full p-3 bg-[#f8f8f8] placeholder:text-grayscale-500 border border-grayscale-100 rounded-[8px] focus:outline-none focus:border-grayscale-500"
+                />
+              </label>
 
               {/* Чекбоксы согласий */}
-              <div className="flex items-start flex-col gap-2 mt-2">
-                <label className="flex gap-2">
-                  <input type="checkbox" />
-                  <span>
-                    Я согласен получать информационные письма и рассылки
-                  </span>
-                </label>
-                <label className="flex gap-2">
-                  <input type="checkbox" />
-                  <span>
-                    Я подтверждаю условия лицензионного договора и политику
-                    обработки персональных данных
-                  </span>
-                </label>
-              </div>
+
+              <Checkbox
+                label="Я соглашаюсь получать информационные письма и индивидуальные расслылки"
+                checked={mailingAgree}
+                onChange={() => setMailingAgree((v) => !v)}
+                labeClassName="items-start gap-3"
+                textClassName="text-[#3b220e] leading-5"
+                className="w-5 h-5 rounded-[4px] border-grayscale-500"
+              />
+              <Checkbox
+                label="Я подтверждаю, что принимаю условия лицензионного договора, агентского договора и политики обработки персональных данных"
+                checked={policyAgree}
+                required={true}
+                onChange={() => setPolicyAgree((v) => !v)}
+                labeClassName="items-start gap-3"
+                textClassName="text-[#3b220e] leading-5"
+                className="w-5 h-5 rounded-[4px] border-grayscale-500"
+              />
 
               {/* Кнопка "Продолжить" */}
               <button
-                className="w-full py-3 bg-black text-white rounded mt-4 cursor-pointer hover:opacity-90"
+                disabled={isSubmitDisabled}
+                className={`w-full min-h-[55px] flex cursor-pointer items-center justify-center ag-h6 font-medium bg-black text-white hover:opacity-90
+                ${isSubmitDisabled ? "opacity-50 pointer-events-none" : ""}`}
                 onClick={handleProfileSubmit}
               >
                 Продолжить

@@ -100,16 +100,7 @@ export function ProfileTabProfile() {
           <BirthDatePicker
             value={form.birthDate}
             onChange={(val: string) => updateField("birthDate", val)}
-          />
-
-          {/* <ThisInput
-            label="Дата рождения"
-            type="date"
-            value={form.birthDate}
-            onChange={(val) => updateField("birthDate", val)}
-            className="flex-1 w-full"
-            top="0.4"
-          /> */}
+          />         
         </div>
 
         {/* Пол */}

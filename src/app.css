@@ -76,3 +76,18 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   cursor: pointer;
 }
+
+
+
+/********************************************
+Автокомплит
+*******************************************/
+/* Chrome / Edge / Safari */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: black !important;
+  transition: background-color 9999s ease-in-out 0s;
+}

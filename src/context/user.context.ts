@@ -9,13 +9,16 @@ export type UserContextType = {
   isAuthOpen: boolean;
   openAuth: () => void;
   closeAuth: () => void;
+  handleLogout: () => void;
 };
 
 export const UserContext = createContext<UserContextType>({
   user: null,
   setUser: () => {},
 
-   isAuthOpen: false,
+  isAuthOpen: false,
   openAuth: () => {},
   closeAuth: () => {},
+  
+  handleLogout: () => {},
 });
