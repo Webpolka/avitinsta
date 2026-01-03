@@ -12,7 +12,7 @@ const Router =
 export function AppProviders() {
   return (
     <Router>
-       <UseScrollToTop/>
+      <UseScrollToTop/>
       <UserProvider>
         <AuthUIProvider>
           <CartProvider>
