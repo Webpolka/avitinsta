@@ -24,13 +24,13 @@ export function ProfileTabs({ userId, mode, setActiveTab }: ProfileTabsProps) {
   const tabs =
     mode === "private"
       ? [
-          { label: "Профиль", icon: "user", path: "profile" },
+          { label: "Профиль", icon: "user", path: "info" },
           { label: "Товары", icon: "boxes", path: "products" },
           { label: "Покупки", icon: "bag_l", path: "purchases" },
           { label: "Продажи", icon: "paper", path: "sales" },
           { label: "Избранные", icon: "favorite", path: "favourites" },
           { label: "Чаты", icon: "comment", path: "chats" },
-          { label: "Публикации", icon: "insta", path: "posts" },
+          { label: "Публикации", icon: "insta", path: "looks" },
         ]
       : mode === "public-with-media"
       ? [
@@ -42,13 +42,13 @@ export function ProfileTabs({ userId, mode, setActiveTab }: ProfileTabsProps) {
       : [];
 
   return (
-    <div className="flex flex-wrap mb-10 justify-center xl:justify-between xl:flex-nowrap gap-y-4.5" >
+    <div className="flex flex-wrap mb-10 sm:mb-12 justify-center xl:justify-between xl:flex-nowrap gap-y-4.5" >
       {tabs.map((tab) => {
         return (
           <NavLink
             key={tab.path}
             to={tab.path}
-            end={tab.path === "profile"}
+            end={tab.path === "info"}
             className={({ isActive }) =>
               `min-h-9.5 rounded-xl flex items-center px-[9px] sm:px-6  ${
                 isActive

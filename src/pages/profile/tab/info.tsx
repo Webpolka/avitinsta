@@ -33,10 +33,10 @@ export type PhotoItem = {
 };
 
 /* =========================
-   Component: ProfileTabProfile
+   Component: ProfileTabInfo
    Основная форма профиля пользователя
 ========================= */
-export function ProfileTabProfile() {
+export function ProfileTabInfo() {
   // Получаем форму и состояние фоток из лояута через OutletContext
   const { form, photos, setForm } = useOutletContext<ProfileContext>();
 

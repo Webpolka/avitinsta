@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ProfileProductsList from "@/components/profile/profile-products-list";
 
 import { PRODUCTS_DATA, type ProductCardData } from "@/mocks/products.mock";
-import { useUser } from "@/context/use.user";
+import { useUser } from "@/context/use.all";
 
 /* =========================
    Component: ProfileTabFavourites

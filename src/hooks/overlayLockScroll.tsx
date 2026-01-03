@@ -7,6 +7,8 @@ export function useOverlayLockScroll(isLocked: boolean) {
     // если не нужно блокировать — просто выходим
     if (!isLocked) return;
 
+    console.log("INN");
+    
     // сохраняем исходные значения
     const originalOverflow = body.style.overflow;
     const originalPaddingRight = body.style.paddingRight;

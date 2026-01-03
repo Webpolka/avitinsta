@@ -1,14 +1,15 @@
 import Button from "@/ui/button";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import HeaderOffCanvas from "@/components/header/headerOffcanvas";
-import { useUser } from "@/context/use.user";
+
+import { useAuthUI, useUser } from "@/context/use.all";
 
 export default function Header() {
-  const {
-    // user,
-    openAuth,
-    // handleLogout
-  } = useUser();
+
+  const { user } = useUser();
+  const { openAuth } = useAuthUI();  
+
+  const navigate = useNavigate();
 
   return (
     <header>
@@ -69,19 +70,26 @@ export default function Header() {
                 {/* )} */}
 
                 {/* Избранное */}
-                <Link
-                  to="favourites"
+                <button
+                  onClick={() => {
+                    if (user) {
+                      navigate("/profile/favourites");
+                    } else {
+                      openAuth();
+                    }
+                  }}
                   aria-label="Избранное"
                   title="Избранное"
-                  className="block w-7.5 h-7.5"
+                  className="block w-7.5 h-7.5 cursor-pointer"
                 >
                   <svg className="w-full h-full fill-none stroke-black stroke-1">
-                    <use href={`/icons/symbol/sprite.svg#like`} />
+                    <use href="/icons/symbol/sprite.svg#like" />
                   </svg>
-                </Link>
+                </button>
+
                 {/* Корзина */}
                 <Link
-                  to="cart"
+                  to="/cart"
                   aria-label="Корзина"
                   title="Корзина"
                   className="block w-7.5 h-7.5"

@@ -28,5 +28,5 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "src/components/commentsModal/.tsx"]
+  "include": ["src", "src/components/commentsModal/.tsx", "src/context/.tsx"]
 }

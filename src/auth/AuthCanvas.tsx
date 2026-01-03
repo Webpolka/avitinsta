@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUser } from "@/context/use.user";
+import { useUser } from "@/context/use.all";
 
 import { sendCode, verifyCode, registerUser } from "./temp.auth.api";
 import { type AuthStep } from "./auth.types";

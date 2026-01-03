@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getMessageTime } from "@/hooks/getMessageTime";
 
 import { CHATS_DATA } from "@/mocks/chats.mocks";
-import { useUser } from "@/context/use.user";
+import { useUser } from "@/context/use.all";
 
 import styles from "@/styles/utilities.module.scss";
 

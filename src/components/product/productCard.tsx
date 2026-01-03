@@ -76,7 +76,7 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
           <img
             src={mainImage}
             alt={title}
-            className="absolute inset-0 h-full w-full object-cover transition-transform group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
         </Link>
 

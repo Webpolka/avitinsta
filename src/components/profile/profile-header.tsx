@@ -56,7 +56,7 @@ export function ProfileHeader({
 
   // Инициализация фото из моков (один раз)
   useEffect(() => {
-    if (mode === "private" && activeTab === "profile" && user.photos?.length) {
+    if (mode === "private" && activeTab === "info" && user.photos?.length) {
       const initialPhotos: PhotoItem[] = user.photos.map((url) => ({
         id: uuidv4(),
         src: url,
@@ -85,7 +85,7 @@ export function ProfileHeader({
   };
 
   return (
-    <div className="flex flex-col gap-4 mb-9">
+    <div className="flex flex-col gap-4 mb-9 sm:mb-12">
       {/* шапка профиля */}
       <div className="flex flex-col sm:flex-row gap-6 sm:gap-9 sm:items-start">
         <div className="flex gap-8">
@@ -170,7 +170,7 @@ export function ProfileHeader({
       </div>
 
       {/* Dropzone + галерея */}
-      {((mode === "private" && activeTab === "profile") ||
+      {((mode === "private" && activeTab === "info") ||
         mode === "public-with-media") && (
         <div className="flex flex-row flex-wrap gap-4 sm:gap-7.5 mt-2">
           {photos.map((p) => (
@@ -198,7 +198,7 @@ export function ProfileHeader({
           ))}
 
           {/* DropZone кнопка */}
-          {mode === "private" && activeTab === "profile" && (
+          {mode === "private" && activeTab === "info" && (
             <div
               {...getRootProps()}
               className={`w-20 sm:w-25 aspect-square rounded-xl border border-solid flex items-center justify-center cursor-pointer transition ${

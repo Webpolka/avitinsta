@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
-import { useUser } from "@/context/use.user";
+import { useUser } from "@/context/use.all";
 import { LOOKS_DATA, type Look } from "@/mocks/looks.mock";
 import { COMMENTS_DATA } from "@/mocks/comment.mock";
 import { CommentsModal } from "@/components/commentsModal/commentsModal";
 
 /* =========================
-   Component: ProfileTabPosts
+   Component: ProfileTabLooks
    Вкладка "Публикации"
 ========================= */
 
-export function ProfileTabPosts() {
+export function ProfileTabLooks() {
   const { user } = useUser();
 
   const [userLooks, setUserLooks] = useState<Look[]>([]);
@@ -90,8 +90,8 @@ export function ProfileTabPosts() {
           return (
             <div
               key={look.id + index}
-              className="
-                relative overflow-hidden rounded-xl bg-grayscale-100 
+              onClick={() => setActiveLook(look)}
+              className="group relative overflow-hidden rounded-xl bg-grayscale-100 cursor-pointer
                 xl:aspect-[253/376]
                 sm:aspect-[210/376]
                 aspect-[171/300]
@@ -101,16 +101,19 @@ export function ProfileTabPosts() {
               <img
                 src={look.image}
                 alt={look.description ?? "look"}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
               />
 
               {/* OVERLAY */}
-              <div className="absolute inset-0 bg-black/30 flex items-end justify-center pb-5">
+              <div className="absolute inset-0  flex items-end justify-center pb-5">
                 <div className="flex gap-[20px]">
                   {/* LIKE */}
                   <button
-                    onClick={() => toggleLike(look.id)}
-                    className="flex flex-col items-center gap-2 text-white hover:opacity-80  cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleLike(look.id);
+                    }}
+                    className="flex flex-col items-center gap-2 text-white hover:opacity-80 cursor-pointer"
                   >
                     <svg
                       className={`w-6 h-6 ${
@@ -128,7 +131,10 @@ export function ProfileTabPosts() {
 
                   {/* COMMENTS */}
                   <button
-                    onClick={() => setActiveLook(look)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveLook(look);
+                    }}
                     className="flex flex-col items-center gap-2 text-white hover:opacity-80 cursor-pointer"
                   >
                     <svg className="w-6 h-6 fill-white">

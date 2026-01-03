@@ -4,7 +4,7 @@ import { formatDistanceToNowStrict  } from "date-fns";
 import { ru } from "date-fns/locale";
 
 import { Link } from "react-router-dom";
-import { useUser } from "@/context/use.user";
+import { useUser } from "@/context/use.all";
 
 export function ProfileTabChats() {
   const { user } = useUser();

@@ -7,8 +7,8 @@ import { ProfileHeader } from "@/components/profile/profile-header";
 import { ProfileTabs } from "@/components/profile/profile-tabs";
 
 import { type User } from "@/mocks/users.mocks";
-import { type ProfileFormState, type PhotoItem } from "./tab/profile";
-import { useUser } from "@/context/use.user";
+import { type ProfileFormState, type PhotoItem } from "./tab/info";
+import { useUser } from "@/context/use.all";
 
 /* =========================
    Context type
@@ -67,6 +67,7 @@ export function ProfileLayout({ mode }: ModeProps) {
      guards
   ========================= */
 
+
   if (!user) {
     return (
       <div className="p-5 max-w-5xl mx-auto">
@@ -85,7 +86,7 @@ export function ProfileLayout({ mode }: ModeProps) {
 
       <main className="main">
         <div className="site-container">
-          <div className="pt-7.5 sm:pl-0 sm:pr-0 sm:pt-11 xl:pl-15 xl:pr-15 xl:pt-26 xl:mb-55 mb-45 w-full">
+          <div className="pt-7.5 sm:pl-0 sm:pr-0 sm:pt-11 max-w-[1163px] mx-auto xl:pt-26 xl:mb-55 mb-45 w-full">
             {/* profile header */}
             <ProfileHeader
               user={user}

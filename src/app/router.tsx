@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useUser } from "@/context/use.user";
+import { useAuthUI } from "@/context/use.all";
 
 // Layouts — обёртки для страниц, задают общую структуру
 import { MainLayout } from "@/layouts/mainlayout"; // с футером и шапкой
@@ -23,14 +23,15 @@ import { SellerRating } from "@/pages/seller-rating";
 import { Looks } from "@/pages/looks/looks";
 
 // Таб-контент личного кабинета (private) — внутренние вкладки профиля
-import { ProfileTabProfile } from "@/pages/profile/tab/profile";
+import { ProfileTabInfo } from "@/pages/profile/tab/info";
 import { ProfileTabAds } from "@/pages/profile/tab/ads";
 import { ProfileTabPurchases } from "@/pages/profile/tab/purchases";
 import { ProfileTabSales } from "@/pages/profile/tab/sales";
 import { ProfileTabFavourites } from "@/pages/profile/tab/favourites";
 import { ProfileTabChats } from "@/pages/profile/tab/chats";
-import { ProfileTabPosts } from "@/pages/profile/tab/posts";
+import { ProfileTabLooks } from "@/pages/profile/tab/looks";
 
+import { ProtectedRoute } from "@/pages/profile/protectedRoute";
 
 // Public profile — страницы публичного профиля
 import { PublicPurchaseHistory } from "@/pages/profile/public/purchase-history";
@@ -44,7 +45,7 @@ import Overlay from "@/hooks/overlay";
 
 // --------------------- AppRouter ---------------------
 export function AppRouter() {
-  const { isAuthOpen, closeAuth } = useUser(); // контекст пользователя: открыта ли модалка и функция закрытия
+  const { isAuthOpen, closeAuth } = useAuthUI(); // контекст пользователя: открыта ли модалка и функция закрытия
 
   const location = useLocation(); // текущий URL
   const state = location.state as { backgroundLocation?: Location };
@@ -72,22 +73,28 @@ export function AppRouter() {
           {/* динамический продукт */}
           <Route path="/product/add" element={<ProductAdd />} />
           <Route path="/looks" element={<Looks />} />
+          
+          <Route path="/login" element={<Home />} />
         </Route>
 
         {/* ===== ЛИЧНЫЙ ПРОФИЛЬ ===== */}
         <Route
           path="/profile"
-          element={<ProfileLayout mode="private" />}
+          element={
+            <ProtectedRoute>
+              <ProfileLayout mode="private" />
+            </ProtectedRoute>
+          }
         >
-          <Route path="profile" element={<ProfileTabProfile />} />
+          <Route path="info" element={<ProfileTabInfo />} />
           <Route path="products" element={<ProfileTabAds />} />
           <Route path="purchases" element={<ProfileTabPurchases />} />
           <Route path="sales" element={<ProfileTabSales />} />
           <Route path="favourites" element={<ProfileTabFavourites />} />
           <Route path="chats" element={<ProfileTabChats />} />
-          <Route path="posts" element={<ProfileTabPosts />} />
-          {/* Если зашли на /profile, редиректим на вкладку profile */}
-          <Route index element={<Navigate to="profile" replace />} />
+          <Route path="looks" element={<ProfileTabLooks />} />
+          {/* Если зашли на /profile, редиректим на вкладку  */}
+          <Route index element={<Navigate to="info" replace />} />
         </Route>
 
         {/* ===== ПУБЛИЧНЫЙ ПРОФИЛЬ ===== */}
