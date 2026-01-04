@@ -1,18 +1,19 @@
 import { createContext } from "react";
 
 export type CartItem = {
-  id: string;      // уникальный id товара
-  title: string;   // название товара
-  image?: string;  // картинка (опционально)
-  price?: number;  // цена (опционально)
+  productId: string; 
 };
+
 
 export type CartContextType = {
   items: CartItem[];
   addItem: (item: CartItem) => void;
-  removeItem: (id: string) => void;
-  clear: () => void;
-  isInCart: (id: string) => boolean;
+  removeItem: (productId: string) => void;
+  clearCart: () => void;
+
+  isInCart: (productId: string) => boolean;
 };
 
-export const CartContext = createContext<CartContextType | undefined>(undefined);
+export const CartContext = createContext<CartContextType | undefined>(
+  undefined
+);

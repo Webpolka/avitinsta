@@ -1,44 +1,54 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { CartContext, type CartItem } from "./cart.context";
 
-const CART_KEY = "cart_items";
+type CartProviderProps = {
+  children: ReactNode;
+};
 
-export function CartProvider({ children }: { children: ReactNode }) {
+export function CartProvider({ children }: CartProviderProps) {
   const [items, setItems] = useState<CartItem[]>(() => {
-    try {
-      const saved = localStorage.getItem(CART_KEY);
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
+    // Инициализация из LocalStorage
+    const saved = localStorage.getItem("cartItems");
+    return saved ? JSON.parse(saved) : [];
   });
 
-  // сохраняем корзину в localStorage при изменении
+  // Сохраняем каждый раз изменения корзины в LocalStorage
   useEffect(() => {
-    localStorage.setItem(CART_KEY, JSON.stringify(items));
+    localStorage.setItem("cartItems", JSON.stringify(items));
   }, [items]);
 
-  // добавить товар (только если его нет)
   const addItem = (item: CartItem) => {
     setItems((prev) => {
-      if (prev.find((i) => i.id === item.id)) return prev; // уже в корзине
+      const exists = prev.some((i) => i.productId === item.productId);
+
+      if (exists) return prev;
+
       return [...prev, item];
     });
   };
 
-  // удалить товар по id
-  const removeItem = (id: string) => {
-    setItems((prev) => prev.filter((i) => i.id !== id));
+  const removeItem = (productId: string) => {
+    setItems((prev) => prev.filter((i) => i.productId !== productId));
   };
 
-  // очистить корзину
-  const clear = () => setItems([]);
+  const clearCart = () => {   
+    setItems([])
+  };
 
-  // проверить, есть ли товар в корзине
-  const isInCart = (id: string) => items.some((i) => i.id === id);
+  const isInCart = (productId: string) => {
+    return items.some((i) => i.productId === productId);
+  };
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, clear, isInCart }}>
+    <CartContext.Provider
+      value={{
+        items,
+        addItem,
+        removeItem,
+        clearCart,
+        isInCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

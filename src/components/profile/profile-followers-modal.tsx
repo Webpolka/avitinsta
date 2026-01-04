@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Button from "@/ui/button";
 import styles from "@/styles/utilities.module.scss";
 import { useScrollToTopAndLockBody } from "@/hooks/lockBodyScrollAndTop";
+import { Loader } from "@/ui/loader";
 
 import { fetchFollowers } from "@/components/profile/fetch.followers.api";
 import { type FollowerData } from "@/mocks/followers.mocks";
@@ -115,7 +116,7 @@ export default function FollowersModal({
           {/* Лоадер */}
           {isLoading && (
             <div className="flex items-center justify-center h-full text-grayscale-300 ag-h4">
-              Загрузка...
+              <Loader/>
             </div>
           )}
 

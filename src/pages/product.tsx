@@ -13,16 +13,14 @@ import ProductsSeller from "@/components/product/productsSeller";
 import ProductsSimilar from "@/components/product/productsSimilar";
 import Breadcrumbs from "@/components/breadcrumbs";
 
-interface CartItem {
-  productId: string;
-  size?: string;
-  deliveryId?: string;
-  sellerId?: string;
-}
+import { useCart } from "@/context/use.all";
+import { CartLogger } from "@/context/cart.logger";
 
 // === Родительский компонент: проверка существования продукта ===
 export function Product() {
   const { id } = useParams();
+  const { addItem, removeItem, isInCart } = useCart();
+
   const product = PRODUCTS_DATA.find((item) => item.id === id);
 
   if (!product) {
@@ -33,24 +31,62 @@ export function Product() {
     );
   }
 
-  return <ProductView product={product} />;
+  const inCart = isInCart(product.id);
+
+  return (
+    <>
+      {/* для вывода корзины в консоле браузера  */}
+      <CartLogger /> 
+      {/* представление товара */}
+      <ProductView
+        product={product}
+        inCart={inCart}
+        addItem={addItem}
+        removeItem={removeItem}
+      />
+    </>
+  );
 }
 
 // === Дочерний компонент: всегда получает продукт ===
 interface ProductViewProps {
   product: (typeof PRODUCTS_DATA)[number];
+  inCart: boolean;
+  addItem: (item: {
+    productId: string;
+    // title: string;
+    // price: number;
+    // image?: string;
+  }) => void;
+  removeItem: (productId: string) => void;
 }
 
-function ProductView({ product }: ProductViewProps) {
-  const [liked, setLiked] = useState<boolean>(false);
-  const [cartItem, setCartItem] = useState<CartItem>();
+function ProductView({
+  product,
+  inCart,
+  addItem,
+  removeItem,
+}: ProductViewProps) {
+  const [liked, setLiked] = useState(false);
 
   const handleLike = () => setLiked((prev) => !prev);
 
+  const handleCartClick = () => {
+    if (inCart) {
+      removeItem(product.id);
+    } else {
+      addItem({
+        productId: product.id,
+        // title: product.title,
+        // price: product.price,
+        // image: product.images?.[0],
+      });
+    }
+  };
   const { size } = product;
 
   const seller = USERS_DATA.find(
-    (user) => product.seller && user.id === product.seller.id
+    (user) => product.sellerId && user.id === product.sellerId
   );
 
   const formattedSize = (() => {
@@ -67,17 +103,6 @@ function ProductView({ product }: ProductViewProps) {
         return "";
     }
   })();
-
-  const addToCart = () => {
-    setCartItem({
-      productId: product.id,
-      size: formattedSize,
-      sellerId: product.seller && product.seller.id,
-    });
-
-    // Дальше код для добавления в корзину ...
-    console.log("Добавляем в корзину:", cartItem);
-  };
 
   const formattedPrice = new Intl.NumberFormat("ru-RU", {
     style: "currency",
@@ -129,10 +154,16 @@ function ProductView({ product }: ProductViewProps) {
                 <span>Написать продавцу</span>
               </Button>
               <Button
-                onClick={addToCart}
-                className="bg-secondary min-h-15 font-mediun text-grayscale-white w-full max-w-103 border border-solid border-secondary"
+                onClick={handleCartClick}
+                className={`min-h-15 font-mediun w-full max-w-103 border border-solid cursor-pointer ${
+                  inCart
+                    ? "bg-grayscale-500 text-secondary border-grayscale-100"
+                    : "bg-secondary text-grayscale-white border-secondary"
+                }`}
               >
-                <span>Добавить в корзину</span>
+                <span>
+                  {inCart ? "Убрать из корзины" : "Добавить в корзину"}
+                </span>
               </Button>
             </div>
 

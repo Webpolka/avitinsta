@@ -1,38 +1,56 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "@/context/use.all";
+import { PRODUCTS_DATA } from "@/mocks/products.mock";
+import { USERS_DATA, type User } from "@/mocks/users.mocks";
+import { CartItem } from "@/components/cart/cart-item";
+import CartOrderItem from "@/components/cart/cart-order-item";
 import { Input } from "@/ui/input";
 import Button from "@/ui/button";
 
-import { CartItem } from "@/components/cart/cart-item";
-import CartOrderItem from "@/components/cart/cart-order-item";
-
-import type { CartItemData } from "@/components/cart/cart-item";
-
 export function Cart() {
   const deliveryPrice = 600;
-
-  // Состояние корзины и промокода
-  const [cart] = useState<CartItemData[]>(CART_DATA);
+  const { items } = useCart(); // массив объектов { productId }
   const [promo, setPromo] = useState("");
+  const navigate = useNavigate();
 
-  // Итоговая сумма
-  const itemsTotal = cart.reduce(
-    (sum, item) => sum + (item.price ?? 0) * (item.quantity ?? 1),
-    0
+  // Получаем полные данные товаров из корзины с информацией о продавце
+  const cartItems = useMemo(() => {
+    return items
+      .map(({ productId }) => {
+        const product = PRODUCTS_DATA.find((p) => p.id === productId);
+        if (!product) return null;
+
+        const seller: User | undefined = product.sellerId
+          ? USERS_DATA.find((u) => u.id === product.sellerId)
+          : undefined;
+
+        return { ...product, seller };
+      })
+      .filter(Boolean) as (typeof PRODUCTS_DATA[number] & { seller?: User })[];
+  }, [items]);
+
+  // Сумма товаров
+  const itemsTotal = useMemo(
+    () => cartItems.reduce((sum, item) => sum + item.price, 0),
+    [cartItems]
   );
+
+  // Общая сумма с доставкой
   const totalPrice = itemsTotal + deliveryPrice;
 
-  // Функция оформления заказа
+  // Переход к оформлению заказа
   const handleCheckout = () => {
-    const order = {
-      cart: cart,
-      promo: promo || null,
-      delivery: deliveryPrice,
-      total: totalPrice,
-    };
-    // Записываем в LocalStorage только при оформлении
-    localStorage.setItem("order", JSON.stringify(order));
-    // Переходим на страницу Checkout
-    window.location.href = "/checkout/start";
+    // Сохраняем ID товаров, промокод и доставку в localStorage
+    localStorage.setItem(
+      "cartDraft",
+      JSON.stringify({
+        items: items.map((i) => i.productId),
+        promo,
+        deliveryId: null,
+      })
+    );
+    navigate("/checkout/start");
   };
 
   return (
@@ -44,12 +62,14 @@ export function Cart() {
       <div className="flex flex-col md:flex-row md:gap-7.5 xl:gap-[115px] mb-30">
         {/* Список товаров */}
         <section className="flex-1">
-          {cart.map((item, index) => (
-            <CartItem key={item.id ?? index} item={item} />
-          ))}
+          {cartItems.length === 0 ? (
+            <p className="text-center text-secondary">Корзина пуста</p>
+          ) : (
+            cartItems.map((item) => <CartItem key={item.id} item={item} />)
+          )}
         </section>
 
-        {/* Информация о заказе */}
+        {/* Блок с информацией о заказе */}
         <section className="w-full flex md:w-[235px] lg:w-[285px] xl:w-[317px]">
           <div className="w-full">
             <h2 className="ag-h1 text-brand-secondary font-semibold mb-7.5">
@@ -58,7 +78,7 @@ export function Cart() {
 
             <div className="flex flex-col gap-6 mb-10">
               <CartOrderItem
-                label={`${cart.length} товара`}
+                label={`${cartItems.length} товара`}
                 value={`${itemsTotal} ₽`}
               />
               <CartOrderItem label="Доставка" value={`${deliveryPrice} ₽`} />
@@ -78,8 +98,9 @@ export function Cart() {
             <Button
               className="w-full bg-black text-grayscale-white font-medium min-h-[52px]"
               onClick={handleCheckout}
+              disabled={cartItems.length === 0}
             >
-              <span>Перейти к оформлению</span>
+              Перейти к оформлению
             </Button>
           </div>
         </section>
@@ -87,39 +108,3 @@ export function Cart() {
     </>
   );
 }
-
-/**
- * =====================================================================
- * ВРЕМЕННЫЕ ДАННЫЕ (будут заменены на API response)
- * =====================================================================
- */
-const CART_DATA: CartItemData[] = [
-  {
-    id: "1",
-    brand: "Nike Jordan",
-    title: "Кросы",
-    color: "Белый",
-    price: 13000,
-    image: "/images/products/product.png",
-    quantity: 1,
-    seller: {
-      name: "Иван Иванов",
-      avatar: "/images/avatar.png",
-      isHonest: true,
-    },
-  },
-  {
-    id: "2",
-    brand: "Adidas",
-    title: "Куртка спортивная",
-    color: "Черный",
-    price: 8500,
-    image: "/images/product.png",
-    quantity: 1,
-    seller: {
-      name: "Пётр Петров",
-      avatar: "/images/avatar.png",
-      isHonest: true,
-    },
-  },
-];

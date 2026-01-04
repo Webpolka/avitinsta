@@ -21,6 +21,7 @@ export type User = {
   online?: boolean;
   token?:string;
   phone?:string;
+  isHonest?: boolean;
 };
 
 export const USERS_DATA: User[] = [
@@ -44,6 +45,7 @@ export const USERS_DATA: User[] = [
     photos: ["/images/product.png", "/images/product.png"],
     createdAt: "2023-09-15T10:23:00.000Z",
     online: false,
+    isHonest: true,
     token: "jwt-12yguyg12w32hj12o32",
   },
   {
@@ -64,6 +66,7 @@ export const USERS_DATA: User[] = [
     favouriteProducts: [],
     photos: ["/images/product.png", "/images/product.png"],
     createdAt: "2023-08-15T10:23:00.000Z",
+    isHonest: true,
     online: true,
   },
   {
@@ -83,6 +86,7 @@ export const USERS_DATA: User[] = [
     favouriteProducts: ["1", "2", "4", "5", "10", "9"],
     isFollowing: true,
     createdAt: "2023-07-15T10:23:00.000Z",
+    isHonest: true,
     online: false,
   },
 ];

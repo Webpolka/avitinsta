@@ -3,6 +3,7 @@ import { useUser } from "@/context/use.all";
 
 import { sendCode, verifyCode, registerUser } from "./temp.auth.api";
 import { type AuthStep } from "./auth.types";
+import { useAuthUI } from "@/context/use.all";
 
 import { TopBar } from "./steps/TopBar";
 import { EmailConfirmStep } from "./steps/EmailConfirmStep";
@@ -23,6 +24,8 @@ interface AuthCanvasProps {
 // ----- AuthCanvas Component -----
 export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
   const { user, setUser } = useUser(); // контекст пользователя
+  const { finishAuth } = useAuthUI();
+
   const [code, setCode] = useState(""); // код подтверждения (email/phone)
 
   // Текущий шаг авторизации
@@ -79,7 +82,7 @@ export default function AuthCanvas({ isOpen, onClose }: AuthCanvasProps) {
     });
 
     setUser(userFromServer); // сохраняем пользователя в контекст
-    onClose(); // закрываем модалку
+    finishAuth(); // закрываем модалку  и переходим в профиль
   };
 
   // --- Отправка кода на email ---

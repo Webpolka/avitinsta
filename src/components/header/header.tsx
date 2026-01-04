@@ -2,14 +2,15 @@ import Button from "@/ui/button";
 import { Link, useNavigate } from "react-router";
 import HeaderOffCanvas from "@/components/header/headerOffcanvas";
 
-import { useAuthUI, useUser } from "@/context/use.all";
+import { useAuthUI, useUser, useCart } from "@/context/use.all";
 
 export default function Header() {
-
   const { user } = useUser();
-  const { openAuth } = useAuthUI();  
+  const { openAuth } = useAuthUI();
+  const { items } = useCart();
 
   const navigate = useNavigate();
+  const totalCount = items.length; // просто количество товаров
 
   return (
     <header>
@@ -92,11 +93,17 @@ export default function Header() {
                   to="/cart"
                   aria-label="Корзина"
                   title="Корзина"
-                  className="block w-7.5 h-7.5"
+                  className="relative flex items-center justify-center w-7.5 h-7.5 rounded-full"
                 >
                   <svg className="w-full h-full fill-none stroke-black stroke-1">
                     <use href={`/icons/symbol/sprite.svg#cart`} />
                   </svg>
+
+                  {totalCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                      {totalCount}
+                    </span>
+                  )}
                 </Link>
               </div>
             </div>

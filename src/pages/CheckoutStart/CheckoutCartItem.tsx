@@ -4,9 +4,9 @@ export interface CheckoutCartItemData {
   title?: string;
   price?: number;
   color?: string;
-  image?: string;
-  quantity?: number;
+  images?: string[];
   seller?: {
+    id?: string;
     name?: string;
     avatar?: string;
     isHonest?: boolean;
@@ -20,7 +20,8 @@ type Props = {
 export const CheckoutCartItem = ({ item }: Props) => {
   if (!item) return null;
 
-  const { id, brand, title, price, image, quantity, seller } = item;
+  const { id, brand, title, price, images, seller } = item;
+  const image = images?.[0] ?? "/images/product-placeholder.png";
 
   return (
     <div className="flex flex-col mb-7.5 sm:mb-7.5">
@@ -111,8 +112,6 @@ export const CheckoutCartItem = ({ item }: Props) => {
           <span className="ag-h8 text-brand-secondary">{size}</span>
         </div>
       )}
-
-      {quantity && <div className="hidden">{quantity}</div>}
     </div>
   );
 };

@@ -2,38 +2,43 @@ import { useEffect } from "react";
 
 export function useScrollToTopAndLockBody(maxWidth: number = 640) {
   useEffect(() => {
-     // Проверяем, мобилка ли сейчас
-    if (window.innerWidth > maxWidth) return;
-
-    // Скроллим страницу к верху
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "instant", // без анимации, чтобы не было дерганий
-    });
-
     const body = document.body;
 
-    // Сохраняем исходные значения
+    // сохраняем оригинальные значения
     const originalOverflow = body.style.overflow;
     const originalPaddingRight = body.style.paddingRight;
 
-    // Считаем ширину скроллбара
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
+    const applyLock = () => {
+      if (window.innerWidth > maxWidth) {
+        // если десктоп — снимаем лок
+        body.style.overflow = originalOverflow;
+        body.style.paddingRight = originalPaddingRight;
+        return;
+      }
 
-    // Блокируем скролл
-    body.style.overflow = "hidden";
+      // скролл вверх
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 
-    // Компенсируем исчезновение скроллбара
-    if (scrollbarWidth > 0) {
-      body.style.paddingRight = `${scrollbarWidth}px`;
-    }
+      // считаем ширину скроллбара
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
 
-    // Cleanup при закрытии модалки
+      body.style.overflow = "hidden";
+      body.style.paddingRight =
+        scrollbarWidth > 0 ? `${scrollbarWidth}px` : "";
+    };
+
+    // первичное применение
+    applyLock();
+
+    // подписка на resize
+    window.addEventListener("resize", applyLock);
+
     return () => {
+      // cleanup
+      window.removeEventListener("resize", applyLock);
       body.style.overflow = originalOverflow;
       body.style.paddingRight = originalPaddingRight;
     };
-  }, []);
+  }, [maxWidth]);
 }

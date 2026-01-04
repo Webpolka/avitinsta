@@ -38,6 +38,11 @@ export function AuthUIProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const finishAuth = () => {
+    setIsAuthOpen(false);
+    navigate("/profile", { replace: true });
+  };
+
   //  прямой заход на /login
   useEffect(() => {
     if (location.pathname === "/login" && !location.state?.backgroundLocation) {
@@ -50,7 +55,9 @@ export function AuthUIProvider({ children }: { children: ReactNode }) {
   }, [location]);
 
   return (
-    <AuthUIContext.Provider value={{ isAuthOpen, openAuth, closeAuth }}>
+    <AuthUIContext.Provider
+      value={{ isAuthOpen, openAuth, closeAuth, finishAuth }}
+    >
       {children}
     </AuthUIContext.Provider>
   );

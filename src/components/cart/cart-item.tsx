@@ -1,26 +1,18 @@
-export interface CartItemData {
-  id?: string;
-  brand?: string;
-  title?: string;
-  price?: number;
-  color?: string;
-  image?: string;
-  quantity?: number;
-  seller?: {
-    name?: string;
-    avatar?: string;
-    isHonest?: boolean;
-  };
+import { type ProductCardData } from "@/mocks/products.mock";
+import { USERS_DATA, type User } from "@/mocks/users.mocks";
+
+interface CartItemProps {
+  item: ProductCardData;
 }
-
-type Props = {
-  item?: CartItemData;
-};
-
-export const CartItem = ({ item }: Props) => {
+export const CartItem = ({ item }: CartItemProps) => {
   if (!item) return null;
 
-  const { id, brand, title, price, color, image, quantity, seller } = item;
+  const { id, brand, title, price, color, images, sellerId } = item;
+
+  // Получаем объект селлера по ID  
+  const seller: User | undefined = USERS_DATA.find((u) => u.id === sellerId);
+  // Берём картинку (если есть)
+  const image = images?.[0] ?? "";
 
   return (
     <div className="flex flex-col mb-[65px] sm:mb-[70px]">
@@ -45,16 +37,14 @@ export const CartItem = ({ item }: Props) => {
               </span>
 
               {seller?.isHonest && (
-                <span className="ag-h10 text-grayscale-300">
-                  Честный продавец
-                </span>
+                <span className="ag-h10 text-grayscale-300">Честный продавец</span>
               )}
             </div>
           )}
         </div>
       )}
 
-      <div className="flex flex-row  gap-[8%] items-center">
+      <div className="flex flex-row gap-[8%] items-center">
         {/* Картинка */}
         {image && (
           <img
@@ -67,14 +57,12 @@ export const CartItem = ({ item }: Props) => {
 
         {/* Информация */}
         <div className="flex-1">
-          {/* ID (мобилка) */}
           {id && (
             <div className="sm:hidden mb-2 ag-c1 font-normal text-grayscale-700">
               ID: {id}
             </div>
           )}
 
-          {/* Название и цена */}
           {(brand || price) && (
             <h3 className="ag-h4 mb-2 flex flex-col gap-2 sm:gap-0 sm:flex-row justify-between w-full">
               {brand && (
@@ -89,12 +77,8 @@ export const CartItem = ({ item }: Props) => {
             </h3>
           )}
 
-          {/* Описание */}
-          {title && (
-            <p className="text-gray-400 sm:min-h-12 font-semibold">{title}</p>
-          )}
+          {title && <p className="text-gray-400 sm:min-h-12 font-semibold">{title}</p>}
 
-          {/* Цвет (десктоп) */}
           {color && (
             <div className="hidden sm:flex gap-2">
               <span className="text-gray-400">Цвет</span>
@@ -104,15 +88,12 @@ export const CartItem = ({ item }: Props) => {
         </div>
       </div>
 
-      {/* Цвет (планшет) */}
       {color && (
         <div className="flex sm:hidden gap-4 mt-6">
           <span className="ag-h8 text-grayscale-500">Цвет</span>
           <span className="ag-h8 text-brand-secondary">{color}</span>
         </div>
       )}
-
-      {quantity && <div className="hidden">{quantity}</div>}
     </div>
   );
 };
