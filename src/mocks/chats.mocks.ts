@@ -33,6 +33,7 @@ export const CHATS_DATA: Chat[] = [
       brand: "Nike Jordan",
       images: ["/images/products/product.png"],
       price: 350,
+      sellerId: "1"
     },
     messages: [
       {
@@ -66,6 +67,7 @@ export const CHATS_DATA: Chat[] = [
       brand: "Adidas",
       images: ["/images/product.png"],
       price: 350,
+      sellerId: "1"
     },
     messages: [
       {
@@ -98,6 +100,7 @@ export const CHATS_DATA: Chat[] = [
       brand: "Levi's",
       images: ["/images/product.png"],
       price: 350,
+      sellerId: "1"
     },
     messages: [
       {
