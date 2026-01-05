@@ -22,6 +22,8 @@ export type User = {
   token?:string;
   phone?:string;
   isHonest?: boolean;
+  mailingAgree?:boolean;
+  policyAgree?:boolean;
 };
 
 export const USERS_DATA: User[] = [

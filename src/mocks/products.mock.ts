@@ -1,3 +1,8 @@
+export interface ProductSize {
+  system: "EU" | "ONE_SIZE" | "LETTER";
+  value?: number | string;
+}
+
 export interface ProductCardData {
   id: string;
   title: string;
@@ -6,12 +11,9 @@ export interface ProductCardData {
   brand?: string;
   description?: string;
   category?: string[];
-  size?:
-    | { system: "EU"; value: number | string }
-    | { system: "ONE_SIZE" }
-    | { system: "LETTER"; value: string };
+  sizes?: ProductSize[];
   color?: string;
-  condition?: "new" | "used";
+  condition?: "Новое" | "Б/У";
   delivery?: { method: string; id: string }[];
   sellerId: string;
   favoriteCount?: number;
@@ -23,24 +25,15 @@ export interface ProductCardData {
 export const PRODUCTS_DATA: ProductCardData[] = [
   {
     id: "1",
-    images: [
-      "/images/products/product.png",
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/product.png",
-      "/images/products/product.png",
-    ],
+    images: ["/images/products/product.png", "/images/product.png"],
     brand: "Nike Jordan",
     title: "Кросы",
     category: ["Обувь", "Кроссовки", "Nike", "Air Jordan"],
-    description:
-      "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
+    description: "Яркий пример современных тенденций...",
     price: 13000,
-    size: { system: "LETTER", value: "S" },
+    sizes: [{ system: "LETTER", value: "S" }],
     color: "Белый",
-    condition: "new",
+    condition: "Новое",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -54,20 +47,15 @@ export const PRODUCTS_DATA: ProductCardData[] = [
   },
   {
     id: "2",
-    images: [
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/products/product.png",
-    ],
+    images: ["/images/product.png", "/images/products/product.png"],
     brand: "Adidas",
     title: "Куртка спортивная",
     category: ["Одежда", "Верхняя одежда", "Adidas"],
-    description:
-      "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
+    description: "Яркий пример современных тенденций...",
     price: 8500,
-    size: { system: "EU", value: 42 },
+    sizes: [{ system: "EU", value: 42 }],
     color: "Белый",
-    condition: "used",
+    condition: "Б/У",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -81,20 +69,15 @@ export const PRODUCTS_DATA: ProductCardData[] = [
   },
   {
     id: "3",
-    images: [
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/products/product.png",
-    ],
+    images: ["/images/product.png", "/images/products/product.png"],
     brand: "Levi's",
     title: "Джинсы",
     category: ["Одежда", "Джинсы", "Levi's"],
-    description:
-      "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
+    description: "Яркий пример современных тенденций...",
     price: 10200,
-    size: { system: "EU", value: 36 },
+    sizes: [{ system: "EU", value: 36 }],
     color: "Белый",
-    condition: "used",
+    condition: "Б/У",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -108,20 +91,15 @@ export const PRODUCTS_DATA: ProductCardData[] = [
   },
   {
     id: "4",
-    images: [
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/products/product.png",
-    ],
+    images: ["/images/product.png", "/images/products/product.png"],
     brand: "Rolex",
     title: "Часы",
     category: ["Аксессуары", "Часы", "Rolex"],
-    description:
-      "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
+    description: "Яркий пример современных тенденций...",
     price: 95000,
-    size: { system: "ONE_SIZE" },
+    sizes: [{ system: "ONE_SIZE" }],
     color: "Синий",
-    condition: "new",
+    condition: "Новое",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -135,20 +113,15 @@ export const PRODUCTS_DATA: ProductCardData[] = [
   },
   {
     id: "5",
-    images: [
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/products/product.png",
-    ],
+    images: ["/images/product.png", "/images/products/product.png"],
     brand: "Zara",
     title: "Футболка",
     category: ["Одежда", "Футболки", "Zara"],
-    description:
-      "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
+    description: "Яркий пример современных тенденций...",
     price: 2500,
-    size: { system: "LETTER", value: "M" },
+    sizes: [{ system: "LETTER", value: "M" }],
     color: "Черный",
-    condition: "used",
+    condition: "Б/У",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -162,20 +135,15 @@ export const PRODUCTS_DATA: ProductCardData[] = [
   },
   {
     id: "6",
-    images: [
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/products/product.png",
-    ],
+    images: ["/images/product.png", "/images/products/product.png"],
     brand: "Gucci",
     title: "Сумка",
     category: ["Аксессуары", "Сумки", "Gucci"],
-    description:
-      "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
+    description: "Яркий пример современных тенденций...",
     price: 78000,
-    size: { system: "ONE_SIZE" },
+    sizes: [{ system: "ONE_SIZE" }],
     color: "Белый",
-    condition: "used",
+    condition: "Б/У",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -189,20 +157,15 @@ export const PRODUCTS_DATA: ProductCardData[] = [
   },
   {
     id: "7",
-    images: [
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/products/product.png",
-    ],
+    images: ["/images/product.png", "/images/products/product.png"],
     brand: "Puma",
     title: "Кроссовки",
     category: ["Обувь", "Кроссовки", "Puma"],
-    description:
-      "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
+    description: "Яркий пример современных тенденций...",
     price: 6700,
-    size: { system: "EU", value: 43 },
+    sizes: [{ system: "EU", value: 43 }],
     color: "Красный",
-    condition: "new",
+    condition: "Новое",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -216,20 +179,15 @@ export const PRODUCTS_DATA: ProductCardData[] = [
   },
   {
     id: "8",
-    images: [
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/products/product.png",
-    ],
+    images: ["/images/product.png", "/images/products/product.png"],
     brand: "Samsung",
     title: "Смартфон",
     category: ["Электроника", "Смартфоны", "Samsung"],
-    description:
-      "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
+    description: "Яркий пример современных тенденций...",
     price: 52000,
-    size: { system: "ONE_SIZE" },
+    sizes: [{ system: "ONE_SIZE" }],
     color: "Белый",
-    condition: "new",
+    condition: "Новое",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -243,20 +201,15 @@ export const PRODUCTS_DATA: ProductCardData[] = [
   },
   {
     id: "9",
-    images: [
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/products/product.png",
-    ],
+    images: ["/images/product.png", "/images/products/product.png"],
     brand: "H&M",
     title: "Джинсовая куртка",
     category: ["Одежда", "Верхняя одежда", "H&M"],
-    description:
-      "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
+    description: "Яркий пример современных тенденций...",
     price: 4200,
-    size: { system: "LETTER", value: "L" },
-    color: "Фиолетоывый",
-    condition: "new",
+    sizes: [{ system: "LETTER", value: "L" }],
+    color: "Фиолетовый",
+    condition: "Новое",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },
@@ -270,20 +223,15 @@ export const PRODUCTS_DATA: ProductCardData[] = [
   },
   {
     id: "10",
-    images: [
-      "/images/product.png",
-      "/images/products/product.png",
-      "/images/products/product.png",
-    ],
+    images: ["/images/product.png", "/images/products/product.png"],
     brand: "Reebok",
     title: "Спортивные штаны",
     category: ["Одежда", "Спортивные", "Reebok"],
-    description:
-      "Вот вам яркий пример современных тенденций — граница обучения кадров способствует повышению качества экономической целесообразности принимаемых решений. В рамках спецификации современных стандартов, представители современных социальных резервов представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть объединены в целые кластеры себе подобных.",
+    description: "Яркий пример современных тенденций...",
     price: 3100,
-    size: { system: "LETTER", value: "XL" },
+    sizes: [{ system: "LETTER", value: "XL" }],
     color: "Белый",
-    condition: "new",
+    condition: "Новое",
     delivery: [
       { method: "CDEK", id: "33" },
       { method: "Самовывоз", id: "22" },

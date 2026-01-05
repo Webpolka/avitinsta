@@ -8,7 +8,7 @@ import { AddCommentInput } from "./addCommentInput";
 import { DesktopHeader } from "./desktopHeader";
 import { DesktopFooter } from "./desktopFooter";
 
-import { useLockBodyScroll } from "@/hooks/lockBodyScroll";
+import { useLockBodyScroll } from "@/hooks/lockScroll";
 import styles from "@/styles/utilities.module.scss";
 
 type CommentsModalProps = {

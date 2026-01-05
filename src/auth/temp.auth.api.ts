@@ -1,5 +1,5 @@
 // import {v4 as uuidv4} from "uuid";
-import { USERS_DATA, type User } from "@/mocks/users.mocks";
+import { type User } from "@/mocks/users.mocks";
 /**
  * Имитация базы кодов на сервере
  * key = email или phone
@@ -46,7 +46,7 @@ export function verifyCode(target: {
 
       if (storedCode !== target.code) {
         reject(new Error("Неверный код"));
-        return ;
+        return;
       }
 
       codeStorage.delete(key);
@@ -63,33 +63,54 @@ export function verifyCode(target: {
 // ==========================
 // REGISTER USER
 // ==========================
-export function registerUser(data: {
-  email?: string;
-  phone?: string;
-  name: string;
-  mailingAgree: boolean;
-  policyAgree: boolean;
-}): Promise<User> {
+export function registerUser(data: FormData): Promise<User> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // обязательная проверка
-      if (!data.policyAgree) {
+      // проверка принятия политики
+      const policyAgree = data.get("policyAgree") === "true";
+      if (!policyAgree) {
         reject(new Error("Policy must be accepted"));
         return;
       }
 
-      const user: User = USERS_DATA[0] as User;
+      // собираем данные пользователя из FormData
+      const email = (data.get("email") as string) || "";
+      const phone = (data.get("phone") as string) || "";
+      const name = (data.get("name") as string) || "User";
+      const mailingAgree = data.get("mailingAgree") === "true";
+      const avatarFile = data.get("avatar") as File | null;
 
-      // const user: User = {
-      //   id: uuidv4(),
-      //   email: data.email,
-      //   phone: data.phone,
-      //   name: data.name,
-      //   avatar: "",
-      //   token: "mock-jwt-token",
-      //   mailingAgree: data.mailingAgree,
-      //   policyAgree: data.policyAgree,
-      // } as User;
+      // генерируем аватар, если файл есть (для мокапа)
+      const avatarUrl = avatarFile ? URL.createObjectURL(avatarFile) : "";
+
+      // создаём пользователя
+      const user: User = {
+        id: "1", // или uuidv4(), если есть
+        email,
+        phone,
+        name,
+        avatar: avatarUrl,
+        token: "mock-jwt-token",
+        mailingAgree,
+        policyAgree,
+
+        description:
+        "Здесь продается оригинальная продукция: кроссовки и стритвир. Все вещи с чеками и гарантией подлинности. Быстрая доставка по всей России",
+        handle: `@@${name}`,
+        isMe: true,
+        verified: true,
+        rating: 1,
+        reviewsCount: 22,
+        productsCount: 4,
+        followersCount: 620,
+        followingCount: 20,
+        isFollowing: false,
+        favouriteProducts: ["1", "3", "5", "6", "8", "9"],
+        photos: ["/images/product.png", "/images/product.png"],
+        createdAt: "2023-09-15T10:23:00.000Z",
+        online: false,
+        isHonest: true,
+      };
 
       // сохраняем токен
       localStorage.setItem("token", user.token ?? "");
@@ -98,5 +119,4 @@ export function registerUser(data: {
     }, 800);
   });
 }
-
 

@@ -12,15 +12,15 @@ interface MethodStepProps {
 export function MethodStep({ onSelect }: MethodStepProps) {
   return (
     <>
-      <div className="flex flex-col gap-10 max-w-[392px] ">
+      <div className="flex flex-col gap-8 sm:gap-10 max-w-[392px] ">
         {/* Заголовок */}
-        <h2 className="ag-w2 sm:ag-w4 font-semibold text-center text-secondary mb-5">
+        <h2 className="ag-w22 sm:ag-w4 font-semibold text-center text-secondary mb-2 sm:mb-5">
           Войти в личный кабинет
         </h2>
 
         {/* Кнопка входа по номеру телефона */}
         <button
-          className="w-full min-h-[55px] flex items-center justify-center ag-h6 font-medium bg-black text-white cursor-pointer hover:opacity-90"
+          className="w-full min-h-[48px] sm:min-h-[55px] flex items-center justify-center ag-h7 sm:ag-h6 font-medium bg-black text-white cursor-pointer hover:opacity-90"
           onClick={() => onSelect("phoneInput")}
         >
           По номеру телефона
@@ -28,7 +28,7 @@ export function MethodStep({ onSelect }: MethodStepProps) {
 
         {/* Кнопка входа по email */}
         <button
-          className=" w-full min-h-[55px] flex items-center justify-center ag-h6 font-medium bg-black text-white cursor-pointer hover:opacity-90"
+          className=" w-full min-h-[48px] sm:min-h-[55px] flex items-center justify-center ag-h7 sm:ag-h6 font-medium bg-black text-white cursor-pointer hover:opacity-90"
           onClick={() => onSelect("emailInput")}
         >
           По электронной почте

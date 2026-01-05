@@ -41,3 +41,10 @@
   }
 }
 
+.xsLastMxInitial {
+  @media (min-width: 440px) {
+    &:last-child {
+      margin-inline: initial;
+    }
+  }
+}

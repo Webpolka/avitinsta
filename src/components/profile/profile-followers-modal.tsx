@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Button from "@/ui/button";
 import styles from "@/styles/utilities.module.scss";
-import { useScrollToTopAndLockBody } from "@/hooks/lockBodyScrollAndTop";
+import { useToTopMobileLockScroll } from "@/hooks/lockScroll";
 import { Loader } from "@/ui/loader";
 
 import { fetchFollowers } from "@/components/profile/fetch.followers.api";
@@ -28,7 +28,7 @@ export default function FollowersModal({
   // При открытии модалки:
   // - скроллим страницу вверх
   // - блокируем скролл body (только на мобилке)
-  useScrollToTopAndLockBody();
+  useToTopMobileLockScroll();
 
   // Загрузка подписчиков при открытии модалки или смене userId
   useEffect(() => {

@@ -12,14 +12,13 @@ import { NotFound } from "@/pages/notfound";
 import { Maintenance } from "@/pages/maintenance";
 import { Catalog } from "@/pages/catalog";
 import { Cart } from "@/pages/cart";
-import { CartEmpty } from "@/pages/cart-empty";
 import { CheckoutStart } from "@/pages/CheckoutStart/CheckoutStart";
 import { CheckoutFinish } from "@/pages/CheckoutFinish/CheckoutFinish";
 import { Search } from "@/pages/search";
 import { Product } from "@/pages/product";
 import { ProductAdd } from "@/pages/product-add";
 import { Faq } from "@/pages/faq";
-import { SellerRating } from "@/pages/seller-rating";
+import { SellerRating } from "@/pages/rating";
 import { Looks } from "@/pages/looks/looks";
 
 // Profile tabs
@@ -31,13 +30,15 @@ import { ProfileTabFavourites } from "@/pages/profile/tab/favourites";
 import { ProfileTabChats } from "@/pages/profile/tab/chats";
 import { ProfileTabLooks } from "@/pages/profile/tab/looks";
 
-import { ProtectedRoute } from "@/pages/profile/protectedRoute";
-
-// Public profile
-import { PublicPurchaseHistory } from "@/pages/profile/public/purchase-history";
-
 // Chat
 import { ProfileChat } from "@/pages/chat";
+
+// Protected Route
+import { ProtectedRoute } from "@/pages/profile/protectedRoute";
+
+// Public profiles
+import { UserProducts } from "@/pages/public/user-products";
+import { UserPurchases } from "@/pages/public/user-purchases";
 
 // Auth modal
 import AuthCanvas from "@/auth/AuthCanvas";
@@ -52,13 +53,12 @@ export function AppRouter() {
 
   return (
     <>
-        <Routes location={state?.backgroundLocation || location}>
+      <Routes location={state?.backgroundLocation || location}>
         {/* Main layout */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/cart/empty" element={<CartEmpty />} />
           <Route path="/checkout/start" element={<CheckoutStart />} />
           <Route path="/checkout/finish" element={<CheckoutFinish />} />
           <Route path="/search" element={<Search />} />
@@ -72,7 +72,15 @@ export function AppRouter() {
           <Route path="/login" element={<Home />} />
         </Route>
 
-        {/* Profile */}
+         {/* No footer layout */}
+        <Route element={<NoFooterLayout />}>
+          <Route path="/chats/:chatId" element={<ProfileChat />} />
+          <Route path="/maintenance" element={<Maintenance />} />
+          <Route path="/*" element={<NotFound />} />
+        </Route>
+
+
+        {/* Profile layout*/}
         <Route
           path="/profile"
           element={
@@ -89,29 +97,14 @@ export function AppRouter() {
           <Route path="chats" element={<ProfileTabChats />} />
           <Route path="looks" element={<ProfileTabLooks />} />
           <Route index element={<Navigate to="info" replace />} />
-        </Route>
+        </Route>       
 
-        {/* Public profile */}
-        <Route
-          path="/purchases/:id"
-          element={<ProfileLayout mode="public-no-media" />}
-        >
-          <Route index element={<Navigate to="products" replace />} />
-          <Route path="products" element={<PublicPurchaseHistory />} />
-        </Route>
-        <Route
-          path="/u/:id"
-          element={<ProfileLayout mode="public-with-media" />}
-        >
-          <Route index element={<Navigate to="products" replace />} />
-          <Route path="products" element={<PublicPurchaseHistory />} />
-        </Route>
-
-        {/* No footer */}
-        <Route element={<NoFooterLayout />}>
-          <Route path="/chats/:chatId" element={<ProfileChat />} />
-          <Route path="/maintenance" element={<Maintenance />} />
-          <Route path="/*" element={<NotFound />} />
+        {/* Public user profile */}
+        <Route path="/user/:id" element={<ProfileLayout mode="public" />}>
+          {/* Товары пользователя — дефолт */}
+          <Route index element={<UserProducts />} />
+          {/* История покупок */}
+          <Route path="purchases" element={<UserPurchases />} />
         </Route>
       </Routes>
 

@@ -89,6 +89,7 @@ export function ProfileTabInfo() {
         {/* Имя + Дата рождения */}
         <div className="flex flex-col sm:flex-row gap-6">
           <ThisInput
+          name="profile-info-name"
             label="Имя"
             value={form.firstName}
             required
@@ -98,6 +99,7 @@ export function ProfileTabInfo() {
           />
 
           <BirthDatePicker
+          name="profile-info-birthday"
             value={form.birthDate}
             onChange={(val: string) => updateField("birthDate", val)}
           />         
@@ -128,6 +130,7 @@ export function ProfileTabInfo() {
         {/* Телефон + Email */}
         <div className="flex flex-col sm:flex-row gap-6">
           <ThisInput
+          name="profile-info-phone"
             label="Телефон"
             value={form.phone}
             onChange={(val) => updateField("phone", val)}
@@ -135,6 +138,7 @@ export function ProfileTabInfo() {
             top="0.4"
           />
           <ThisInput
+          name="profile-info-email"
             label="E-mail"
             value={form.email}
             onChange={(val) => updateField("email", val)}
@@ -150,6 +154,7 @@ export function ProfileTabInfo() {
 
         {/* Фамилия */}
         <ThisInput
+        name="profile-info-lastname"
           label="Фамилия"
           value={form.lastName}
           required
@@ -161,6 +166,7 @@ export function ProfileTabInfo() {
         {/* Имя + Отчество */}
         <div className="flex flex-col sm:flex-row gap-6">
           <ThisInput
+          name="profile-info-firstname"
             label="Имя"
             value={form.addressFirstName}
             required
@@ -169,6 +175,7 @@ export function ProfileTabInfo() {
             top="0.4"
           />
           <ThisInput
+          name="profile-info-secondname"
             label="Отчество"
             value={form.middleName}
             onChange={(val) => updateField("middleName", val)}
@@ -180,6 +187,7 @@ export function ProfileTabInfo() {
         {/* Регион + Город */}
         <div className="flex flex-col sm:flex-row gap-6">
           <ThisInput
+          name="profile-info-region"
             label="Регион"
             value={form.region}
             onChange={(val) => updateField("region", val)}
@@ -187,6 +195,7 @@ export function ProfileTabInfo() {
             top="0.4"
           />
           <ThisInput
+          name="profile-info-city"
             label="Город"
             value={form.city}
             required
@@ -199,6 +208,7 @@ export function ProfileTabInfo() {
         {/* Улица + Дом / Квартира */}
         <div className="flex flex-col sm:flex-row gap-6">
           <ThisInput
+          name="profile-info-street"
             label="Улица"
             value={form.street}
             required
@@ -208,6 +218,7 @@ export function ProfileTabInfo() {
           />
           <div className="flex gap-2 flex-1 w-full">
             <ThisInput
+            name="profile-info-home"
               label="Дом и квартира"
               value={form.house}
               required

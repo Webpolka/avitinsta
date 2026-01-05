@@ -8,14 +8,17 @@ import { ProfileTabs } from "@/components/profile/profile-tabs";
 
 import { type User } from "@/mocks/users.mocks";
 import { type ProfileFormState, type PhotoItem } from "./tab/info";
+import { USERS_DATA } from "@/mocks/users.mocks";
+
 import { useUser } from "@/context/use.all";
+import { useParams } from "react-router-dom";
 
 /* =========================
    Context type
 ========================= */
 export type ProfileContext = {
   user: User;
-  mode: "private" | "public-with-media" | "public-no-media";
+  mode: "private" | "public";
   form: ProfileFormState;
   setForm: React.Dispatch<React.SetStateAction<ProfileFormState>>;
   photos: File[];
@@ -23,7 +26,7 @@ export type ProfileContext = {
 };
 
 type ModeProps = {
-  mode: "private" | "public-with-media" | "public-no-media";
+  mode: "private" | "public";
 };
 
 /* =========================
@@ -37,6 +40,14 @@ export function ProfileLayout({ mode }: ModeProps) {
      user from global context
   ========================= */
   const { user } = useUser();
+  const { id } = useParams();
+
+  let uuser;
+  if (mode === "private") {
+    uuser = user;
+  } else {
+    uuser = USERS_DATA.find((user) => user.id === id);
+  }
 
   /* =========================
      form state (CENTRAL)
@@ -67,8 +78,7 @@ export function ProfileLayout({ mode }: ModeProps) {
      guards
   ========================= */
 
-
-  if (!user) {
+  if (!uuser) {
     return (
       <div className="p-5 max-w-5xl mx-auto">
         <p className="text-red-500">Пользователь не найден</p>
@@ -89,7 +99,7 @@ export function ProfileLayout({ mode }: ModeProps) {
           <div className="pt-7.5 sm:pl-0 sm:pr-0 sm:pt-11 max-w-[1163px] mx-auto xl:pt-26 xl:mb-55 mb-45 w-full">
             {/* profile header */}
             <ProfileHeader
-              user={user}
+              user={uuser}
               mode={mode}
               activeTab={activeTab}
               photos={photos}
@@ -98,7 +108,7 @@ export function ProfileLayout({ mode }: ModeProps) {
 
             {/* tabs */}
             <ProfileTabs
-              userId={user.id}
+              userId={uuser.id}
               mode={mode}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
@@ -119,7 +129,8 @@ export function ProfileLayout({ mode }: ModeProps) {
         </div>
       </main>
 
-      {mode === "private" && <Footer />}
+      {/* {mode === "private" && <Footer />} */}
+      <Footer />
     </div>
   );
 }

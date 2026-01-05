@@ -6,7 +6,7 @@ interface TopBarProps {
 
 export function TopBar({ canGoBack, onBack, onClose }: TopBarProps) {
   return (
-    <div className="absolute top-[5%] lg:top-[10%] right-[8%] left-[8%] flex items-center justify-between px-6 ">
+    <div className="mt-10 mb-3 mx-5 sm:mx-15 flex items-center justify-between">
       {/* Левая зона */}
       <div className="w-10">
         {canGoBack && (

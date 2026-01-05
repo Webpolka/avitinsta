@@ -33,7 +33,7 @@ export function UniversalTabs({ tabs, activeKey, onChange }: TabsProps) {
           }`}
         >
           <span className="ag-h7 sm:ag-h4 font-medium">
-            {tab.label} {(tab.count !== undefined && tab.count !== 0) && ` (${tab.count})`}
+            {tab.label } {(tab.count !== undefined && tab.count !== 0  &&   currentTab === tab.key) && ` (${tab.count})`}
           </span>
         </button>
       ))}

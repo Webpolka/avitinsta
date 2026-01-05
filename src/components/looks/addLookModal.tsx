@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Button from "@/ui/button";
 import styles from "@/styles/utilities.module.scss";
-import { useLockBodyScroll } from "@/hooks/lockBodyScroll";
+import { useLockBodyScroll } from "@/hooks/lockScroll";
 
 type AddLookModalProps = {
   onClose: () => void;

@@ -40,19 +40,19 @@ export function EmailInputStep({ email, setEmail, onNext }: Props) {
   }, [email]);
 
   return (
-    <div className="flex flex-col w-full max-w-[394px]">
+    <div className="flex flex-col w-full max-w-[394px]  sm:pt-10">
       {/* Заголовок */}
-      <h2 className="ag-w22 lg:ag-w3 font-semibold text-center text-secondary mb-5">
+      <h2 className="ag-w22 lg:ag-w4 font-semibold text-center text-secondary mb-4 sm:mb-5">
         Введите адрес электронной почты
       </h2>
 
       {/* Подсказка */}
-      <p className="ag-h3 text-secondary text-center mb-12">
+      <p className="ag-h4 sm:ag-h3 text-secondary text-center mb-6 sm:mb-12">
         Отправим код из 4 цифр на почту
       </p>
 
       {/* Поле ввода email */}
-      <div className="w-full relative mb-16">
+      <div className="w-full relative mb-8 sm:mb-16">
         <input
           type="email"
           value={email}
@@ -77,7 +77,7 @@ export function EmailInputStep({ email, setEmail, onNext }: Props) {
 
       {/* Кнопка подтверждения */}
       <button
-        className="w-full min-h-[55px] flex cursor-pointer items-center justify-center ag-h6 font-medium bg-black text-white hover:opacity-90"
+        className="w-full min-h-[48px] sm:min-h-[55px] flex cursor-pointer items-center justify-center ag-h7 sm:ag-h6 font-medium bg-black text-white hover:opacity-90"
         onClick={handleNext}
       >
         Получить код

@@ -11,7 +11,7 @@ function Card({ id, title, image, link }: CardProps) {
   return (
     <div className="relative aspect-[171/170] sm:aspect-[209/170] lg:aspect-[319/170] overflow-hidden">
       <Link
-        id={`category-${id}`}
+        id={`catalog/${id}`}
         to={link || "/"}
         className="
           group
@@ -56,7 +56,7 @@ function CardTall({ id, title, image, link }: CardProps) {
   return (
     <div className="relative w-full h-full shrink-0 aspect-[358/221] md:aspect-[initial] overflow-hidden">
       <Link
-        id={`category-${id}`}
+        id={`catalog/${id}`}
         to={link || "/"}
         className="
           group

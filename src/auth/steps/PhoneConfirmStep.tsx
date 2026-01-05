@@ -146,17 +146,17 @@ export function PhoneConfirmStep({
   };
 
   return (
-    <div className="flex flex-col max-w-[392px] px-5">
+    <div className="flex flex-col max-w-[392px] px-5  sm:pt-10">
       {/* Заголовок */}
-      <h2 className="ag-w3 max-w-[250px] mx-auto font-semibold text-center text-secondary mb-5">
+      <h2 className="ag-w22 sm:ag-w4 max-w-[250px] mx-auto font-semibold text-center text-secondary mb-4 sm:mb-5">
         Подтвердите номер
       </h2>
 
       {/* Телефон */}
-      <p className="ag-h2 text-secondary text-center mb-5">8 {phone}</p>
+      <p className="ag-h3 sm:ag-h2 text-secondary text-center mb-3 sm:mb-5">8 {phone}</p>
 
       {/* Подсказка */}
-      <p className="ag-h3 text-grayscale-700 text-center mb-4">
+      <p className="ag-h4 sm:ag-h3 text-grayscale-700 text-center mb-2 sm:mb-4">
         введите код из смс
       </p>
 
@@ -195,19 +195,19 @@ export function PhoneConfirmStep({
 
       {/* Ошибка */}
       {error && (
-        <p className="text-red-500 text-center mt-3 ag-h4">
+        <p className="ag-h6 sm:ag-h4 text-red-500 text-center mt-3">
           Неверный код
         </p>
       )}
 
       {/* Таймер */}
-      <p className="ag-h4 text-grayscale-700 mt-4 mb-3 text-center">
+      <p className="ag-h7 sm:ag-h4 text-grayscale-700 text-center mt-4 mb-1 sm:mb-3 ">
         Отправим код повторно через {counter} сек.
       </p>
 
       {/* Помощь */}
       <button
-        className="ag-h4 text-secondary mt-3 cursor-pointer hover:opacity-80 mx-auto mb-9"
+        className="ag-h6 sm:ag-h4 text-secondary cursor-pointer hover:opacity-80 mx-auto mt-3 mb-5 sm:mb-9"
         onClick={onHelp}
       >
         Не приходит SMS?
@@ -215,7 +215,7 @@ export function PhoneConfirmStep({
 
       {/* Подтверждение */}
       <button
-        className="w-full min-h-[55px] flex cursor-pointer items-center justify-center ag-h6 font-medium bg-black text-white hover:opacity-90"
+        className="w-full min-h-[48px] sm:min-h-[55px] flex cursor-pointer items-center justify-center ag-h7 sm:ag-h6 font-medium bg-black text-white hover:opacity-90"
         onClick={handleConfirm}
       >
         подтвердить номер

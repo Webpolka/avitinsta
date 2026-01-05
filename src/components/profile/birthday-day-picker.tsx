@@ -11,6 +11,7 @@ interface BirthDatePickerProps {
   onChange: (value: string) => void;
   top?: string;
   className?: string;
+  name?:string;
 }
 
 export function BirthDatePicker({
@@ -18,6 +19,7 @@ export function BirthDatePicker({
   onChange,
   required = false,
   top = "0",
+  name,
   className = "",
 }: BirthDatePickerProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -60,6 +62,7 @@ export function BirthDatePicker({
         {required && <span className="text-secondary ml-1">*</span>}
       </span>
       <input
+      name={name}
         type="text"
         required={required}
         readOnly

@@ -18,7 +18,7 @@ type PhotoItem = {
 
 type ProfileHeaderProps = {
   user: User;
-  mode: "private" | "public-with-media" | "public-no-media";
+  mode: "private" | "public";
   photos: PhotoItem[];
   setPhotos: React.Dispatch<React.SetStateAction<PhotoItem[]>>;
   activeTab: string;
@@ -56,14 +56,16 @@ export function ProfileHeader({
 
   // Инициализация фото из моков (один раз)
   useEffect(() => {
-    if (mode === "private" && activeTab === "info" && user.photos?.length) {
+    // if (mode === "private" && activeTab === "info" && user.photos?.length) {
+
+     if (user.photos?.length) {
       const initialPhotos: PhotoItem[] = user.photos.map((url) => ({
         id: uuidv4(),
         src: url,
         isNew: false,
       }));
       setPhotos(initialPhotos);
-    }
+     }
   }, [mode, activeTab, user.photos, setPhotos]);
 
   // Dropzone
@@ -106,11 +108,13 @@ export function ProfileHeader({
               )}
             </h1>
             <p className="text-grayscale-700 ag-h3 mb-1">{user.handle}</p>
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              <span className="ag-h8 text-secondary font-medium">
-                {user.rating?.toFixed(1) || 0}
-              </span>
-              <StarRating rating={user.rating} size={16} gap={1} />
+            <div className="flex items-center gap-1.5 flex-wrap ">
+              <div className="flex items-center gap-1.5">
+                <span className="ag-h8 text-secondary font-medium">
+                  {user.rating?.toFixed(1) || 0}
+                </span>
+                <StarRating rating={user.rating} size={16} gap={0} />
+              </div>
               {user.reviewsCount && (
                 <span className="ag-h8 text-secondary font-medium">
                   — {user.reviewsCount} отзыва
@@ -171,7 +175,7 @@ export function ProfileHeader({
 
       {/* Dropzone + галерея */}
       {((mode === "private" && activeTab === "info") ||
-        mode === "public-with-media") && (
+        (mode === "public" && activeTab ==="profile")) && (
         <div className="flex flex-row flex-wrap gap-4 sm:gap-7.5 mt-2">
           {photos.map((p) => (
             <div

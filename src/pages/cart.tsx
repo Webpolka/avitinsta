@@ -41,7 +41,6 @@ export function Cart() {
 
   // Переход к оформлению заказа
   const handleCheckout = () => {
-    // Сохраняем ID товаров, промокод и доставку в localStorage
     localStorage.setItem(
       "cartDraft",
       JSON.stringify({
@@ -53,6 +52,29 @@ export function Cart() {
     navigate("/checkout/start");
   };
 
+  // Если корзина пустая, рендерим альтернативный блок
+  if (cartItems.length === 0) {
+    return (
+      <div className="w-full flex justify-center items-center min-h-[88vh] sm:min-h-[85vh] pb-5">
+        <div className="flex flex-col items-center gap-3 max-w-[430px] text-center">
+          <h2 className="ag-h1 font-semibold text-secondary">Корзина</h2>
+          <p className="ag-h6 font-medium text-[#21212d] mb-6">
+            В вашей корзине пока ничего нет, но у нас огромный{" "}
+            <br className="hidden sm:inline-block" />
+            выбор
+          </p>
+          <Button
+            to="/"
+            className="m-auto self-start text-secondary border border-black border-solid min-h-11 min-w-75"
+          >
+            <span>На главную</span>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Иначе — рендерим корзину с товарами
   return (
     <>
       <h1 className="ag-h1 pt-3 sm:pt-7.5 pb-15 sm:pb-10 text-center font-semibold text-secondary">
@@ -62,11 +84,9 @@ export function Cart() {
       <div className="flex flex-col md:flex-row md:gap-7.5 xl:gap-[115px] mb-30">
         {/* Список товаров */}
         <section className="flex-1">
-          {cartItems.length === 0 ? (
-            <p className="text-center text-secondary">Корзина пуста</p>
-          ) : (
-            cartItems.map((item) => <CartItem key={item.id} item={item} />)
-          )}
+          {cartItems.map((item) => (
+            <CartItem key={item.id} item={item} />
+          ))}
         </section>
 
         {/* Блок с информацией о заказе */}

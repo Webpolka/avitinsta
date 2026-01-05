@@ -36,7 +36,7 @@ export function Product() {
   return (
     <>
       {/* для вывода корзины в консоле браузера  */}
-      <CartLogger /> 
+      <CartLogger />
       {/* представление товара */}
       <ProductView
         product={product}
@@ -53,10 +53,7 @@ interface ProductViewProps {
   product: (typeof PRODUCTS_DATA)[number];
   inCart: boolean;
   addItem: (item: {
-    productId: string;
-    // title: string;
-    // price: number;
-    // image?: string;
+    productId: string;  
   }) => void;
   removeItem: (productId: string) => void;
 }
@@ -76,14 +73,12 @@ function ProductView({
       removeItem(product.id);
     } else {
       addItem({
-        productId: product.id,
-        // title: product.title,
-        // price: product.price,
-        // image: product.images?.[0],
+        productId: product.id,       
       });
     }
   };
-  const { size } = product;
+
+  const size = product.sizes?.[0];
 
   const seller = USERS_DATA.find(
     (user) => product.sellerId && user.id === product.sellerId
@@ -95,10 +90,13 @@ function ProductView({
     switch (size.system) {
       case "EU":
         return `EU: ${size.value}`;
+
       case "LETTER":
         return size.value;
+
       case "ONE_SIZE":
         return "One Size";
+
       default:
         return "";
     }

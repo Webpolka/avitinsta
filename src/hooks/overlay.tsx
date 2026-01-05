@@ -1,4 +1,4 @@
-import { useOverlayLockScroll } from "./overlayLockScroll";
+import { useOverlayLockScroll } from "./lockScroll";
 interface OverlayProps {
   isOpen: boolean;
   onClick: () => void;

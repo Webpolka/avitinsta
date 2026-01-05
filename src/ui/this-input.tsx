@@ -7,6 +7,7 @@ type ThisInputProps = {
   placeholder?: string;
   onChange: (val: string) => void;
 
+  name?:string;
   required?: boolean;
   type?: React.HTMLInputTypeAttribute;
   className?: string;
@@ -16,6 +17,7 @@ type ThisInputProps = {
 export function ThisInput({
   label,
   value,
+  name,
   placeholder,
   onChange,
   required = false,
@@ -31,6 +33,7 @@ export function ThisInput({
       </span>
 
       <input
+      name={name}
         type={type}
         required={required}
         value={value}

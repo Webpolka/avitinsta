@@ -52,22 +52,22 @@ export function PhoneInputStep({ phone, setPhone, onNext }: Props) {
   }, [phone]);
 
   return (
-    <div className="flex flex-col max-w-[392px]">
+    <div className="flex flex-col max-w-[392px]  sm:pt-10">
       {/* Заголовок */}
-      <h2 className="ag-w3 font-semibold text-center text-secondary mb-5">
+      <h2 className="ag-w22 sm:ag-w4 font-semibold text-center text-secondary mb-4 sm:mb-5">
         Введите номер телефона
       </h2>
 
       {/* Подсказка */}
-      <p className="ag-h3 text-secondary text-center">
+      <p className="ag-h4 sm:ag-h3 text-secondary text-center mb-4 sm:mb-11">
         Отправим код из 4 цифр в SMS
       </p>
 
       {/*  Инпут номера с маской */}
-      <div className="relative flex gap-4 mt-11 mb-17">
+      <div className="relative flex gap-4 mb-10 sm:mb-17">
         {/* Код страны */}
         <span
-          className={`inline-block py-1 ag-h4 border-b ${
+          className={`inline-block py-1 ag-h1 sm:ag-h4 border-b ${
             error ? "border-red-500" : "border-secondary"
           }`}
         >
@@ -93,7 +93,7 @@ export function PhoneInputStep({ phone, setPhone, onNext }: Props) {
               }
             }}
             placeholder="___-___-__-__"
-            className={`w-full py-1 ag-h4 border-b focus:outline-none ${
+            className={`w-full py-1 ag-h1 sm:ag-h4 border-b focus:outline-none ${
               error ? "border-red-500" : "border-secondary"
             }`}
           />
@@ -109,7 +109,7 @@ export function PhoneInputStep({ phone, setPhone, onNext }: Props) {
 
       {/* Кнопка подтверждения */}
       <button
-        className="w-full min-h-[55px] flex cursor-pointer items-center justify-center ag-h6 font-medium bg-black text-white hover:opacity-90"
+        className="w-full min-h-[48px] sm:min-h-[55px] flex cursor-pointer items-center justify-center ag-h7 sm:ag-h6 font-medium bg-black text-white hover:opacity-90"
         onClick={handleNext}
       >
         получить код

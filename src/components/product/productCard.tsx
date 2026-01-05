@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { USERS_DATA} from "@/mocks/users.mocks";
 
 import { type ProductCardData } from "@/mocks/products.mock";
 
@@ -15,11 +16,13 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
     brand,
     title,
     price,
-    size,
-    seller,
+    sizes,
+    sellerId,
     favoriteCount = 0,
     isFavorite = false,
   } = data;
+
+   const seller = USERS_DATA.find(user => user.id === sellerId);
 
   const mainImage = images[0]; 
   const productLink = `/product/${id}`;
@@ -34,6 +37,8 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
 
   // форматирование числа с пробелами для читаемости
   const formattedPrice = price.toLocaleString("ru-RU") + " ₽";
+
+  const size = sizes?.[0];
 
   const formattedSize = (() => {
     if (!size) return "";
@@ -54,7 +59,7 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
     <div className={`group flex flex-col gap-3 overflow-hidden ${className ?? ""}`}> 
       {/* Мобильный блок с пользователем */}
       {seller && (
-        <Link to={seller.link} className="flex sm:hidden items-start gap-2">
+        <Link to={`/user/${seller.id}`} className="flex sm:hidden items-start gap-2">
           <img
             src={seller.avatar}
             alt={seller.name}
@@ -110,7 +115,7 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
           <span className="ag-h8 text-grayscale-700">{formattedSize}</span>
 
           {seller && (
-            <Link to={seller.link} className="hidden sm:flex flex-col items-center gap-1">
+            <Link to={`/user/${seller.id}`} className="hidden sm:flex flex-col items-center gap-1">
               <img
                 src={seller.avatar}
                 alt={seller.name}

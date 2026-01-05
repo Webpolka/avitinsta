@@ -2,15 +2,25 @@ import { useState } from "react";
 import ProductCard from "./productCard";
 import { type ProductCardData } from "@/mocks/products.mock";
 
-interface PurchasesHistoryProps {
-  items: ProductCardData[]; // товары (моки / SSR)
+interface ProductsPublicProps {
+  items: ProductCardData[];       // товары для отображения
+  title?: string;                 // заголовок
+  initialLimit?: number;          // сколько показывать по умолчанию
+  showAllButtonText?: string;     // текст кнопки "Посмотреть все"
+  loadingText?: string;           // текст во время загрузки
+  showButton?:boolean;
 }
 
-const ITEMS_LIMIT = 12; // сколько показываем по умолчанию
-
-export default function PublicPurchaseHistory({ items }: PurchasesHistoryProps) {
+export default function ProductsPublic({
+  items,
+  title = "Купленные товары",
+  initialLimit = 4,
+  showAllButtonText = "Посмотреть все",
+  loadingText = "Загрузка...",
+  showButton = true,
+}: ProductsPublicProps) {
   // текущие отображаемые товары
-  const [products, setProducts] = useState<ProductCardData[]>(items.slice(0, ITEMS_LIMIT));
+  const [products, setProducts] = useState<ProductCardData[]>(items.slice(0, initialLimit));
 
   // состояние загрузки
   const [loading, setLoading] = useState(false);
@@ -37,7 +47,7 @@ export default function PublicPurchaseHistory({ items }: PurchasesHistoryProps) 
     <div className="flex flex-col items-center gap-11">
       {/* Заголовок */}
       <h2 className="ag-h2 sm:ag-h1 text-secondary font-semibold text-center">
-        Купленные товары
+        {title}
       </h2>
 
       {/* Сетка товаров */}
@@ -48,7 +58,7 @@ export default function PublicPurchaseHistory({ items }: PurchasesHistoryProps) 
       </div>
 
       {/* Кнопка "Показать все" */}
-      {!showAll && items.length > ITEMS_LIMIT && (
+      {showButton && !showAll && items.length > initialLimit && (
         <button
           onClick={handleShowAll}
           disabled={loading}
@@ -61,7 +71,7 @@ export default function PublicPurchaseHistory({ items }: PurchasesHistoryProps) 
             disabled:opacity-50 disabled:cursor-not-allowed
           "
         >
-          <span>{loading ? "Загрузка..." : "Посмотреть все"}</span>
+          <span>{loading ? loadingText : showAllButtonText}</span>
         </button>
       )}
     </div>

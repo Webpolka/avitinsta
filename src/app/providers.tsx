@@ -1,8 +1,8 @@
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { AppRouter } from "./router";
-import  UseScrollToTop  from "@/hooks/useScrollToTop";
+import { UsePageScrollToTop } from "@/hooks/scroll";
 
-import { UserProvider } from "@/context/user.provider"
+import { UserProvider } from "@/context/user.provider";
 import { AuthUIProvider } from "@/context/auth.ui.provider";
 import { CartProvider } from "@/context/cart.provider";
 
@@ -12,11 +12,11 @@ const Router =
 export function AppProviders() {
   return (
     <Router>
-      <UseScrollToTop/>
+      <UsePageScrollToTop />
       <UserProvider>
         <AuthUIProvider>
           <CartProvider>
-           <AppRouter/>
+            <AppRouter />
           </CartProvider>
         </AuthUIProvider>
       </UserProvider>
