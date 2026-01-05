@@ -39,7 +39,8 @@ export function ProfileTabs({ userId, mode, setActiveTab }: ProfileTabsProps) {
       : [];
 
  return (
-  <div className="flex flex-wrap -ml-1 -mr-1 mb-10 sm:mb-12 xl:flex-nowrap gap-y-4.5 gap-x-[2.5%] sm:gap-x-[7.5%] xl:gap-x-[4.8%]">
+  <div className={`flex flex-wrap -ml-1 -mr-1 mb-10 sm:mb-12 gap-2.5 sm:gap-5
+    ${mode == "private" ? "mx-auto sm:mx-[initial] justify-center xl:justify-between" : ""}`}>
     {tabs.map((tab) => {
       return (
         <NavLink
@@ -49,9 +50,9 @@ export function ProfileTabs({ userId, mode, setActiveTab }: ProfileTabsProps) {
           className={({ isActive }) => {
             if (mode === "private") {
               // === Private Mode ===
-              return `min-h-9.5 rounded-xl flex items-center px-[9px] sm:px-6 ${
+              return `min-h-9.5 rounded-xl flex items-center ${
                 isActive
-                  ? "text-secondary border bg-grayscale-white border-grayscale-300"
+                  ? "text-secondary border px-[9px] sm:px-6  bg-grayscale-white border-grayscale-300"
                   : "text-grayscale-300 hover:text-grayscale-500 border border-transparent bg-transparent"
               }`;
             } else {
