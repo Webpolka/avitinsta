@@ -34,7 +34,7 @@ export const USERS_DATA: User[] = [
     name: "Myauchelo7",
     description:
       "Здесь продается оригинальная продукция: кроссовки и стритвир. Все вещи с чеками и гарантией подлинности. Быстрая доставка по всей России",
-    handle: "@@Myauchelo7",
+    handle: "@Myauchelo7",
     email: "petr.petrov@example.com",
     verified: true,
     rating: 1,

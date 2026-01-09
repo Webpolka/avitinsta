@@ -24,7 +24,7 @@ export default function Header() {
 
             <Link
               to="/"
-              className="flex items-center overflow-hidden h-11 w-[140px] min-[365px]:w-[150px] min-[380px]:w-[170px]"
+              className="flex items-center overflow-hidden h-11 w-[140px] min-[365px]:w-[150px] min-[380px]:w-[170px]"             
             >
               <img
                 className="w-full h-full object-cover"
@@ -61,7 +61,7 @@ export default function Header() {
                 <button
                   onClick={openAuth}
                   aria-label="Профиль"
-                  title="Профиль"
+                  title={user ? 'Перейти в профиль' :'Войти'}
                   className="relative block w-7.5 h-7.5 cursor-pointer"
                 >
                   <svg className="w-full h-full fill-none stroke-black stroke-[1.2px]">
@@ -85,7 +85,7 @@ export default function Header() {
                     }
                   }}
                   aria-label="Избранное"
-                  title="Избранное"
+                  title="Избранные товары"
                   className="block w-7.5 h-7.5 cursor-pointer"
                 >
                   <svg className="w-full h-full fill-none stroke-black stroke-[1.7px]">
@@ -97,7 +97,7 @@ export default function Header() {
                 <Link
                   to="/cart"
                   aria-label="Корзина"
-                  title="Корзина"
+                  title="Перейти в корзину"
                   className="relative flex items-center justify-center w-7.5 h-7.5 rounded-full"
                 >
                   <svg className="w-full h-full fill-none stroke-black stroke-[1.2px]">

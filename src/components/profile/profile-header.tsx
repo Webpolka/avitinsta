@@ -58,14 +58,14 @@ export function ProfileHeader({
   useEffect(() => {
     // if (mode === "private" && activeTab === "info" && user.photos?.length) {
 
-     if (user.photos?.length) {
+    if (user.photos?.length) {
       const initialPhotos: PhotoItem[] = user.photos.map((url) => ({
         id: uuidv4(),
         src: url,
         isNew: false,
       }));
       setPhotos(initialPhotos);
-     }
+    }
   }, [mode, activeTab, user.photos, setPhotos]);
 
   // Dropzone
@@ -102,9 +102,11 @@ export function ProfileHeader({
             <h1 className="ag-h1 font-semibold text-secondary flex flex-nowrap gap-4">
               <span className="whitespace-nowrap">{user.name}</span>
               {mode !== "private" && (
-                <svg className="w-8 h-8 aspect-square inline-block">
-                  <use href="/icons/symbol/sprite.svg#done" />
-                </svg>
+                <div title="Аккаунт пользователя подтвержден !">
+                  <svg className="w-8 h-8 aspect-square inline-block">
+                    <use href="/icons/symbol/sprite.svg#done" />
+                  </svg>
+                </div>
               )}
             </h1>
             <p className="text-grayscale-700 ag-h3 mb-1">{user.handle}</p>
@@ -148,7 +150,7 @@ export function ProfileHeader({
             <span className="ag-h4 text-grayscale-700 font-medium">товара</span>
           </span>
 
-          <button
+          <button title={`${mode === "private" ? "Посмотреть подписчиков" : ""}`}
             onClick={() => setIsFollowersOpenOnlyPrivat()}
             className={`flex flex-col gap-1 items-start ${
               mode === "private" ? " cursor-pointer" : ""
@@ -162,7 +164,7 @@ export function ProfileHeader({
             </span>
           </button>
 
-          <button className="flex flex-col gap-1 cursor-pointer items-start">
+          <button className="flex flex-col gap-1 items-start">
             <span className="font-semibold text-secondary ag-h1">
               {user.followingCount || 0}
             </span>
@@ -175,7 +177,7 @@ export function ProfileHeader({
 
       {/* Dropzone + галерея */}
       {((mode === "private" && activeTab === "info") ||
-        (mode === "public" && activeTab ==="profile")) && (
+        (mode === "public" && activeTab === "profile")) && (
         <div className="flex flex-row flex-wrap gap-4 sm:gap-7.5 mt-2">
           {photos.map((p) => (
             <div
