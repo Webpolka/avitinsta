@@ -23,6 +23,10 @@ export function AddLookModal({ onClose, onSubmit }: AddLookModalProps) {
   // Описание образа
   const [description, setDescription] = useState("");
 
+  
+  // Валидация отправки
+  const isSubmitDisabled = !file || description.trim().length === 0;
+
   // Хештеги образа
   const [hashtags, setHashtags] = useState<string[]>([]);
 
@@ -70,10 +74,10 @@ export function AddLookModal({ onClose, onSubmit }: AddLookModalProps) {
     <div
       ref={overlayRef}
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center sm:bg-black/30"
     >
       <div
-        className={`${styles.hiddenScroll} ${styles.hFullHeaderMinus} absolute bottom-0 sm:static bg-white sm:rounded-xl w-full max-w-full sm:max-w-[634px] xl:max-w-[707px] sm:max-h-[95vh] overflow-y-auto`}
+        className={`${styles.hiddenScroll} ${styles.hFullHeaderMinus} absolute bottom-0 sm:static bg-fon sm:rounded-xl w-full max-w-full sm:max-w-[634px] xl:max-w-[707px] sm:max-h-[95vh] overflow-y-auto`}
       >
         <div className="flex flex-col gap-6 px-5 pt-5 pb-6 sm:pb-2">
           {/* Dropzone */}
@@ -148,7 +152,11 @@ export function AddLookModal({ onClose, onSubmit }: AddLookModalProps) {
         <div className="flex justify-center gap-3 mt-2 border-t border-grayscale-300 pt-6 pb-17.5 sm:pb-7.5 sm:pt-7.5 px-4">
           <Button
             onClick={handleSubmit}
-            className="max-w-[328px] w-full px-4 py-2 bg-secondary text-white min-h-11 hover:opacity-90 cursor-pointer"
+            disabled={isSubmitDisabled}
+            className={`
+    max-w-[328px] w-full px-4 py-2 bg-secondary text-white min-h-11 hover:opacity-90 cursor-pointer
+    ${isSubmitDisabled
+      ? "opacity-70 cursor-not-allowed" : ""}`}
           >
             <span>Добавить</span>
           </Button>

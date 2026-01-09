@@ -25,7 +25,7 @@ export function LooksHeader({
 
       {/* Блок поиска */}
       <div className="order-3 w-full md:order-2 md:flex-1 md:ml-[60px] md:mr-[100px] lg:ml-[100px] lg:mr-[125px]">
-        <div className="rounded-full px-3 min-h-[46px] border border-gray-300 flex items-center gap-3">
+        <div className="rounded-full px-3 min-h-[36px] sm:min-h-[42px] lg:min-h-[46px] border border-gray-300 flex items-center gap-2 sm:gap-3">
           {/* Кнопка поиска */}
           <button onClick={onSubmit} aria-label="Search">
             <svg className="w-7.5 h-7.5 text-grayscale-500">
@@ -38,8 +38,8 @@ export function LooksHeader({
             value={query} // значение из пропсов
             onChange={(e) => onChange(e.target.value)} // обновление родительского state
             onKeyDown={(e) => e.key === "Enter" && onSubmit()} // отправка по Enter
-            placeholder="Поиск по хештегам"
-            className="ag-h6 font-medium outline-none bg-transparent w-full"
+            placeholder="Введите хэштег"
+            className="ag-h7 sm:ag-h7 font-medium outline-none bg-transparent w-full"
           />
         </div>
       </div>

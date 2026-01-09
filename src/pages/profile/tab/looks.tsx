@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { formatCountRu } from "@/hooks/formatCount";
 
 import { useUser } from "@/context/use.all";
 import { LOOKS_DATA, type Look } from "@/mocks/looks.mock";
@@ -125,7 +126,7 @@ export function ProfileTabLooks() {
                       <use href="/icons/symbol/sprite.svg#heart" />
                     </svg>
                     <span className="ag-h6 font-medium">
-                      {likesCountMap[look.id]}
+                      {formatCountRu(likesCountMap[look.id])}
                     </span>
                   </button>
 
@@ -140,7 +141,7 @@ export function ProfileTabLooks() {
                     <svg className="w-6 h-6 fill-white">
                       <use href="/icons/symbol/sprite.svg#comment" />
                     </svg>
-                    <span className="ag-h6 font-medium">{commentsCount}</span>
+                    <span className="ag-h6 font-medium">{formatCountRu(commentsCount)}</span>
                   </button>
                 </div>
               </div>

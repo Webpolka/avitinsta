@@ -28,13 +28,13 @@ export const LOOKS_DATA: Look[] = [
     hashtags: ["осень", "streetstyle", "casual"],
 
     viewsCount: 3000,
-    likesCount: 124,
+    likesCount: 2100,
     commentsCount: 18,
 
     isLiked: true,
     isSaved: true,
   },
-   {
+  {
     id: "l2",
     user: USERS_DATA[0],
     image: "/images/look.png",
@@ -48,21 +48,21 @@ export const LOOKS_DATA: Look[] = [
     isLiked: true,
     isSaved: true,
   },
-   {
-    id: "l1",
+  {
+    id: "l3",
     user: USERS_DATA[0],
     image: "/images/look.png",
     description: "Мой повседневный образ на осень ",
     hashtags: ["осень", "streetstyle", "casual"],
 
     viewsCount: 3000,
-    likesCount: 124,
+    likesCount: 2100,
     commentsCount: 18,
 
     isLiked: true,
     isSaved: true,
   },
-   {
+  {
     id: "l4",
     user: USERS_DATA[0],
     image: "/images/look.png",
@@ -70,17 +70,17 @@ export const LOOKS_DATA: Look[] = [
     hashtags: ["осень", "streetstyle", "casual"],
 
     viewsCount: 3000,
-    likesCount: 24,
+    likesCount: 2100,
     commentsCount: 18,
 
     isLiked: true,
     isSaved: true,
   },
-    
+
   {
-    id: "l2",
+    id: "l5",
     user: USERS_DATA[1],
-     image: "/images/kukai.webp",
+    image: "/images/kukai.webp",
     description: "Минимализм и комфорт",
     hashtags: ["minimal", "black", "style"],
 

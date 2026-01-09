@@ -64,10 +64,10 @@ export function ProfileChat() {
 
   return (
     <div
-      className={`${styles.hFullHeaderMinusAll} -mt-3 sm:mt-0 pt-0 xl:pl-16 xl:pr-20 flex flex-col gap-5`}
+      className={`${styles.hFullHeaderMinusAll} -mt-3 sm:mt-0 pt-0 xl:pl-16 xl:pr-20 flex flex-col gap-2`}
     >
       {/* Хедер чата */}
-      <div className="flex items-center gap-5 px-5 py-4 border-b border-gray-300">
+      <div className="flex items-center gap-5 px-5 py-4 border-b border-gray-300 mb-3">
         <img
           src={chat.participant.avatar}
           alt={chat.participant.name}
@@ -86,7 +86,7 @@ export function ProfileChat() {
           {chat.participant.online ? (
             <span className="ag-h9 font-medium text-system-green">Онлайн</span>
           ) : (
-             <span className="ag-h9 font-medium text-system-red">Не в сети</span>
+            <span className="ag-h9 font-medium text-system-red">Не в сети</span>
           )}
         </div>
       </div>
@@ -126,15 +126,15 @@ export function ProfileChat() {
           return (
             <div
               key={msg.id}
-              className={`flex mb-5  sm:mb-2 px-3 ${
+              className={`flex mb-7.5 sm:mb-3 sm:px-3 ${
                 isMe ? "justify-end" : "justify-start"
               }`} // добавляем зазор, если предыдущий был от того же отправителя
             >
               <div
-                className={`max-w-[264px] sm:max-w-[318px] xl:max-w-[421px] p-3 rounded-lg  ${
+                className={`w-full sm:max-w-[318px] xl:max-w-[421px] p-3 rounded-lg  ${
                   isMe
-                    ? "bg-[#08f] text-white"
-                    : "bg-grayscale-100 text-secondary"
+                    ? "bg-[#08f] text-white max-w-[280px]"
+                    : "bg-grayscale-100 text-secondary max-w-[264px]"
                 }`}
               >
                 <p className="ag-h7 mb-1">{msg.text}</p>
@@ -157,13 +157,19 @@ export function ProfileChat() {
       </div>
 
       {/* Поле ввода + кнопка отправки */}
-      <div className="mb-5 sm:mb-7.5 bg-white rounded-full px-4 min-h-[46px] border border-gray-300 flex items-center gap-3 focus-within:border-grayscale-500">
+      <div className="mb-4 sm:mb-7.5 bg-white rounded-full px-4 min-h-[46px] border border-gray-300 flex items-center gap-3 focus-within:border-grayscale-500">
         <input
           type="text"
           ref={inputRef}
           placeholder={sendingStatus ? "Отправление..." : "Напишите сообщение"}
           className="ag-h7 font-medium placeholder:text-grayscale-00 outline-none bg-transparent w-full"
           disabled={sendingStatus}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault(); // чтобы не было переноса строки
+              sendMessage();
+            }
+          }}
         />
         <button
           type="button"

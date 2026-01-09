@@ -7,7 +7,11 @@ type AddCommentInputProps = {
   onSend?: (text: string) => void; // Callback для отправки текста
 };
 
-export function AddCommentInput({ placeholder, absolute = false, onSend }: AddCommentInputProps) {
+export function AddCommentInput({
+  placeholder,
+  absolute = false,
+  onSend,
+}: AddCommentInputProps) {
   const [text, setText] = useState(""); // Состояние текста в input
   const [sendingStatus, setSendingStatus] = useState(false); // Статус отправки
 
@@ -20,6 +24,7 @@ export function AddCommentInput({ placeholder, absolute = false, onSend }: AddCo
     if (absolute) {
       // для модалки сразу вызываем callback
       onSend?.(sendingText);
+      setSendingStatus(false);
     } else {
       // для обычного поля делаем имитацию сетевого запроса
       setTimeout(() => {
@@ -29,6 +34,14 @@ export function AddCommentInput({ placeholder, absolute = false, onSend }: AddCo
     }
 
     setText(""); // очищаем поле ввода
+  };
+
+  // Обработка нажатия клавиши Enter
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // чтобы не добавлялся перенос строки
+      handleSend();
+    }
   };
 
   return (
@@ -48,6 +61,7 @@ export function AddCommentInput({ placeholder, absolute = false, onSend }: AddCo
           placeholder={sendingStatus ? "Отправление..." : placeholder} // подсказка меняется во время отправки
           className="ag-h7 font-medium placeholder:text-grayscale-00 outline-none bg-transparent w-full"
           disabled={sendingStatus && absolute} // блокируем при отправке в модалке
+          onKeyDown={handleKeyDown} // обработка Enter
         />
         <button
           type="button"

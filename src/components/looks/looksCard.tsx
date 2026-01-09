@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { formatCountRu } from "@/hooks/formatCount";
+import { CommentsModal } from "@/components/commentsModal/commentsModal";
+
 import { type Look } from "@/mocks/looks.mock";
 import { COMMENTS_DATA } from "@/mocks/comment.mock";
-import { CommentsModal } from "@/components/commentsModal/commentsModal";
+
 
 export function LookCard({ look }: { look: Look }) {
   const { user } = look;
@@ -27,7 +30,7 @@ export function LookCard({ look }: { look: Look }) {
     console.log(
       `${subscribed ? "Отписались от" : "Подписались на"} ${user.name}`
     );
-  };  
+  };
 
   // Обработчик клика по теги
   const handleTagClick = (tag: string) => console.log("Ищем хештег:", tag);
@@ -62,73 +65,72 @@ export function LookCard({ look }: { look: Look }) {
         </div>
 
         {/* Изображение образа */}
-        <div className="bg-grayscale-100 w-full aspect-[886/500]">
+        <div className="bg-grayscale-100 w-full h-[510px]">
           {look.image && (
             <img
               src={look.image}
-              className="w-full object-cover aspect-[886/500] overflow-hidden"
+              className="w-full object-cover h-[510px] overflow-hidden"
             />
           )}
         </div>
 
         {/* Footer: лайки, комментарии, описание, хештеги */}
-        <div className="px-6 py-5 flex flex-col gap-3">
+        <div className="px-3 sm:px-6 py-5 flex flex-col gap-3">
           {/* Лайки и комментарии */}
-         
-            <div className="flex items-center gap-6">
-              <button
-                onClick={toggleLike}
-                className="flex items-center gap-2 hover:opacity-80 cursor-pointer"
-              >
-                <svg
-                  className={`w-7.5 h-7.5 ${
-                    liked
-                      ? "fill-red-500 stroke-red-500"
-                      : "fill-none stroke-secondary"
-                  }`}
-                >
-                  <use href="/icons/symbol/sprite.svg#heart" />
-                </svg>
-                <span className="ag-h7 text-secondary font-medium">
-                  {likesCount || 0}
-                </span>
-              </button>
-              <button
-                onClick={() => setIsOpen(true)}
-                className="flex items-center gap-2 hover:opacity-80 cursor-pointer"
-              >
-                <svg className="w-7.5 h-7.5">
-                  <use href="/icons/symbol/sprite.svg#comment" />
-                </svg>
-                <span className="ag-h7 text-secondary font-medium">
-                  {commentsCount || 0}
-                </span>
-              </button>
-            </div>
-      
 
-          {/* Описание */}
-          {look.description && (
-            <div className="flex gap-7.5">
-              <span className="ag-h6 font-medium text-secondary">
-                {user.name}
+          <div className="flex items-center gap-6">
+            <button
+              onClick={toggleLike}
+              className="flex items-center gap-2 hover:opacity-80 cursor-pointer"
+            >
+              <svg
+                className={`w-7.5 h-7.5 ${
+                  liked
+                    ? "fill-red-500 stroke-red-500"
+                    : "fill-none stroke-secondary"
+                }`}
+              >
+                <use href="/icons/symbol/sprite.svg#heart" />
+              </svg>
+              <span className="ag-h7 text-secondary font-medium">
+                {formatCountRu(likesCount || 0)}
               </span>
+            </button>
+            <button
+              onClick={() => setIsOpen(true)}
+              className="flex items-center gap-2 hover:opacity-80 cursor-pointer"
+            >
+              <svg className="w-7.5 h-7.5">
+                <use href="/icons/symbol/sprite.svg#comment" />
+              </svg>
+              <span className="ag-h7 text-secondary font-medium">
+                {formatCountRu(commentsCount || 0)}
+              </span>
+            </button>
+          </div>
+
+          <div className="flex gap-7.5 mb-2 sm:mb-0">
+            <span className="ag-h6 font-medium text-secondary">
+              {user.name}
+            </span>
+            {/* Описание */}
+            {look.description && (
               <span className="ag-h8 md:ag-h6 font-medium text-grayscale-700 mt-0.5 md:mt-0">
                 {look.description}
               </span>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Хештеги */}
           {Array.isArray(look.hashtags) && look.hashtags.length > 0 && (
             <div className="flex flex-wrap gap-3">
-              {look.hashtags.map((tag) => (
+              {look.hashtags.map((tag, i) => (
                 <button
-                  key={tag}
+                  key={`hashtag-${i}`}
                   onClick={() => handleTagClick(tag)}
-                  className="text-brand-primary-hover ag-h9 md:ag-h7 font-medium cursor-pointer"
+                  className="text-brand-primary-hover ag-h9 md:ag-h7 font-medium cursor-pointer hover:underline"
                 >
-                  #{tag}
+                  <span>#{tag}</span>
                 </button>
               ))}
             </div>

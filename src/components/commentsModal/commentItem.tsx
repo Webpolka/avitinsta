@@ -1,11 +1,15 @@
+import React from "react";
+import { formatCountRu } from "@/hooks/formatCount";
+import { formatDistanceToNowStrict } from "date-fns";
+import { ru } from "date-fns/locale";
+
 import { type Comment } from "@/mocks/comment.mock";
 import { USERS_DATA } from "@/mocks/users.mocks";
-import React from "react";
 
 // Пропсы для отдельного комментария
 type CommentItemProps = {
   comment: Comment; // объект комментария
-  user?: typeof USERS_DATA[number]; // пользователь, который оставил комментарий
+  user?: (typeof USERS_DATA)[number]; // пользователь, который оставил комментарий
   onReply: (replyTo: { commentId: string; username: string }) => void; // callback для ответа на комментарий
   isRoot?: boolean; // корневой ли это комментарий (не ответ)
   likesState: Record<string, { count: number; liked: boolean }>; // состояние лайков для комментариев
@@ -38,7 +42,7 @@ export function CommentItem({
   return (
     // Отступ для вложенных ответов
     <div className={`${isRoot ? "" : "ml-12"} flex flex-col gap-2`}>
-      <div className="flex gap-5">
+      <div className={`${isRoot ? "gap-5" : "gap-3 sm:gap-5"} flex`}>
         {/* Аватар пользователя */}
         <img
           src={user?.avatar || undefined}
@@ -52,11 +56,19 @@ export function CommentItem({
         <div className="flex flex-1 flex-col">
           {/* Имя пользователя и дата */}
           <div className="ag-h6 font-medium text-grayscale-500 mb-1">
-            {user?.name || "Без имени"} · {comment.createdAt}
+            {user?.name || "Без имени"} ·{" "}
+            {formatDistanceToNowStrict(comment.createdAt, {
+              addSuffix: true,
+              locale: ru,
+            })}
           </div>
 
           {/* Текст комментария */}
-          <p className={`${isRoot ? "ag-h7" : "ag-h8"} text-secondary leading-5 mb-0.5 pr-5`}>
+          <p
+            className={`${
+              isRoot ? "ag-h7" : "ag-h8"
+            } text-secondary leading-5 mb-0.5 pr-5`}
+          >
             {comment.text}
           </p>
 
@@ -64,7 +76,8 @@ export function CommentItem({
           <div className="flex justify-between items-end gap-3">
             {/* Лайки */}
             <span className="ag-h9 font-medium text-grayscale-500">
-              Отметки “Нравится”: {likesState[comment.id]?.count}
+              {isRoot ? "Отметки “Нравится”: " : "Понравилось: "}
+              {formatCountRu(likesState[comment.id]?.count ?? 0)}
             </span>
 
             <div className="relative flex items-end gap-3">
@@ -75,7 +88,9 @@ export function CommentItem({
               >
                 <svg
                   className={`w-5.5 aspect-square fill-none stroke-grayscale-300 ${
-                    likesState[comment.id]?.liked ? "fill-red-500 stroke-red-500" : ""
+                    likesState[comment.id]?.liked
+                      ? "fill-red-500 stroke-red-500"
+                      : ""
                   }`}
                 >
                   <use href="/icons/symbol/sprite.svg#like" />
@@ -84,10 +99,14 @@ export function CommentItem({
 
               {/* Кнопка "Ответить" */}
               <button
-                onClick={() => onReply({ commentId: comment.id, username: user?.name || "" })}
+                onClick={() =>
+                  onReply({ commentId: comment.id, username: user?.name || "" })
+                }
                 className="cursor-pointer text-grayscale-500 hover:text-secondary"
               >
-                <span className="ag-h10 font-medium pr-15 sm:pr-6">Ответить</span>
+                <span className="ag-h10 font-medium pr-15 sm:pr-6">
+                  Ответить
+                </span>
               </button>
             </div>
           </div>

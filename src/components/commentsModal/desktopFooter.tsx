@@ -1,3 +1,5 @@
+import { formatCountRu } from "@/hooks/formatCount";
+
 // Пропсы футера десктопного вида
 type DesktopFooterProps = {
   lookLikesCount: number; // количество лайков образа
@@ -31,7 +33,7 @@ export function DesktopFooter({
             >
               <use href="/icons/symbol/sprite.svg#heart" />
             </svg>
-            <span className="ag-h7 text-secondary font-medium">{lookLikesCount}</span>
+            <span className="ag-h7 text-secondary font-medium">{formatCountRu(lookLikesCount)}</span>
           </button>
 
           {/* Количество комментариев */}
@@ -39,7 +41,7 @@ export function DesktopFooter({
             <svg className="w-7.5 h-7.5">
               <use href="/icons/symbol/sprite.svg#comment" />
             </svg>
-            <span className="ag-h7 text-grayscale-700 font-medium">{commentsCount}</span>
+            <span className="ag-h7 text-grayscale-700 font-medium">{formatCountRu(commentsCount)}</span>
           </div>
         </div>
 

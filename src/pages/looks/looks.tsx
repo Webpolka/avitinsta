@@ -1,3 +1,5 @@
+import { motion, AnimatePresence } from "framer-motion";
+
 import { useEffect, useState } from "react";
 import { type Look } from "@/mocks/looks.mock";
 import { useDebounce } from "@/hooks/debounce";
@@ -74,9 +76,9 @@ export function Looks() {
   };
 
   return (
-    <div className="pt-5 pb-45 px-4 sm:px-22">
+    <div className="pt-5 pb-45 px-0 xl:px-22">
       {/* Заголовок + поиск + кнопка "плюс" */}
-      <div className="xl:px-15 mb-5 lg:mb-10 flex items-center justify-between">
+      <div className="xl:px-15 mb-5 sm:mb-4 xl:mb-10 flex items-center justify-between">
         <LooksHeader
           query={query}
           onChange={setQuery}
@@ -96,9 +98,21 @@ export function Looks() {
       ) : (
         <div className="px-0 md:px-[50px] xl:px-[200px]">
           <div className="flex flex-col gap-10 sm:gap-[65px] md:gap-[85px]">
-            {looks.map((look) => (
-              <LookCard key={look.id} look={look} />
-            ))}
+            {/* Добавим плавную анимацию при удалении образа */}
+            <AnimatePresence>
+              {looks.map((look) => (
+                <motion.div
+                  key={`looks-item-${look.id}`}
+                  layout
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -30 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  <LookCard look={look} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         </div>
       )}
