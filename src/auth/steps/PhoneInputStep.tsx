@@ -76,17 +76,17 @@ export function PhoneInputStep({ phone, setPhone, onNext }: Props) {
 
         <div className="w-full">
           <PatternFormat
-            // Пробрасываем ref для автофокуса
             getInputRef={inputRef}
-            format="###-##-##-###"
+            format="###-###-##-##" // Формат с дефисами, как у placeholder
             mask="_"
             type="tel"
-            name={`auth-phone-1`}
+            name="auth-phone-1"
             value={phone}
             onValueChange={(values) => {
-              setPhone(values.formattedValue);
+              // сохраняем в стейт с пробелами вместо дефисов
+              const phoneWithSpaces = values.formattedValue.replace(/-/g, " ");
+              setPhone(phoneWithSpaces);
 
-              // Сбрасываем ошибку при полном вводе
               const digits = values.formattedValue.replace(/\D/g, "");
               if (digits.length === 10) {
                 setError("");
@@ -95,7 +95,7 @@ export function PhoneInputStep({ phone, setPhone, onNext }: Props) {
             placeholder="___-___-__-__"
             className={`w-full py-1 ag-h1 sm:ag-h4 border-b focus:outline-none ${
               error ? "border-red-500" : "border-secondary"
-            }`}
+            } placeholder:text-gray-400`} // вот тут цвет placeholder
           />
 
           {/* Ошибка */}

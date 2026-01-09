@@ -88,11 +88,11 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
         {/* Кнопка лайка */}
         <button
           onClick={handleLike}
-          className="absolute right-3 top-3 flex items-center gap-1"
+          className="absolute right-3 top-3 flex items-center gap-1 cursor-pointer"
         >
           <svg
-            className={`h-5.5 w-5.5 transition-colors ${
-              liked ? "fill-red-500" : "fill-none stroke-black"
+            className={`h-7 w-7 transition-colors stroke-[1.5px] ${
+              liked ? "fill-red-500 stroke-red-500" : "fill-none stroke-black"
             }`}
           >
             <use href="/icons/symbol/sprite.svg#like" />

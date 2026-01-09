@@ -28,29 +28,24 @@ export function Home() {
 
   return (
     <div className="flex flex-col">
+      {/* Баннер */}
+      <Banner
+        data={BANNER_DATA} // на мобильных сверху, на десктопе после search
+      />
+
       {/* SearchForm */}
       <SearchForm
-        className="mb-6 order-1 lg:order-0" // на мобильных будет order-1 (под баннером), на md+ order-0 (сверху)
+        className="mb-5" // на мобильных будет order-1 (под баннером), на md+ order-0 (сверху)
         value={search}
         onChange={setSearch}
         onSubmit={fetchProducts}
       />
 
-      {/* Баннер */}
-      <Banner
-        data={BANNER_DATA}
-        className="order-0 lg:order-1" // на мобильных сверху, на десктопе после search
-      />
-
       {/* Категории */}
-      <div className="order-2">
-        <Categories items={CATEGORIES_DATA} />
-      </div>
+      <Categories items={CATEGORIES_DATA} />
 
       {/* Товары */}
-      <div className="order-3">
-        <ProductsHome items={PRODUCTS_DATA} />
-      </div>
+      <ProductsHome items={PRODUCTS_DATA} />
     </div>
   );
 }

@@ -77,11 +77,11 @@ export const CartItem = ({ item }: CartItemProps) => {
             </h3>
           )}
 
-          {title && <p className="text-gray-400 sm:min-h-12 font-semibold">{title}</p>}
+          {title && <p className="ag-h7 text-grayscale-700 sm:min-h-12 font-semibold">{title}</p>}
 
           {color && (
             <div className="hidden sm:flex gap-2">
-              <span className="text-gray-400">Цвет</span>
+              <span className="text-grayscale-500 font-medium">Цвет</span>
               <span className="text-black">{color}</span>
             </div>
           )}
@@ -89,9 +89,9 @@ export const CartItem = ({ item }: CartItemProps) => {
       </div>
 
       {color && (
-        <div className="flex sm:hidden gap-4 mt-6">
-          <span className="ag-h8 text-grayscale-500">Цвет</span>
-          <span className="ag-h8 text-brand-secondary">{color}</span>
+        <div className="flex sm:hidden gap-5 mt-6">
+          <span className="ag-h8 text-grayscale-500 font-medium">Цвет</span>
+          <span className="ag-h8 text-secondary">{color}</span>
         </div>
       )}
     </div>

@@ -21,7 +21,7 @@ export function UserProvider({ children }: UserProviderProps) {
     const loadUser = async () => {
       try {
         await new Promise((res) => setTimeout(res, 1000)); // имитация запроса
-        setUser(USERS_DATA[0] as User);
+        setUser(user || USERS_DATA[0] as User);
       } catch {
         setUser(null);
       } finally {
@@ -30,6 +30,20 @@ export function UserProvider({ children }: UserProviderProps) {
     };
 
     loadUser();
+
+  //   async function fetchUser() {
+  //   try {
+  //     const res = await fetch("/api/me", { credentials: "include" });
+  //     if (res.ok) {
+  //       const data = await res.json();
+  //       setUser(data); // кладём в контекст
+  //     }
+  //   } catch (err) {
+  //     setUser(null); // если не авторизован
+  //   }
+  // }
+
+  // fetchUser();
   }, []);
 
   const handleLogout = () => {

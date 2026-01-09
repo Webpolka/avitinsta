@@ -112,7 +112,7 @@ function ProductView({
     <>
       <Breadcrumbs breadcrumbs={breadcrumbsArray} />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-7.5 sm:gap-12 lg:gap-16 xl:gap-22.5 mb-30 md:mb-100">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-7.5 sm:gap-12 lg:gap-16 xl:gap-22.5 mb-30 ">
         {/* Галерея */}
         <ProductGallery images={product.images} />
 
@@ -134,7 +134,7 @@ function ProductView({
               <div className="flex gap-4 flex-wrap">
                 {/* Выводим только первый размер */}
                 {formattedSize && (
-                  <span className="px-4 py-2 border border-solid ag-h7 font-medium cursor-pointer border-[#d3d3d3] text-grayscale-500">
+                  <span className="px-4 py-2 border border-solid ag-h7 font-medium border-[#d3d3d3] text-grayscale-500">
                     {formattedSize}
                   </span>
                 )}
@@ -170,8 +170,8 @@ function ProductView({
               className="cursor-pointer bg-gray-200 p-2 h-15 aspect-square flex justify-center items-center"
             >
               <svg
-                className={`h-10 w-10 transition-colors stroke-amber-400 ${
-                  liked ? "fill-red-500" : "fill-none"
+                className={`h-10 w-10 transition-colors  ${
+                  liked ? "fill-red-500 stroke-red-500" : "fill-none stroke-amber-400"
                 }`}
               >
                 <use href="/icons/symbol/sprite.svg#like" />

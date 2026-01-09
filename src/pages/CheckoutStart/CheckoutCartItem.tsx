@@ -92,7 +92,7 @@ export const CheckoutCartItem = ({ item }: Props) => {
 
           {/* Описание */}
           {title && (
-            <p className="text-gray-400 sm:min-h-11 font-semibold">{title}</p>
+            <p className="text-grayscale-700 sm:min-h-11 font-semibold">{title}</p>
           )}
 
           {/* Цвет (десктоп) */}

@@ -62,11 +62,16 @@ export default function Header() {
                   onClick={openAuth}
                   aria-label="Профиль"
                   title="Профиль"
-                  className="block w-7.5 h-7.5 cursor-pointer"
+                  className="relative block w-7.5 h-7.5 cursor-pointer"
                 >
-                  <svg className="w-full h-full fill-none stroke-black stroke-1">
+                  <svg className="w-full h-full fill-none stroke-black stroke-[1.2px]">
                     <use href={`/icons/symbol/sprite.svg#user`} />
                   </svg>
+
+                  {/* Галочка, если пользователь авторизован */}
+                  {user && (
+                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"></span>
+                  )}
                 </button>
                 {/* )} */}
 
@@ -83,7 +88,7 @@ export default function Header() {
                   title="Избранное"
                   className="block w-7.5 h-7.5 cursor-pointer"
                 >
-                  <svg className="w-full h-full fill-none stroke-black stroke-1">
+                  <svg className="w-full h-full fill-none stroke-black stroke-[1.7px]">
                     <use href="/icons/symbol/sprite.svg#like" />
                   </svg>
                 </button>
@@ -95,7 +100,7 @@ export default function Header() {
                   title="Корзина"
                   className="relative flex items-center justify-center w-7.5 h-7.5 rounded-full"
                 >
-                  <svg className="w-full h-full fill-none stroke-black stroke-1">
+                  <svg className="w-full h-full fill-none stroke-black stroke-[1.2px]">
                     <use href={`/icons/symbol/sprite.svg#cart`} />
                   </svg>
 

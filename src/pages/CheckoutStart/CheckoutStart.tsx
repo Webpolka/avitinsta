@@ -1,11 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { PRODUCTS_DATA } from "@/mocks/products.mock";
-import { USERS_DATA } from "@/mocks/users.mocks";
+
 import { type CartItemType } from "./types";
 import { CheckoutForm } from "./CheckoutForm";
 import { CheckoutSummary } from "./CheckoutSummary";
 import { type FormFields } from "./CheckoutForm";
+
+// Temperory mocks data
+import { PRODUCTS_DATA } from "@/mocks/products.mock";
+import { USERS_DATA } from "@/mocks/users.mocks";
 
 const DELIVERY_PRICE = 600;
 const SERVICE_PERCENT = 2;

@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import ProductsPublic from "@/components/product/productsPublic";
+import { UseOneScrollToTop } from "@/hooks/scroll";
 
 import { USERS_DATA } from "@/mocks/users.mocks";
 import { PRODUCTS_DATA } from "@/mocks/products.mock";
@@ -20,6 +21,8 @@ export function UserProducts() {
   const userProducts = PRODUCTS_DATA.filter(
     (product) => product.sellerId && product.sellerId === id
   );
+
+  UseOneScrollToTop();
 
   // Инструкция к ProductsPublic
   //  items: ProductCardData[];       // товары для отображения

@@ -3,6 +3,8 @@ import CartOrderItem from "@/components/cart/cart-order-item";
 import { CheckoutCartItem } from "./CheckoutCartItem";
 import { type CartItemType } from "./types";
 
+import { formatDotPrice } from "@/hooks/utils";
+
 type CheckoutSummaryProps = {
   cart: CartItemType[];
   itemsTotal: number;
@@ -38,10 +40,10 @@ export function CheckoutSummary({
       <h2 className="ag-h1 text-brand-secondary font-semibold mb-7.5">Заказ</h2>
 
       <div className="flex flex-col gap-6 mb-0 sm:mb-10">
-        <CartOrderItem label={`${cart.length} товара`} value={`${itemsTotal} ₽`} />
-        <CartOrderItem label="Доставка" value={`${deliveryPrice} ₽`} />
-        <CartOrderItem label="Процент сервиса" value={`${servicePercent} %`} />
-        <CartOrderItem label="Итого" value={`${totalPrice} ₽`} />
+        <CartOrderItem label={`${cart.length} товара`} value={`${formatDotPrice(itemsTotal)} ₽`} />
+        <CartOrderItem label="Доставка" value={`от ${formatDotPrice(deliveryPrice)} ₽`} />
+        <CartOrderItem label="Процент сервиса" value={`от ${servicePercent} % от суммы заказа`} />
+        <CartOrderItem label="Итого" value={`${formatDotPrice(totalPrice)} ₽`} />
 
         <button
           disabled={!isFormValid || loading}

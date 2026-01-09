@@ -42,6 +42,8 @@ export function ProfileLayout({ mode }: ModeProps) {
   const { user } = useUser();
   const { id } = useParams();
 
+  console.log(mode, user);
+
   let uuser;
   if (mode === "private") {
     uuser = user;
@@ -117,7 +119,7 @@ export function ProfileLayout({ mode }: ModeProps) {
             {/* pages */}
             <Outlet
               context={{
-                user,
+                uuser,
                 mode,
                 form,
                 setForm,

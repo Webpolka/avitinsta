@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useLocation } from "react-router";
 
 /*===================================================================
-Скролл на начало страницы 
+Скролл на начало страницы - ОПТОМ по конфигу
 ====================================================================*/
 
-const SCROLL_TO_TOP_PAGES = [  
+const SCROLL_TO_TOP_PAGES = [
   "/cart",
   "/checkout/start",
   "/checkout/finish",
@@ -15,25 +15,22 @@ const SCROLL_TO_TOP_PAGES = [
   "/looks",
   "/catalog",
   "/product",
-  "/profile/info",  
-  "/user/:id"
+  "/profile/info",
 ];
 
-
-const SCROLL_PROFILE_ROUTES = [    
+const SCROLL_PROFILE_ROUTES = [
   "/profile/products",
   "/profile/purchases",
   "/profile/sales",
   "/profile/favourites",
   "/profile/chats",
   "/profile/looks",
-  "/user/:id/purchases",    
+  "/user/:id/purchases",
 ];
 
 export function UsePageScrollToTop() {
   const { pathname } = useLocation();
 
-  
   // хелпер для проверки динамического пути
   const matchPath = (pattern: string, path: string) => {
     // заменяем :id на [^/]+ (любой сегмент)
@@ -56,9 +53,18 @@ export function UsePageScrollToTop() {
     }
   }, [pathname]);
 
-
-
   return null;
 }
 
+/*===================================================================
+Скролл на начало страницы - для избранных
+====================================================================*/
 
+export function UseOneScrollToTop() {
+  // Одиночный скролл наверх
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  return null;
+}

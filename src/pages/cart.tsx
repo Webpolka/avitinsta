@@ -1,12 +1,15 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/use.all";
-import { PRODUCTS_DATA } from "@/mocks/products.mock";
-import { USERS_DATA, type User } from "@/mocks/users.mocks";
+import { formatDotPrice } from "@/hooks/utils";
+
 import { CartItem } from "@/components/cart/cart-item";
 import CartOrderItem from "@/components/cart/cart-order-item";
 import { Input } from "@/ui/input";
 import Button from "@/ui/button";
+
+import { PRODUCTS_DATA } from "@/mocks/products.mock";
+import { USERS_DATA, type User } from "@/mocks/users.mocks";
 
 export function Cart() {
   const deliveryPrice = 600;
@@ -99,10 +102,10 @@ export function Cart() {
             <div className="flex flex-col gap-6 mb-10">
               <CartOrderItem
                 label={`${cartItems.length} товара`}
-                value={`${itemsTotal} ₽`}
+                value={`${formatDotPrice(itemsTotal)} ₽`}
               />
-              <CartOrderItem label="Доставка" value={`${deliveryPrice} ₽`} />
-              <CartOrderItem label="Итого" value={`${totalPrice} ₽`} />
+              <CartOrderItem label="Доставка" value={`от ${formatDotPrice(deliveryPrice)} ₽`} />
+              <CartOrderItem label="Итого" value={`${formatDotPrice(totalPrice)} ₽`} />
             </div>
 
             <div className="mb-10">

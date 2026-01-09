@@ -8,13 +8,13 @@ export interface DeliveryOption {
 }
 
 export const DELIVERY_DATA: DeliveryOption[] = [
-  {
-    id: "22",
-    method: "Самовывоз",
-    description: "Вы можете забрать товар самостоятельно",
-    enabled: true,
-    image: "",
-  },
+  // {
+  //   id: "22",
+  //   method: "Самовывоз",
+  //   description: "Вы можете забрать товар самостоятельно",
+  //   enabled: true,
+  //   image: "",
+  // },
   {
     id: "33",
     method: "CDEK",
@@ -31,14 +31,14 @@ export const DELIVERY_DATA: DeliveryOption[] = [
   },
   {
     id: "55",
-    method: "Яндекс пункт выдачи",
+    method: "Яндекс доставка",
     description: "Яндекс пункт выдачи службой",
     enabled: true,
     image: "/images/delivery/yandex_dostavka.png",
   },
   {
     id: "66",
-    method: "Курьерская",
+    method: "Почта России",
     description: "Доставка почтой России",
     enabled: true,
     image: "/images/delivery/russian_post.png",

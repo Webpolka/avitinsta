@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
-import { PRODUCTS_DATA } from "@/mocks/products.mock";
-import { USERS_DATA } from "@/mocks/users.mocks";
-import { CheckoutCartItem } from "@/pages/CheckoutStart/CheckoutCartItem";
-import CartOrderItem from "@/components/cart/cart-order-item";
-import { Radio } from "@/ui/radio";
-import { type CartItemType } from "@/pages/CheckoutStart/types";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/use.all";
+
+import { CheckoutCartItem } from "@/pages/CheckoutStart/CheckoutCartItem";
+import { type CartItemType } from "@/pages/CheckoutStart/types";
+import CartOrderItem from "@/components/cart/cart-order-item";
+
+import { formatDotPrice } from "@/hooks/utils";
+import { Radio } from "@/ui/radio";
+
+// Temperory mocks data
+import { PRODUCTS_DATA } from "@/mocks/products.mock";
+import { USERS_DATA } from "@/mocks/users.mocks";
 
 /* ================= TYPES ================= */
 export interface PaymentOption {
@@ -196,14 +201,14 @@ export function CheckoutFinish() {
         <div className="flex flex-col gap-6 mb-10">
           <CartOrderItem
             label={`${cart.length} товара`}
-            value={`${itemsTotal} ₽`}
+            value={`${formatDotPrice(itemsTotal)} ₽`}
           />
-          <CartOrderItem label="Доставка" value={`${deliveryPrice} ₽`} />
+          <CartOrderItem label="Доставка" value={`от ${formatDotPrice(deliveryPrice)} ₽`} />
           <CartOrderItem
             label="Процент сервиса"
             value={`${servicePercent} %`}
           />
-          <CartOrderItem label="Итого" value={`${totalPrice} ₽`} />
+          <CartOrderItem label="Итого" value={`${formatDotPrice(totalPrice)} ₽`} />
 
           <button
             onClick={handleSubmit}
