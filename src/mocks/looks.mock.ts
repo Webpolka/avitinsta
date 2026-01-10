@@ -23,7 +23,7 @@ export const LOOKS_DATA: Look[] = [
   {
     id: "l1",
     user: USERS_DATA[0],
-    image: "/images/look.png",
+    image: "/images/look.webp",
     description: "Мой повседневный образ на осень ",
     hashtags: ["осень", "streetstyle", "casual"],
 
@@ -37,7 +37,7 @@ export const LOOKS_DATA: Look[] = [
   {
     id: "l2",
     user: USERS_DATA[0],
-    image: "/images/look.png",
+    image: "/images/look.webp",
     description: "Мой повседневный образ на осень ",
     hashtags: ["осень", "streetstyle", "casual"],
 
@@ -51,7 +51,7 @@ export const LOOKS_DATA: Look[] = [
   {
     id: "l3",
     user: USERS_DATA[0],
-    image: "/images/look.png",
+    image: "/images/look.webp",
     description: "Мой повседневный образ на осень ",
     hashtags: ["осень", "streetstyle", "casual"],
 
@@ -65,7 +65,7 @@ export const LOOKS_DATA: Look[] = [
   {
     id: "l4",
     user: USERS_DATA[0],
-    image: "/images/look.png",
+    image: "/images/look.webp",
     description: "Мой повседневный образ на осень ",
     hashtags: ["осень", "streetstyle", "casual"],
 

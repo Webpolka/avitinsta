@@ -1,16 +1,16 @@
 import { useState, useEffect, type ReactNode } from "react";
-import { CartContext, type CartItem } from "./cart.context";
+import { FavouritesContext, type FavouriteItem } from "./favourites.context";
 import { useUser } from "@/context/use.all";
 
-type CartProviderProps = {
+type Props = {
   children: ReactNode;
 };
 
-export function CartProvider({ children }: CartProviderProps) {
+export function FavouritesProvider({ children }: Props) {
   const { user } = useUser();
 
-  const [items, setItems] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem("cartItems");
+  const [items, setItems] = useState<FavouriteItem[]>(() => {
+    const saved = localStorage.getItem("favourites");
     return saved ? JSON.parse(saved) : [];
   });
 
@@ -18,22 +18,21 @@ export function CartProvider({ children }: CartProviderProps) {
      LOCAL STORAGE
   =============================== */
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(items));
+    localStorage.setItem("favourites", JSON.stringify(items));
   }, [items]);
 
   /* ===============================
      SERVER SYNC (FAKE)
   =============================== */
   useEffect(() => {
-    if (!user) return; // только для авторизованных
+    if (!user) return;
 
     async function syncWithServer() {
-      console.log(" Sync cart with server...");
+      console.log(" Sync favourites with server...");
 
-      // имитация delay
       await new Promise((res) => setTimeout(res, 800));
 
-      console.log(" Cart synced");
+      console.log(" Favourites Synced");
     }
 
     syncWithServer();
@@ -42,10 +41,11 @@ export function CartProvider({ children }: CartProviderProps) {
   /* ===============================
      ACTIONS
   =============================== */
-  const addItem = (item: CartItem) => {
+  const addItem = (item: FavouriteItem) => {
     setItems((prev) => {
       const exists = prev.some((i) => i.productId === item.productId);
       if (exists) return prev;
+
       return [...prev, item];
     });
   };
@@ -54,25 +54,20 @@ export function CartProvider({ children }: CartProviderProps) {
     setItems((prev) => prev.filter((i) => i.productId !== productId));
   };
 
-  const clearCart = () => {
-    setItems([]);
-  };
-
-  const isInCart = (productId: string) => {
+  const isInFavourites = (productId: string) => {
     return items.some((i) => i.productId === productId);
   };
 
   return (
-    <CartContext.Provider
+    <FavouritesContext.Provider
       value={{
         items,
         addItem,
         removeItem,
-        clearCart,
-        isInCart,
+        isInFavourites,
       }}
     >
       {children}
-    </CartContext.Provider>
+    </FavouritesContext.Provider>
   );
 }

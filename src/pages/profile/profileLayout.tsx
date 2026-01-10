@@ -42,7 +42,7 @@ export function ProfileLayout({ mode }: ModeProps) {
   const { user } = useUser();
   const { id } = useParams();
 
-  console.log(mode, user);
+  // console.log(mode, user);
 
   let uuser;
   if (mode === "private") {

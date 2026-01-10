@@ -101,7 +101,7 @@ export function ProfileHeader({
           <div className="flex flex-col gap-1">
             <h1 className="ag-h1 font-semibold text-secondary flex flex-nowrap gap-4">
               <span className="whitespace-nowrap">{user.name}</span>
-              {mode !== "private" && (
+              {mode !== "private" && user.verified && (
                 <div title="Аккаунт пользователя подтвержден !">
                   <svg className="w-8 h-8 aspect-square inline-block">
                     <use href="/icons/symbol/sprite.svg#done" />

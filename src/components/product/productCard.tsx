@@ -1,15 +1,18 @@
-import { useState } from "react";
 import { Link } from "react-router";
-import { USERS_DATA} from "@/mocks/users.mocks";
-
+import { USERS_DATA } from "@/mocks/users.mocks";
 import { type ProductCardData } from "@/mocks/products.mock";
+
+import { useFavourites } from "@/context/use.all";
 
 interface ProductCardProps {
   data: ProductCardData;
   className?: string;
 }
 
-export default function ProductCard({ data, className = ""}: ProductCardProps) {
+export default function ProductCard({
+  data,
+  className = "",
+}: ProductCardProps) {
   const {
     id,
     images,
@@ -19,23 +22,26 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
     sizes,
     sellerId,
     favoriteCount = 0,
-    isFavorite = false,
   } = data;
 
-   const seller = USERS_DATA.find(user => user.id === sellerId);
+  const { addItem, removeItem, isInFavourites } = useFavourites();
 
-  const mainImage = images[0]; 
+  const seller = USERS_DATA.find((user) => user.id === sellerId);
+
+  const mainImage = images[0];
   const productLink = `/product/${id}`;
 
-  const [liked, setLiked] = useState(isFavorite);
-  const [likes, setLikes] = useState(favoriteCount);
+  const liked = isInFavourites(id);
 
   const handleLike = () => {
-    setLiked(prev => !prev);
-    setLikes(prev => (liked ? prev - 1 : prev + 1));
+    if (liked) {
+      removeItem(id);
+    } else {
+      addItem({ productId: id });
+    }
   };
 
-  // форматирование числа с пробелами для читаемости
+  // форматирование цены
   const formattedPrice = price.toLocaleString("ru-RU") + " ₽";
 
   const size = sizes?.[0];
@@ -55,24 +61,34 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
     }
   })();
 
+  // счётчик (локально +1 если лайкнут)
+  const likes = liked ? favoriteCount + 1 : favoriteCount;
+
   return (
-    <div className={`group flex flex-col gap-3 overflow-hidden ${className ?? ""}`}> 
+    <div className={`group flex flex-col gap-3 overflow-hidden ${className}`}>
       {/* Мобильный блок с пользователем */}
       {seller && (
-        <Link to={`/user/${seller.id}`} className="flex sm:hidden items-start gap-2">
+        <Link
+          to={`/user/${seller.id}`}
+          className="flex sm:hidden items-start gap-2"
+        >
           <img
             src={seller.avatar}
             alt={seller.name}
             className="h-6 w-6 rounded-full"
           />
           <div className="flex flex-col">
-            <span className="ag-h7 leading-4 whitespace-nowrap">{seller.name}</span>
-            <span className="ag-h12 text-grayscale-500 pt-1">@{seller.name}</span>
+            <span className="ag-h7 leading-4 whitespace-nowrap">
+              {seller.name}
+            </span>
+            <span className="ag-h12 text-grayscale-500 pt-1">
+              @{seller.name}
+            </span>
           </div>
         </Link>
       )}
 
-      {/* Основная картинка товара */}
+      {/* Основная картинка */}
       <div className="relative">
         <Link
           to={productLink}
@@ -85,7 +101,7 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
           />
         </Link>
 
-        {/* Кнопка лайка */}
+        {/* Избранное */}
         <button
           onClick={handleLike}
           className="absolute right-3 top-3 flex items-center gap-1 cursor-pointer"
@@ -97,25 +113,33 @@ export default function ProductCard({ data, className = ""}: ProductCardProps) {
           >
             <use href="/icons/symbol/sprite.svg#like" />
           </svg>
+
           <span className="ag-h9 text-secondary font-medium">{likes}</span>
         </button>
       </div>
 
-      {/* Нижняя часть карточки */}
+      {/* Нижняя часть */}
       <div className="flex justify-between">
-        {/* Левая часть: бренд, название, цена */}
+        {/* Левая */}
         <Link to={productLink} className="flex flex-col gap-1 flex-1">
-          <h2 className="ag-h6 font-medium text-secondary whitespace-nowrap">{brand}</h2>
+          <h2 className="ag-h6 font-medium text-secondary whitespace-nowrap">
+            {brand}
+          </h2>
           <span className="ag-h8 text-grayscale-700">{title}</span>
-          <span className="ag-h6 font-medium whitespace-nowrap">{formattedPrice}</span>
+          <span className="ag-h6 font-medium whitespace-nowrap">
+            {formattedPrice}
+          </span>
         </Link>
 
-        {/* Правая часть: размер и пользователь */}
+        {/* Правая */}
         <div className="flex flex-col items-center justify-between">
           <span className="ag-h8 text-grayscale-700">{formattedSize}</span>
 
           {seller && (
-            <Link to={`/user/${seller.id}`} className="hidden sm:flex flex-col items-center gap-1">
+            <Link
+              to={`/user/${seller.id}`}
+              className="hidden sm:flex flex-col items-center gap-1"
+            >
               <img
                 src={seller.avatar}
                 alt={seller.name}

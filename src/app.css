@@ -119,3 +119,10 @@ input:-webkit-autofill:active {
     transform: rotate(360deg);
   }
 }
+
+
+
+.swiper-horizontal>.swiper-pagination-bullets.swiper-pagination-bullets-dynamic,
+.swiper-pagination-horizontal.swiper-pagination-bullets.swiper-pagination-bullets-dynamic {
+  transform: translateX(0%) !important;
+}
